@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"strings"
 )
 
 var timeformats = []string{
@@ -119,6 +120,43 @@ func Float(value interface{}) float64 {
 		f, _ := strconv.ParseFloat(String(value), 64)
 		return float64(f)
 	}
+}
+
+func FloatFromXString(value string) float64 {
+	value = strings.Trim(value, "\t\n\r¢§$€ ")
+	var float float64
+	c := strings.Count(value, ",")
+	p := strings.Count(value, ".")
+	fc := strings.Index(value, ",")
+	fp := strings.Index(value, ".")
+	if c == 0 && p == 1 {
+		float, _ = strconv.ParseFloat(value, 64)
+	} else if c == 1 && p == 0 {
+		value = strings.Replace(value, ",", ".", 1)
+		float, _ = strconv.ParseFloat(value, 64)
+	} else if c == 0 && p == 0 {
+		intx, _ := strconv.ParseInt(value, 0, 64)
+		float = float64(intx)
+	} else if c > 1 && p < 2 {
+		value = strings.Replace(value, ",", "", -1)
+		float, _ = strconv.ParseFloat(value, 64)
+	} else if c < 2 && p > 1 {
+ 		value = strings.Replace(value, ".", "", -1)
+ 		value = strings.Replace(value, ",", ".", 1)
+ 		float, _ = strconv.ParseFloat(value, 64)
+ 	} else if c == 1 && p == 1 {
+	 	if fp < fc {
+		 	value = strings.Replace(value, ".", "", -1)
+		 	value = strings.Replace(value, ",", ".", 1)
+	 	} else {
+		 	value = strings.Replace(value, ",", "", -1)
+	 	}
+	 	float, _ = strconv.ParseFloat(value, 64)
+ 	} else {
+	 	value = "0"
+	 	float, _ = strconv.ParseFloat(value, 64)
+ 	}
+	return float64(float)
 }
 
 func Int(value interface{}) int64 {

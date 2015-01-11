@@ -63,6 +63,7 @@ func Round(v float64) int {
 	}
 	return int(math.Floor(v + 0.5))
 }
+
 func SumFloat(val []float64) float64 {
 	var sum float64
 	for _, value := range val {
@@ -133,4 +134,12 @@ func MedianInt(val []int64) int64 {
 	} else {
 		return (val[len(val)/2] + val[len(val)/2]) / 2
 	}
+}
+
+func AvgFloat(val []float64) float64 {
+	return (SumFloat(val)/float64(len(val)))
+}
+
+func AvgInt(val []int64) float64 {
+	return (float64(SumInt(val))/float64(len(val)))
 }

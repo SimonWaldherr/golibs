@@ -14,7 +14,7 @@ func main() {
 	array.Push(fmt.Sprintf("Lorem %v", cli.Color("Ipsum", cli.Blue)))
 	array.Push(fmt.Sprintf("Dolor %v", cli.Bold("sit Amet")))
 	array.Push(fmt.Sprintf("5th Prime: %v", xmath.Prime(5)))
-	array.Push(fmt.Sprintf("Min: %v, Max: %v, Median: %v", xmath.MinFloat(floats), xmath.MaxFloat(floats), xmath.MedianFloat(floats)))
+	array.Push(fmt.Sprintf("Min: %v, Max: %v, Median: %v, Avg: %v", xmath.MinFloat(floats), xmath.MaxFloat(floats), xmath.MedianFloat(floats), xmath.AvgFloat(floats)))
 	array.Push(fmt.Sprintf("Date: %v", as.Time("11.01.2015")))
 	for array.Len() > 0 {
 		fmt.Println(array.Pop())
