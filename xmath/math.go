@@ -137,9 +137,9 @@ func MedianInt(val []int64) int64 {
 }
 
 func AvgFloat(val []float64) float64 {
-	return (SumFloat(val)/float64(len(val)))
+	return (SumFloat(val) / float64(len(val)))
 }
 
 func AvgInt(val []int64) float64 {
-	return (float64(SumInt(val))/float64(len(val)))
+	return (float64(SumInt(val)) / float64(len(val)))
 }

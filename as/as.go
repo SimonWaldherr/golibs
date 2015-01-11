@@ -3,8 +3,8 @@ package as
 import (
 	"fmt"
 	"strconv"
-	"time"
 	"strings"
+	"time"
 )
 
 var timeformats = []string{
@@ -141,21 +141,21 @@ func FloatFromXString(value string) float64 {
 		value = strings.Replace(value, ",", "", -1)
 		float, _ = strconv.ParseFloat(value, 64)
 	} else if c < 2 && p > 1 {
- 		value = strings.Replace(value, ".", "", -1)
- 		value = strings.Replace(value, ",", ".", 1)
- 		float, _ = strconv.ParseFloat(value, 64)
- 	} else if c == 1 && p == 1 {
-	 	if fp < fc {
-		 	value = strings.Replace(value, ".", "", -1)
-		 	value = strings.Replace(value, ",", ".", 1)
-	 	} else {
-		 	value = strings.Replace(value, ",", "", -1)
-	 	}
-	 	float, _ = strconv.ParseFloat(value, 64)
- 	} else {
-	 	value = "0"
-	 	float, _ = strconv.ParseFloat(value, 64)
- 	}
+		value = strings.Replace(value, ".", "", -1)
+		value = strings.Replace(value, ",", ".", 1)
+		float, _ = strconv.ParseFloat(value, 64)
+	} else if c == 1 && p == 1 {
+		if fp < fc {
+			value = strings.Replace(value, ".", "", -1)
+			value = strings.Replace(value, ",", ".", 1)
+		} else {
+			value = strings.Replace(value, ",", "", -1)
+		}
+		float, _ = strconv.ParseFloat(value, 64)
+	} else {
+		value = "0"
+		float, _ = strconv.ParseFloat(value, 64)
+	}
 	return float64(float)
 }
 

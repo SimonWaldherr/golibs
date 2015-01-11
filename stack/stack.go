@@ -5,16 +5,16 @@ func Lifo() *Stack {
 }
 
 type Stack struct {
-	nodes []string
+	nodes []interface{}
 	count int
 }
 
-func (s *Stack) Push(n string) {
+func (s *Stack) Push(n interface{}) {
 	s.nodes = append(s.nodes[:s.count], n)
 	s.count++
 }
 
-func (s *Stack) Pop() string {
+func (s *Stack) Pop() interface{} {
 	if s.count == 0 {
 		return ""
 	}
