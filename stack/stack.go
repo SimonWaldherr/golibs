@@ -21,3 +21,7 @@ func (s *Stack) Pop() string {
 	s.count--
 	return s.nodes[s.count]
 }
+
+func (s *Stack) Len() int {
+	return s.count
+}

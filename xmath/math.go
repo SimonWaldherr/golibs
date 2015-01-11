@@ -2,7 +2,6 @@ package xmath
 
 import (
 	"math"
-	"strconv"
 )
 
 func Sqrt(n int64) int64 {
@@ -31,7 +30,7 @@ func Prime(n int) int {
 	var num int = 3
 	var sqrtNum int = 0
 	for len(primeList) < n {
-		sqrtNum = Sqrt(num)
+		sqrtNum = int(Sqrt(int64(num)))
 		for i := 0; i < len(primeList); i++ {
 			if num%primeList[i] == 0 {
 				isPrime = 0
@@ -50,25 +49,6 @@ func Prime(n int) int {
 	return primeList[n-1]
 }
 
-func Pythagoras(i1 float64, i2 float64, i3 float64) float64 {
-	switch "?" {
-	case i1:
-		b, _ := strconv.ParseFloat(i2, 0)
-		c, _ := strconv.ParseFloat(i3, 0)
-		return math.Sqrt(q(float64(c)) - q(float64(b)))
-	case i2:
-		a, _ := strconv.ParseFloat(i1, 0)
-		c, _ := strconv.ParseFloat(i3, 0)
-		return math.Sqrt(q(float64(c)) - q(float64(a)))
-	case i3:
-		a, _ := strconv.ParseFloat(i1, 0)
-		b, _ := strconv.ParseFloat(i2, 0)
-		return math.Sqrt(q(float64(a)) + q(float64(b)))
-	default:
-		return 0
-	}
-}
-
 func Deg2Rad(deg float64) float64 {
 	return (deg * math.Pi) / 180
 }
@@ -84,7 +64,7 @@ func Round(v float64) int {
 	return int(math.Floor(v + 0.5))
 }
 func SumFloat(val []float64) float64 {
-	var sum int
+	var sum float64
 	for _, value := range val {
 		sum = sum + value
 	}
@@ -92,7 +72,7 @@ func SumFloat(val []float64) float64 {
 }
 
 func SumInt(val []int64) int64 {
-	var sum int
+	var sum int64
 	for _, value := range val {
 		sum = sum + value
 	}
@@ -100,7 +80,7 @@ func SumInt(val []int64) int64 {
 }
 
 func MinFloat(val []float64) float64 {
-	var min int = val[0]
+	var min float64 = val[0]
 	for _, value := range val {
 		if value < min {
 			min = value
@@ -110,27 +90,7 @@ func MinFloat(val []float64) float64 {
 }
 
 func MinInt(val []int64) int64 {
-	var min int = val[0]
-	for _, value := range val {
-		if value < min {
-			min = value
-		}
-	}
-	return min
-}
-
-func MinFloat(val []float64) float64 {
-	var min int = val[0]
-	for _, value := range val {
-		if value < min {
-			min = value
-		}
-	}
-	return min
-}
-
-func MinInt(val []int64) int64 {
-	var min int = val[0]
+	var min int64 = val[0]
 	for _, value := range val {
 		if value < min {
 			min = value
@@ -140,7 +100,7 @@ func MinInt(val []int64) int64 {
 }
 
 func MaxFloat(val []float64) float64 {
-	var max int = val[0]
+	var max float64 = val[0]
 	for _, value := range val {
 		if value > max {
 			max = value
@@ -150,7 +110,7 @@ func MaxFloat(val []float64) float64 {
 }
 
 func MaxInt(val []int64) int64 {
-	var max int = val[0]
+	var max int64 = val[0]
 	for _, value := range val {
 		if value > max {
 			max = value
@@ -159,7 +119,15 @@ func MaxInt(val []int64) int64 {
 	return max
 }
 
-func Median(val interface{}) float64 {
+func MedianFloat(val []float64) float64 {
+	if len(val)%2 == 1 {
+		return val[len(val)/2]
+	} else {
+		return (val[len(val)/2] + val[len(val)/2]) / 2
+	}
+}
+
+func MedianInt(val []int64) int64 {
 	if len(val)%2 == 1 {
 		return val[len(val)/2]
 	} else {
