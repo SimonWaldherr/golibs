@@ -159,8 +159,8 @@ func MaxInt(val []int64) int64 {
 	return max
 }
 
-func Median(val {}interface) float64 {
-	if len(val) % 2 == 1 {
+func Median(val interface{}) float64 {
+	if len(val)%2 == 1 {
 		return val[len(val)/2]
 	} else {
 		return (val[len(val)/2] + val[len(val)/2]) / 2
