@@ -130,5 +130,3 @@ func Test_Uint(t *testing.T) {
 		t.Fatalf("Int Test failed")
 	}
 }
-
-

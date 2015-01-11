@@ -69,13 +69,13 @@ func Test_MaxInt(t *testing.T) {
 }
 
 func Test_AverageFloat(t *testing.T) {
-	if (MedianFloat(f)+AvgFloat(f)) != 16.457143285714288 {
+	if (MedianFloat(f) + AvgFloat(f)) != 16.457143285714288 {
 		t.Fatalf("AverageFloat Test failed")
 	}
 }
 
 func Test_AverageInt(t *testing.T) {
-	if (float64(MedianInt(i))+float64(AvgInt(i))) != 9 {
+	if (float64(MedianInt(i)) + float64(AvgInt(i))) != 9 {
 		t.Fatalf("AverageInt Test failed")
 	}
 }

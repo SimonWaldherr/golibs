@@ -25,4 +25,3 @@ func Test_Underline(t *testing.T) {
 		t.Fatalf("Underline Test failed")
 	}
 }
-
