@@ -1,7 +1,10 @@
 package xmath
 
 import (
+	"sort"
 	"math"
+	"reflect"
+	"github.com/simonwaldherr/golibs/as"
 )
 
 func Sqrt(n int64) int64 {
@@ -64,25 +67,34 @@ func Round(v float64) int {
 	return int(math.Floor(v + 0.5))
 }
 
-func SumFloat(val []float64) float64 {
+func Count(val interface{}) int {
+	slice := reflect.ValueOf(val)
+	return slice.Len()
+}
+
+func Sum(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = as.Float(slice.Index(i).Interface())
+	}
 	var sum float64
-	for _, value := range val {
+	for _, value := range out {
 		sum = sum + value
 	}
 	return sum
 }
 
-func SumInt(val []int64) int64 {
-	var sum int64
-	for _, value := range val {
-		sum = sum + value
+func Min(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = as.Float(slice.Index(i).Interface())
 	}
-	return sum
-}
-
-func MinFloat(val []float64) float64 {
-	var min float64 = val[0]
-	for _, value := range val {
+	var min float64 = out[0]
+	for _, value := range out {
 		if value < min {
 			min = value
 		}
@@ -90,19 +102,15 @@ func MinFloat(val []float64) float64 {
 	return min
 }
 
-func MinInt(val []int64) int64 {
-	var min int64 = val[0]
-	for _, value := range val {
-		if value < min {
-			min = value
-		}
+func Max(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = as.Float(slice.Index(i).Interface())
 	}
-	return min
-}
-
-func MaxFloat(val []float64) float64 {
-	var max float64 = val[0]
-	for _, value := range val {
+	var max float64 = out[0]
+	for _, value := range out {
 		if value > max {
 			max = value
 		}
@@ -110,36 +118,27 @@ func MaxFloat(val []float64) float64 {
 	return max
 }
 
-func MaxInt(val []int64) int64 {
-	var max int64 = val[0]
-	for _, value := range val {
-		if value > max {
-			max = value
-		}
+func Median(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = as.Float(slice.Index(i).Interface())
 	}
-	return max
-}
-
-func MedianFloat(val []float64) float64 {
-	if len(val)%2 == 1 {
-		return val[len(val)/2]
+	sort.Float64s(out)
+	if c%2 == 1 {
+		return out[c/2]
 	} else {
-		return (val[len(val)/2] + val[len(val)/2]) / 2
+		return (out[c/2] + out[c/2]) / 2
 	}
 }
 
-func MedianInt(val []int64) int64 {
-	if len(val)%2 == 1 {
-		return val[len(val)/2]
-	} else {
-		return (val[len(val)/2] + val[len(val)/2]) / 2
+func Avg(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = as.Float(slice.Index(i).Interface())
 	}
-}
-
-func AvgFloat(val []float64) float64 {
-	return (SumFloat(val) / float64(len(val)))
-}
-
-func AvgInt(val []int64) float64 {
-	return (float64(SumInt(val)) / float64(len(val)))
+	return (Sum(out) / float64(len(out)))
 }

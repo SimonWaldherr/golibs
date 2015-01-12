@@ -4,6 +4,7 @@ import "testing"
 
 var f = []float64{.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.000003}
 var i = []int64{3, 1, 4, 1, 5, 9, 2, 6, 5}
+var x = []interface{}{float64(3.3),int8(5),string("42"),int64(1)}
 
 func Test_Sqrt(t *testing.T) {
 	if Sqrt(9) != 3 {
@@ -32,50 +33,68 @@ func Test_Round(t *testing.T) {
 	}
 }
 
+func Test_Count(t *testing.T) {
+	if Count(f) != 7 {
+		t.Fatalf("Count Test failed")
+	}
+}
+
 func Test_SumFloat(t *testing.T) {
-	if SumFloat(f) != 87.270003 {
+	if Sum(f) != 87.270003 {
 		t.Fatalf("SumFloat Test failed")
 	}
 }
 
 func Test_SumInt(t *testing.T) {
-	if SumInt(i) != 36 {
+	if Sum(i) != 36 {
 		t.Fatalf("SumInt Test failed")
 	}
 }
 
+func Test_SumInterface(t *testing.T) {
+	if Sum(x) != 51.3 {
+		t.Fatalf("SumInterface Test failed")
+	}
+}
+
 func Test_MinFloat(t *testing.T) {
-	if MinFloat(f) != 0.5 {
+	if Min(f) != 0.5 {
 		t.Fatalf("MinFloat Test failed")
 	}
 }
 
 func Test_MinInt(t *testing.T) {
-	if MinInt(i) != 1 {
+	if Min(i) != 1 {
 		t.Fatalf("MinInt Test failed")
 	}
 }
 
 func Test_MaxFloat(t *testing.T) {
-	if MaxFloat(f) != 42.000003 {
+	if Max(f) != 42.000003 {
 		t.Fatalf("MaxFloat Test failed")
 	}
 }
 
 func Test_MaxInt(t *testing.T) {
-	if MaxInt(i) != 9 {
+	if Max(i) != 9 {
 		t.Fatalf("MaxInt Test failed")
 	}
 }
 
 func Test_AverageFloat(t *testing.T) {
-	if (MedianFloat(f) + AvgFloat(f)) != 16.457143285714288 {
+	if (Median(f) + Avg(f)) != 16.457143285714288 {
 		t.Fatalf("AverageFloat Test failed")
 	}
 }
 
 func Test_AverageInt(t *testing.T) {
-	if (float64(MedianInt(i)) + float64(AvgInt(i))) != 9 {
+	if (float64(Median(i)) + float64(Avg(i))) != 8 {
 		t.Fatalf("AverageInt Test failed")
+	}
+}
+
+func Test_AverageInterface(t *testing.T) {
+	if (float64(Median(x)) + float64(Avg(x))) != 17.825 {
+		t.Fatalf("AverageInterface Test failed")
 	}
 }
