@@ -39,61 +39,43 @@ func Test_Count(t *testing.T) {
 	}
 }
 
-func Test_SumFloat(t *testing.T) {
+func Test_Sum(t *testing.T) {
 	if Sum(f) != 87.270003 {
 		t.Fatalf("SumFloat Test failed")
 	}
-}
-
-func Test_SumInt(t *testing.T) {
 	if Sum(i) != 36 {
 		t.Fatalf("SumInt Test failed")
 	}
-}
-
-func Test_SumInterface(t *testing.T) {
 	if Sum(x) != 51.3 {
 		t.Fatalf("SumInterface Test failed")
 	}
 }
 
-func Test_MinFloat(t *testing.T) {
+func Test_Min(t *testing.T) {
 	if Min(f) != 0.5 {
 		t.Fatalf("MinFloat Test failed")
 	}
-}
-
-func Test_MinInt(t *testing.T) {
 	if Min(i) != 1 {
 		t.Fatalf("MinInt Test failed")
 	}
 }
 
-func Test_MaxFloat(t *testing.T) {
+func Test_Max(t *testing.T) {
 	if Max(f) != 42.000003 {
 		t.Fatalf("MaxFloat Test failed")
 	}
-}
-
-func Test_MaxInt(t *testing.T) {
 	if Max(i) != 9 {
 		t.Fatalf("MaxInt Test failed")
 	}
 }
 
-func Test_AverageFloat(t *testing.T) {
+func Test_Average(t *testing.T) {
 	if (Median(f) + Avg(f)) != 16.457143285714288 {
 		t.Fatalf("AverageFloat Test failed")
 	}
-}
-
-func Test_AverageInt(t *testing.T) {
 	if (float64(Median(i)) + float64(Avg(i))) != 8 {
 		t.Fatalf("AverageInt Test failed")
 	}
-}
-
-func Test_AverageInterface(t *testing.T) {
 	if (float64(Median(x)) + float64(Avg(x))) != 17.825 {
 		t.Fatalf("AverageInterface Test failed")
 	}
