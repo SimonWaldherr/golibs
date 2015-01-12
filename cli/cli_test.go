@@ -12,6 +12,12 @@ func Test_Color(t *testing.T) {
 	if Color("X", Green) != "\033[32mX\033[0m" {
 		t.Fatalf("Color Test failed")
 	}
+	if Color("X", Blue) != "\033[34mX\033[0m" {
+		t.Fatalf("Color Test failed")
+	}
+	if Color("X", Magenta) != "\033[35mX\033[0m" {
+		t.Fatalf("Color Test failed")
+	}
 }
 
 func Test_Bold(t *testing.T) {
