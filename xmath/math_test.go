@@ -4,7 +4,7 @@ import "testing"
 
 var f = []float64{.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.000003}
 var i = []int64{3, 1, 4, 1, 5, 9, 2, 6, 5}
-var x = []interface{}{float64(3.3),int8(5),string("42"),int64(1)}
+var x = []interface{}{float64(3.3), int8(5), string("42"), int64(1)}
 
 func Test_Sqrt(t *testing.T) {
 	if Sqrt(9) != 3 {
@@ -70,13 +70,19 @@ func Test_Max(t *testing.T) {
 }
 
 func Test_Average(t *testing.T) {
-	if (Median(f) + Avg(f)) != 16.457143285714288 {
+	if (Median(f) + Arithmetic(f)) != 16.457143285714288 {
 		t.Fatalf("AverageFloat Test failed")
 	}
-	if (float64(Median(i)) + float64(Avg(i))) != 8 {
+	if (float64(Median(i)) + float64(Arithmetic(i))) != 8 {
 		t.Fatalf("AverageInt Test failed")
 	}
-	if (float64(Median(x)) + float64(Avg(x))) != 17.825 {
+	if (float64(Median(x)) + float64(Arithmetic(x))) != 17.825 {
 		t.Fatalf("AverageInterface Test failed")
+	}
+	if Harmonic(f) != 1.9887784588749662 {
+		t.Fatalf("Harmonic Test failed")
+	}
+	if Geometric(f) != 5.124640442022734 {
+		t.Fatalf("Geometric Test failed")
 	}
 }

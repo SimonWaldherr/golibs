@@ -1,10 +1,10 @@
 package xmath
 
 import (
-	"sort"
+	"github.com/simonwaldherr/golibs/as"
 	"math"
 	"reflect"
-	"github.com/simonwaldherr/golibs/as"
+	"sort"
 )
 
 func Sqrt(n int64) int64 {
@@ -133,7 +133,7 @@ func Median(val interface{}) float64 {
 	}
 }
 
-func Avg(val interface{}) float64 {
+func Arithmetic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
 	out := make([]float64, c)
@@ -141,4 +141,24 @@ func Avg(val interface{}) float64 {
 		out[i] = as.Float(slice.Index(i).Interface())
 	}
 	return (Sum(out) / float64(len(out)))
+}
+
+func Harmonic(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	var s float64 = 0
+	for i := 0; i < c; i++ {
+		s = s + 1/as.Float(slice.Index(i).Interface())
+	}
+	return (float64(c) * 1 / s)
+}
+
+func Geometric(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	var m float64 = 1
+	for i := 0; i < c; i++ {
+		m = m * as.Float(slice.Index(i).Interface())
+	}
+	return float64(math.Pow(float64(m), 1/float64(c)))
 }
