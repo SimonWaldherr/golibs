@@ -21,16 +21,28 @@ func Test_Bool(t *testing.T) {
 }
 
 func Test_Bytes(t *testing.T) {
-	if String([]byte{'l', 'o', 'r', 'e', 'm'}) != String(Bytes("lorem")) {
+	if String(Bytes([]byte{'l', 'o', 'r', 'e', 'm'})) != String(Bytes("lorem")) {
 		t.Fatalf("Bytes Test failed")
 	}
 	if String([]byte("true")) != String(Bytes(true)) {
+		t.Fatalf("Bytes Test failed")
+	}
+	if Int(Bytes(nil)) != Int([]byte{}) {
 		t.Fatalf("Bytes Test failed")
 	}
 }
 
 func Test_Duration(t *testing.T) {
 	if String(Duration(42)) != "42ns" {
+		t.Fatalf("Duration Test failed")
+	}
+	if String(Duration(uint32(42))) != "42ns" {
+		t.Fatalf("Duration Test failed")
+	}
+	if String(Duration(float64(42))) != "42ns" {
+		t.Fatalf("Duration Test failed")
+	}
+	if String(Duration("42ns")) != "42ns" {
 		t.Fatalf("Duration Test failed")
 	}
 }
@@ -40,6 +52,9 @@ func Test_Float(t *testing.T) {
 		t.Fatalf("Float Test failed")
 	}
 	if Float(false) != float64(0) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(Bool(1)) != float64(1) {
 		t.Fatalf("Float Test failed")
 	}
 	if Float(int(42)) != float64(42) {
@@ -55,6 +70,27 @@ func Test_Float(t *testing.T) {
 		t.Fatalf("Float Test failed")
 	}
 	if Float(int64(4500000)) != float64(4500000) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(uint(42)) != float64(42) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(uint8(43)) != float64(43) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(uint16(44)) != float64(44) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(uint32(45)) != float64(45) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(uint64(4500000)) != float64(4500000) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(float32(45)) != float64(45) {
+		t.Fatalf("Float Test failed")
+	}
+	if Float(float64(4500000)) != float64(4500000) {
 		t.Fatalf("Float Test failed")
 	}
 	if Float(Time("01.01.1970")) != 0 {
@@ -75,10 +111,52 @@ func Test_FloatFromXString(t *testing.T) {
 	if FloatFromXString("13,00") != float64(13) {
 		t.Fatalf("FloatFromXString Test failed")
 	}
+	if FloatFromXString("13.00") != float64(13) {
+		t.Fatalf("FloatFromXString Test failed")
+	}
+	if FloatFromXString("13") != float64(13) {
+		t.Fatalf("FloatFromXString Test failed")
+	}
+	if FloatFromXString("13,000.00") != float64(13000) {
+		t.Fatalf("FloatFromXString Test failed")
+	}
+	if FloatFromXString("13,0.0,0.00") != float64(0) {
+		t.Fatalf("FloatFromXString Test failed")
+	}
 }
 
 func Test_Int(t *testing.T) {
-	if Int(32.23) != int64(32) {
+	if Int(int8(1)) != int64(1) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(int16(2)) != int64(2) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(int32(3)) != int64(3) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(int64(4)) != int64(4) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(uint(5)) != int64(5) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(uint8(6)) != int64(6) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(uint16(7)) != int64(7) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(uint32(8)) != int64(8) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(uint64(9)) != int64(9) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(float32(32.23)) != int64(32) {
+		t.Fatalf("Int Test failed")
+	}
+	if Int(float64(32.23)) != int64(32) {
 		t.Fatalf("Int Test failed")
 	}
 	if Int("32.73") != int64(33) {
@@ -87,12 +165,18 @@ func Test_Int(t *testing.T) {
 	if Int(true) != int64(1) {
 		t.Fatalf("Int Test failed")
 	}
+	if Int(false) != int64(0) {
+		t.Fatalf("Int Test failed")
+	}
 	if Int(Time("01.01.1970")) != int64(0) {
 		t.Fatalf("Int Test failed")
 	}
 }
 
 func Test_String(t *testing.T) {
+	if String(nil) != "" {
+		t.Fatalf("String Test failed")
+	}
 	if String(1) != "1" {
 		t.Fatalf("String Test failed")
 	}

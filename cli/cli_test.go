@@ -1,6 +1,7 @@
 package cli
 
 import "testing"
+import "os/exec"
 
 func Test_Color(t *testing.T) {
 	if Color("X", Red) != "\033[31mX\033[0m" {
@@ -29,5 +30,15 @@ func Test_Bold(t *testing.T) {
 func Test_Underline(t *testing.T) {
 	if Underline("X") != "\033[4mX\033[0m" {
 		t.Fatalf("Underline Test failed")
+	}
+}
+
+func Test_Cmd(t *testing.T) {
+	d := exec.Command("date", "+%d.%m.%Y %H:%M:%S")
+	g := exec.Command("grep", "-o", "\\d\\d:\\d\\d:\\d\\d")
+
+	_, err := Cmd(d, g)
+	if err != nil {
+		t.Fatalf("Cmd Test failed")
 	}
 }

@@ -21,6 +21,9 @@ func Test_Stack(t *testing.T) {
 	if str != "Lorem Ipsum Dolor sit Amet false 13.37 1" {
 		t.Fatalf("Stack Test failed")
 	}
+	if array.Pop() != "" {
+		t.Fatalf("Stack Test failed")
+	}
 }
 
 func Test_Ring(t *testing.T) {
@@ -43,6 +46,14 @@ func Test_Ring(t *testing.T) {
 	}
 	a, b := ring.Pos()
 	if (a + b) != 20 {
+		t.Fatalf("Ring Test failed")
+	}
+	ret = ""
+	vals2 := ring.Get(8)
+	for _, v2 := range vals2 {
+		ret += string(v2)
+	}
+	if ret != "891011121314" {
 		t.Fatalf("Ring Test failed")
 	}
 }
