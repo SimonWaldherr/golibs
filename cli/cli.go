@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os/exec"
 )
 
 type Col int

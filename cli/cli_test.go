@@ -1,7 +1,6 @@
 package cli
 
 import "testing"
-import "os/exec"
 
 func Test_Color(t *testing.T) {
 	if Color("X", Red) != "\033[31mX\033[0m" {
