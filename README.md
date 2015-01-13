@@ -78,3 +78,16 @@ go get github.com/simonwaldherr/golibs/xmath
 ```
 
 **xmath** provides a few mathematical functions like *Max*, *Min*, *Sum*, *Median*, *Harmonic*-mean, ...
+
+```go
+var f = []float64{.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.000003}
+
+fmt.Printf("Max: %v\n", xmath.Max(f))
+fmt.Printf("Min: %v\n", xmath.Min(f))
+fmt.Printf("Sum: %v\n", xmath.Sum(f))
+
+fmt.Printf("Median:     %v\n", xmath.Median(f))
+fmt.Printf("Arithmetic: %v\n", xmath.Arithmetic(f))
+fmt.Printf("Harmonic:   %v\n", xmath.Harmonic(f))
+fmt.Printf("Geometric:  %v\n", xmath.Geometric(f))
+```

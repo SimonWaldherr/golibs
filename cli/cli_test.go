@@ -32,13 +32,3 @@ func Test_Underline(t *testing.T) {
 		t.Fatalf("Underline Test failed")
 	}
 }
-
-func Test_Cmd(t *testing.T) {
-	d := exec.Command("date", "+%d.%m.%Y %H:%M:%S")
-	g := exec.Command("grep", "-o", "\\d\\d:\\d\\d:\\d\\d")
-
-	_, err := Cmd(d, g)
-	if err != nil {
-		t.Fatalf("Cmd Test failed")
-	}
-}
