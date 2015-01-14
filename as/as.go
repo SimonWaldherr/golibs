@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+// timeformats contains the supported time formats
+// for the convertion to time.Time.
 var timeformats = []string{
 	time.ANSIC,
 	time.UnixDate,
@@ -41,6 +43,9 @@ var timeformats = []string{
 	"02.01.2006 15:04:05",
 }
 
+// Bool returns a boolean value. 
+// It mainly depends on the output of strconv.ParseBool, 
+// but also checks for integer values.
 func Bool(value interface{}) bool {
 	if Int(value) > 0 {
 		return true
@@ -49,6 +54,7 @@ func Bool(value interface{}) bool {
 	return b
 }
 
+// Bytes returns a slice of bytes.
 func Bytes(value interface{}) []byte {
 	if value == nil {
 		return []byte{}
@@ -69,6 +75,8 @@ func Bytes(value interface{}) []byte {
 	}
 }
 
+// Duration converts input values to time.Duration.
+// It mainly depends on time.ParseDuration.
 func Duration(value interface{}) time.Duration {
 	switch value.(type) {
 	case int, int8, int16, int32, int64:
@@ -83,6 +91,10 @@ func Duration(value interface{}) time.Duration {
 	}
 }
 
+// Float converts it's input to type float64.
+// int, uint and float gets converted as expected,
+// time is transformed to a float of the corresponding timestamp.
+// strings and byte slices gets converted via strconv.ParseFloat.
 func Float(value interface{}) float64 {
 	switch val := value.(type) {
 	case int:
@@ -122,6 +134,10 @@ func Float(value interface{}) float64 {
 	}
 }
 
+// FloatFromXString converts strings to float64.
+// Most values can be converted to float via Float(),
+// but floats as strings in e.g. german spelling 
+// should be converted with this function.
 func FloatFromXString(value string) float64 {
 	value = strings.Trim(value, "\t\n\r¢§$€ ")
 	var float float64
@@ -159,6 +175,10 @@ func FloatFromXString(value string) float64 {
 	return float64(float)
 }
 
+// Int returns an int64 of the input value.
+// Float values and float values in strings will be rounded via 
+// "round half towards positive infinity".
+// strings get converted via strconv.ParseFloat.
 func Int(value interface{}) int64 {
 	switch val := value.(type) {
 	case int:
@@ -198,6 +218,9 @@ func Int(value interface{}) int64 {
 	}
 }
 
+// String converts input values to string.
+// Time and Duration gets converted via standard functions.
+// Most types gets "converted" via fmt.Sprintf.
 func String(value interface{}) string {
 	if value == nil {
 		return ""
@@ -222,6 +245,8 @@ func String(value interface{}) string {
 	}
 }
 
+// Time converts inputs values to time.Time.
+// Time formats in the variable timeformats can be used.
 func Time(value interface{}) time.Time {
 	s := String(value)
 	for _, format := range timeformats {
@@ -233,6 +258,10 @@ func Time(value interface{}) time.Time {
 	return time.Time{}
 }
 
+// Uint returns an uint64 of the input value.
+// Float values and float values in strings will be rounded via 
+// "round half towards positive infinity".
+// strings get converted via strconv.ParseFloat.
 func Uint(value interface{}) uint64 {
 
 	switch val := value.(type) {

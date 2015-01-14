@@ -29,7 +29,7 @@ func Test_Stack(t *testing.T) {
 func Test_Ring(t *testing.T) {
 	var ret string
 	ring := Ring()
-	ring.Init()
+	ring.Init(8)
 	ring.SetSize(9)
 	for i := 0; i < 16; i++ {
 		ring.Push(fmt.Sprintf("%v", i))

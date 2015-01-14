@@ -7,6 +7,7 @@ import (
 	"sort"
 )
 
+// Sqrt calculates the square root of n.
 func Sqrt(n int64) int64 {
 	var t int64
 	var b int64
@@ -27,6 +28,7 @@ func Sqrt(n int64) int64 {
 	return int64(r)
 }
 
+// Prime returns the nth prime number as int.
 func Prime(n int) int {
 	var primeList = []int{2}
 	var isPrime int = 1
@@ -52,14 +54,18 @@ func Prime(n int) int {
 	return primeList[n-1]
 }
 
+// Deg2Rad returns the rad of a deg.
 func Deg2Rad(deg float64) float64 {
 	return (deg * math.Pi) / 180
 }
 
+// Deg2Rad returns the deg of a rad.
 func Rad2Deg(rad float64) float64 {
 	return (rad * 180) / math.Pi
 }
 
+// Round returns a rounded int from a float64.
+// It rounds via "Round half away from zero".
 func Round(v float64) int {
 	if v < 0 {
 		return int(math.Ceil(v - 0.5))
@@ -67,11 +73,15 @@ func Round(v float64) int {
 	return int(math.Floor(v + 0.5))
 }
 
+// Count returns the length of any slice (like len()).
 func Count(val interface{}) int {
 	slice := reflect.ValueOf(val)
 	return slice.Len()
 }
 
+// Sum returns the sum from a slice of Values as float64.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Sum(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
@@ -86,6 +96,9 @@ func Sum(val interface{}) float64 {
 	return sum
 }
 
+// Min returns the smallest number from a slice of Values as float64.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Min(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
@@ -102,6 +115,9 @@ func Min(val interface{}) float64 {
 	return min
 }
 
+// Max returns the greatest number from a slice of Values as float64.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Max(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
@@ -118,6 +134,13 @@ func Max(val interface{}) float64 {
 	return max
 }
 
+// Median returns the median from a slice of Values as float64.
+// The median is the numerical value separating the higher half
+// of a data sample from the lower half. The median of a list of
+// numbers can be found by arranging all the observations from
+// lowest value to highest value and picking the middle one.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Median(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
@@ -133,6 +156,12 @@ func Median(val interface{}) float64 {
 	}
 }
 
+// Arithmetic returns the arithmetic mean from a slice of Values as float64.
+// The arithmetic mean or simply the mean or average when the context is clear,
+// is the sum of a list of numbers divided by the number of numbers
+// in the list.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Arithmetic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
@@ -143,6 +172,12 @@ func Arithmetic(val interface{}) float64 {
 	return (Sum(out) / float64(len(out)))
 }
 
+// Harmonic returns the harmonic mean from a slice of Values as float64.
+// The arithmetic mean or simply the mean or average when the context is clear,
+// is the sum of a list of numbers divided by the number of numbers
+// in the list.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Harmonic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
