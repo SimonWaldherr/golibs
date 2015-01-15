@@ -7,6 +7,8 @@ golang functions (to be included in other projects)
 
 ##as
 
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/as?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/as)  
+
 ```
 go get github.com/simonwaldherr/golibs/as
 ```
@@ -33,6 +35,8 @@ var x time.Time = as.Time("31.12.2014")
 
 ##cli
 
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/cli?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/cli)  
+
 ```
 go get github.com/simonwaldherr/golibs/cli
 ```
@@ -55,6 +59,8 @@ fmt.Printf("this is %v and %v text", cli.Bold("bold"), cli.Underline("underlined
 
 ##stack
 
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/stack?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/stack)  
+
 ```
 go get github.com/simonwaldherr/golibs/stack
 ```
@@ -72,6 +78,8 @@ for array.Len() > 0 {
 ```
 
 ##xmath
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/xmath?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath)  
 
 ```
 go get github.com/simonwaldherr/golibs/xmath
