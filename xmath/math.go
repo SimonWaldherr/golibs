@@ -31,9 +31,9 @@ func Sqrt(n int64) int64 {
 // Prime returns the nth prime number as int.
 func Prime(n int) int {
 	var primeList = []int{2}
-	var isPrime int = 1
-	var num int = 3
-	var sqrtNum int = 0
+	isPrime := 1
+	num := 3
+	sqrtNum := 0
 	for len(primeList) < n {
 		sqrtNum = int(Sqrt(int64(num)))
 		for i := 0; i < len(primeList); i++ {
@@ -59,7 +59,7 @@ func Deg2Rad(deg float64) float64 {
 	return (deg * math.Pi) / 180
 }
 
-// Deg2Rad returns the deg of a rad.
+// Rad2Deg returns the deg of a rad.
 func Rad2Deg(rad float64) float64 {
 	return (rad * 180) / math.Pi
 }
@@ -106,7 +106,7 @@ func Min(val interface{}) float64 {
 	for i := 0; i < c; i++ {
 		out[i] = as.Float(slice.Index(i).Interface())
 	}
-	var min float64 = out[0]
+	min := out[0]
 	for _, value := range out {
 		if value < min {
 			min = value
@@ -125,7 +125,7 @@ func Max(val interface{}) float64 {
 	for i := 0; i < c; i++ {
 		out[i] = as.Float(slice.Index(i).Interface())
 	}
-	var max float64 = out[0]
+	max := out[0]
 	for _, value := range out {
 		if value > max {
 			max = value
@@ -151,9 +151,8 @@ func Median(val interface{}) float64 {
 	sort.Float64s(out)
 	if c%2 == 1 {
 		return out[c/2]
-	} else {
-		return (out[c/2] + out[c/2]) / 2
 	}
+	return (out[c/2] + out[c/2]) / 2
 }
 
 // Arithmetic returns the arithmetic mean from a slice of Values as float64.
@@ -181,13 +180,20 @@ func Arithmetic(val interface{}) float64 {
 func Harmonic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
-	var s float64 = 0
+	s := float64(0)
 	for i := 0; i < c; i++ {
 		s = s + 1/as.Float(slice.Index(i).Interface())
 	}
 	return (float64(c) * 1 / s)
 }
 
+// Geometric returns the geometric mean from a slice of Values as float64.
+// The geometric mean is a type of mean or average, which indicates the central
+// tendency or typical value of a set of numbers by using the product of their
+// values (as opposed to the arithmetic mean which uses their sum). The
+// geometric mean is defined as the nth root of the product of n numbers.
+// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// convert given values to floats.
 func Geometric(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
 	c := slice.Len()
