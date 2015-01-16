@@ -27,7 +27,13 @@ func Test_Bytes(t *testing.T) {
 	if String([]byte("true")) != String(Bytes(true)) {
 		t.Fatalf("Bytes Test failed")
 	}
+	if String([]byte("false")) != String(Bytes(false)) {
+		t.Fatalf("Bytes Test failed")
+	}
 	if Int(Bytes(nil)) != Int([]byte{}) {
+		t.Fatalf("Bytes Test failed")
+	}
+	if(String(Bytes(float64(23.42))) != "23.42") {
 		t.Fatalf("Bytes Test failed")
 	}
 }
@@ -198,52 +204,58 @@ func Test_Time(t *testing.T) {
 	if String(Time("11.01.2015")) != "2015-01-11T00:00:00Z" {
 		t.Fatalf("Time Test failed")
 	}
+	if String(Time("foobar")) != "0001-01-01T00:00:00Z" {
+		t.Fatalf("Time Test failed")
+	}
 }
 
 func Test_Uint(t *testing.T) {
+	if Uint(int(0)) != uint64(0) {
+		t.Fatalf("Uint Test failed")
+	}
 	if Uint(int8(1)) != uint64(1) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(int16(2)) != uint64(2) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(int32(3)) != uint64(3) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(int64(4)) != uint64(4) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(uint(5)) != uint64(5) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(uint8(6)) != uint64(6) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(uint16(7)) != uint64(7) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(uint32(8)) != uint64(8) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(uint64(9)) != uint64(9) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(float32(32.23)) != uint64(32) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(float64(32.23)) != uint64(32) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint("32.73") != uint64(33) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(true) != uint64(1) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(false) != uint64(0) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 	if Uint(Time("01.01.1970")) != uint64(0) {
-		t.Fatalf("Int Test failed")
+		t.Fatalf("Uint Test failed")
 	}
 }

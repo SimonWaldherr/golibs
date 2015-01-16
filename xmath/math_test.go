@@ -18,6 +18,24 @@ func Test_Prime(t *testing.T) {
 	}
 }
 
+func Test_Deg2Rad(t *testing.T) {
+	if int64(Deg2Rad(3.44)*100) != int64(6) {
+		t.Fatalf("Deg2Rad Test failed")
+	}
+}
+
+func Test_Rad2Deg(t *testing.T) {
+	if int64(Rad2Deg(0.20944)) != int64(12) {
+		t.Fatalf("Rad2Deg Test failed")
+	}
+}
+
+func Test_DegAndRad(t *testing.T) {
+	if Rad2Deg(Deg2Rad(42)) != float64(42) {
+		t.Fatalf("DegAndRad Test failed")
+	}
+}
+
 func Test_Round(t *testing.T) {
 	if Round(99.999) != 100 {
 		t.Fatalf("Round Test failed")
