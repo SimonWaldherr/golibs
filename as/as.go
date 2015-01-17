@@ -43,8 +43,8 @@ var timeformats = []string{
 	"02.01.2006 15:04:05",
 }
 
-// Bool returns a boolean value. 
-// It mainly depends on the output of strconv.ParseBool, 
+// Bool returns a boolean value.
+// It mainly depends on the output of strconv.ParseBool,
 // but also checks for integer values.
 func Bool(value interface{}) bool {
 	if Int(value) > 0 {
@@ -136,7 +136,7 @@ func Float(value interface{}) float64 {
 
 // FloatFromXString converts strings to float64.
 // Most values can be converted to float via Float(),
-// but floats as strings in e.g. german spelling 
+// but floats as strings in e.g. german spelling
 // should be converted with this function.
 func FloatFromXString(value string) float64 {
 	value = strings.Trim(value, "\t\n\r¢§$€ ")
@@ -176,7 +176,7 @@ func FloatFromXString(value string) float64 {
 }
 
 // Int returns an int64 of the input value.
-// Float values and float values in strings will be rounded via 
+// Float values and float values in strings will be rounded via
 // "round half towards positive infinity".
 // strings get converted via strconv.ParseFloat.
 func Int(value interface{}) int64 {
@@ -259,7 +259,7 @@ func Time(value interface{}) time.Time {
 }
 
 // Uint returns an uint64 of the input value.
-// Float values and float values in strings will be rounded via 
+// Float values and float values in strings will be rounded via
 // "round half towards positive infinity".
 // strings get converted via strconv.ParseFloat.
 func Uint(value interface{}) uint64 {

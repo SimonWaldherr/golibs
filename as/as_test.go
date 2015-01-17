@@ -33,7 +33,7 @@ func Test_Bytes(t *testing.T) {
 	if Int(Bytes(nil)) != Int([]byte{}) {
 		t.Fatalf("Bytes Test failed")
 	}
-	if(String(Bytes(float64(23.42))) != "23.42") {
+	if String(Bytes(float64(23.42))) != "23.42" {
 		t.Fatalf("Bytes Test failed")
 	}
 }

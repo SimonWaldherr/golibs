@@ -33,6 +33,14 @@ var x int = as.Int("32")
 var x time.Time = as.Time("31.12.2014")
 ```
 
+##cache
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/cache?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/cache)  
+
+```
+go get github.com/simonwaldherr/golibs/cache
+```
+
 ##cli
 
 [![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/cli?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/cli)  
