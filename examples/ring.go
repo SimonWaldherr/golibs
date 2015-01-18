@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 	"github.com/simonwaldherr/golibs/as"
-	"github.com/simonwaldherr/golibs/cli"
+	"github.com/simonwaldherr/golibs/ansi"
 	"github.com/simonwaldherr/golibs/stack"
 	"log"
 	"math/rand"
@@ -23,7 +23,7 @@ func main() {
 			rand.Seed(time.Now().UnixNano())
 			ran := as.String(rand.Intn(127))
 			pos := r.Push(ran)
-			log.Printf("Value %v added at %v\n", cli.Bold(cli.Color(ran, cli.Red)), cli.Bold(cli.Color(as.String(pos), cli.Blue)))
+			log.Printf("Value %v added at %v\n", ansi.Bold(ansi.Color(ran, ansi.Red)), ansi.Bold(ansi.Color(as.String(pos), ansi.Blue)))
 		}
 	}()
 	var last int = 0
@@ -38,12 +38,12 @@ func main() {
 		} else {
 			ix := as.String(i)
 			nlast = r.Push(ix)
-			log.Printf("Value %v added at %v\n", cli.Bold(cli.Color(ix, cli.Green)), cli.Bold(cli.Color(as.String(nlast), cli.Blue)))
+			log.Printf("Value %v added at %v\n", ansi.Bold(ansi.Color(ix, ansi.Green)), ansi.Bold(ansi.Color(as.String(nlast), ansi.Blue)))
 			log.Printf("Get from %v\n", last)
 			vals = r.Get(last)
 			for _, v := range vals {
 				if v != "" {
-					log.Printf("\t%v\n", cli.Color(as.String(v), cli.Yellow))
+					log.Printf("\t%v\n", ansi.Color(as.String(v), ansi.Yellow))
 				}
 			}
 			last = nlast

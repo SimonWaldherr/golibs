@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 	"github.com/simonwaldherr/golibs/as"
-	"github.com/simonwaldherr/golibs/cli"
+	"github.com/simonwaldherr/golibs/ansi"
 	"github.com/simonwaldherr/golibs/stack"
 	"github.com/simonwaldherr/golibs/xmath"
 	"log"
@@ -14,8 +14,8 @@ import (
 func main() {
 	floats := []float64{1.4, 3.14, 9.81, 13.2, 23.42, 33.7, 44.11, 51}
 	array := stack.Lifo()
-	array.Push(fmt.Sprintf("Lorem %v", cli.Color("Ipsum", cli.Blue)))
-	array.Push(fmt.Sprintf("Dolor %v", cli.Bold("sit Amet")))
+	array.Push(fmt.Sprintf("Lorem %v", ansi.Color("Ipsum", ansi.Blue)))
+	array.Push(fmt.Sprintf("Dolor %v", ansi.Bold("sit Amet")))
 	array.Push(fmt.Sprintf("5th Prime: %v", xmath.Prime(5)))
 	array.Push(fmt.Sprintf("\n\tMin: %v\n\tMax: %v\n\tMedian: %v\n\tArithmetic: %v\n\tHarmonic: %v\n\tGeometric: %v", xmath.Min(floats), xmath.Max(floats), xmath.Median(floats), xmath.Arithmetic(floats), xmath.Harmonic(floats), xmath.Geometric(floats)))
 	array.Push(fmt.Sprintf("Date: %v", as.Time("11.01.2015")))

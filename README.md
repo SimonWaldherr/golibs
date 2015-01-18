@@ -5,6 +5,30 @@
 
 golang functions (to be included in other projects)
 
+##ansi
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/ansi?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi)  
+
+```
+go get github.com/simonwaldherr/golibs/ansi
+```
+
+**ansi** can print colored and styled text to your terminal:
+
+* green, yellow and red strings:  
+
+```go
+log.Println(ansi.Color("INFO: everything is fine", ansi.Green))
+log.Println(ansi.Color("WARNING: not everything is fine", ansi.Yellow))
+log.Println(ansi.Color("ERROR: OMG!!!", ansi.Red))
+```
+
+* bold and underlined text:  
+
+```go
+fmt.Printf("this is %v and %v text", ansi.Bold("bold"), ansi.Underline("underlined"))
+```
+
 ##as
 
 [![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/as?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/as)  
@@ -39,30 +63,6 @@ var x time.Time = as.Time("31.12.2014")
 
 ```
 go get github.com/simonwaldherr/golibs/cache
-```
-
-##cli
-
-[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/cli?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/cli)  
-
-```
-go get github.com/simonwaldherr/golibs/cli
-```
-
-**cli** can print colored and styled text to your terminal:
-
-* green, yellow and red strings:  
-
-```go
-log.Println(cli.Color("INFO: everything is fine", cli.Green))
-log.Println(cli.Color("WARNING: not everything is fine", cli.Yellow))
-log.Println(cli.Color("ERROR: OMG!!!", cli.Red))
-```
-
-* bold and underlined text:  
-
-```go
-fmt.Printf("this is %v and %v text", cli.Bold("bold"), cli.Underline("underlined"))
 ```
 
 ##stack
