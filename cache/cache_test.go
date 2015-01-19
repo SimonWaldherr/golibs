@@ -59,7 +59,7 @@ func Test_Cache_Overwrite(t *testing.T) {
 }
 
 func Test_Cache_Clear(t *testing.T) {
-	c := New(5*time.Second, 1*time.Second)
+	c := New(0, 1*time.Second)
 
 	key, value = "foo", "bar"
 	c.Add(key, value)

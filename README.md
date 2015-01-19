@@ -5,6 +5,10 @@
 
 golang functions (to be included in other projects)
 
+```sh
+go get github.com/simonwaldherr/golibs/...
+```
+
 ##ansi
 
 [![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/ansi?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi)  
