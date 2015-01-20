@@ -56,6 +56,12 @@ func Test_Cache_Overwrite(t *testing.T) {
 	if val.(string) != "ipsum" {
 		t.Fatalf("Cache_Overwrite Test failed")
 	}
+
+	key, value = "dolor", "sit"
+	b := c.Update(key, value)
+	if b != false || c.Get(key) != nil {
+		t.Fatalf("Cache_Overwrite Test failed")
+	}
 }
 
 func Test_Cache_Clear(t *testing.T) {
