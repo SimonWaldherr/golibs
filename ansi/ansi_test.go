@@ -48,4 +48,7 @@ func Test_Log(t *testing.T) {
 	if Log(strconv.ParseInt("42", 10, 0)).(int64) != int64(42) {
 		t.Fatalf("Log Test failed %v", Log(strconv.ParseInt("42", 10, 0)))
 	}
+	if Log(strconv.ParseInt("Foobar", 10, 0)).(int64) != int64(0) {
+		t.Fatalf("Log Test failed %v", Log(strconv.ParseInt("Foobar", 10, 0)))
+	}
 }

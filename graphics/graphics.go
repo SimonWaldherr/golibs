@@ -15,13 +15,13 @@ func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, 
 
 	src, _, err := image.Decode(file)
 
-	bsrc := src.Bounds()
-	img := image.NewRGBA(bsrc)
-	draw.Draw(img, bsrc, src, bsrc.Min, draw.Src)
-
 	if err != nil {
 		return nil
 	}
+
+	bsrc := src.Bounds()
+	img := image.NewRGBA(bsrc)
+	draw.Draw(img, bsrc, src, bsrc.Min, draw.Src)
 
 	b := img.Bounds()
 
