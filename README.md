@@ -2,6 +2,9 @@
 
 [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg)](https://coveralls.io/r/SimonWaldherr/golibs)
 [![Build Status](https://travis-ci.org/SimonWaldherr/golibs.svg)](https://travis-ci.org/SimonWaldherr/golibs)
+[![License MIT](http://img.shields.io/badge/license-MIT-red.svg)](http://opensource.org/licenses/MIT)
+[![Flattr donate button](https://raw.github.com/balupton/flattr-buttons/master/badge-89x18.gif)](https://flattr.com/submit/auto?user_id=SimonWaldherr&url=http%3A%2F%2Fgithub.com%2FSimonWaldherr%2Fgolibs "Donate monthly to this project using Flattr")
+
 
 golang functions (to be included in other projects)
 
@@ -67,6 +70,22 @@ var x time.Time = as.Time("31.12.2014")
 
 ```
 go get github.com/simonwaldherr/golibs/cache
+```
+
+##graphics
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/graphics?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics)  
+
+```
+go get github.com/simonwaldherr/golibs/graphics
+```
+
+with **graphics** you can manipulate images  
+
+```go
+img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
+	return g, b, r, a
+})
 ```
 
 ##stack

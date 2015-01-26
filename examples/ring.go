@@ -14,7 +14,7 @@ import (
 
 func main() {
 	r := stack.Ring()
-	r.Init()
+	r.Init(10)
 	r.SetSize(15)
 	go func() {
 		for {
