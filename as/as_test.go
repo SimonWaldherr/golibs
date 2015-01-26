@@ -1,6 +1,9 @@
 package as
 
-import "testing"
+import (
+	"strconv"
+	"testing"
+)
 
 func Test_Bool(t *testing.T) {
 	if Bool("t") != true {
@@ -196,6 +199,9 @@ func Test_String(t *testing.T) {
 		t.Fatalf("String Test failed")
 	}
 	if String(false) != "false" {
+		t.Fatalf("String Test failed")
+	}
+	if String(strconv.ParseInt("42", 10, 0)) != "42" {
 		t.Fatalf("String Test failed")
 	}
 }

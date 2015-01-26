@@ -9,6 +9,7 @@ import (
 	"github.com/simonwaldherr/golibs/stack"
 	"github.com/simonwaldherr/golibs/xmath"
 	"log"
+	"strconv"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 	array.Push(as.String(23.0))
 	array.Push(as.Bool(111111))
 	array.Push(as.Bytes(12.34))
+	array.Push(as.String(strconv.ParseInt("42", 10, 0)))
 	array.Push(as.FloatFromXString("2,3"))
 	array.Push(as.FloatFromXString(".23"))
 	array.Push(as.String("\r\n\t\n"))
