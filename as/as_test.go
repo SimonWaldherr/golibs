@@ -265,3 +265,30 @@ func Test_Uint(t *testing.T) {
 		t.Fatalf("Uint Test failed")
 	}
 }
+
+func println_type(t *testing.T, str, type1, type2 string) {
+	t1 := Type(str)
+	t2 := DBType(str)
+
+	if t1 != type1 {
+		t.Fatalf("Type Test for %v failed", str)
+	}
+	if t2 != type2 {
+		t.Fatalf("DBType Test for %v failed", str)
+	}
+}
+
+func Test_Type(t *testing.T) {
+	println_type(t, "true", "bool", "bool")
+	println_type(t, "1000", "int", "int")
+	println_type(t, "2^16", "int", "int")
+	println_type(t, "10E24", "int", "int")
+	println_type(t, "10 EUR", "price", "string")
+	println_type(t, "10.23 £", "price", "string")
+	println_type(t, "mail@example.tld", "email", "string")
+	println_type(t, "978-3499626005", "isbn", "string")
+	println_type(t, "127.0.0.1", "ipv4", "string")
+	println_type(t, "2a01:4f8:192:34aa::10", "ipv6", "string")
+	println_type(t, "b8:c7:5d:c6:6c:c6", "mac", "string")
+	println_type(t, "#fefefe", "color", "string")
+}
