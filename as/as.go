@@ -13,6 +13,7 @@ type ree struct {
 	re  string
 }
 
+// regex (regular expression) in a slice of ree struct
 var regex = [...]ree{
 	{
 		typ: "bool",
@@ -362,6 +363,7 @@ func Uint(valuea ...interface{}) uint64 {
 	}
 }
 
+// Type returns a type (string) of a string.
 func Type(str string) string {
 	str = strings.Trim(str, " \t\n\r")
 	for _, b := range regex {
@@ -373,6 +375,7 @@ func Type(str string) string {
 	return ""
 }
 
+// DBType returns a Database Type of a string.
 func DBType(str string) string {
 	t := Type(str)
 	switch t {
