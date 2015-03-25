@@ -13,8 +13,8 @@ func Test_EachPixel(t *testing.T) {
 	defer func() {
 		file.Close()
 		file1.Close()
-	} ()
-	
+	}()
+
 	if err != nil {
 		t.Fatalf("EachPixel Test failed: %v", err)
 	}
@@ -53,5 +53,27 @@ func Test_EachPixel(t *testing.T) {
 	}
 	if xr != 11409 || xg != 25162 || xb != 94726 {
 		t.Fatalf("EachPixel Test failed")
+	}
+}
+
+func Test_ResizeNearestNeighbor(t *testing.T) {
+	file, err := os.Open("./img.png")
+	defer func() {
+		file.Close()
+	}()
+	img := ResizeNearestNeighbor(file, 200, 150)
+	fd, err := os.Create("./rnn.png")
+	if err != nil {
+		t.Fatalf("EachPixel Test failed: %v", err)
+	}
+
+	err = png.Encode(fd, img)
+	if err != nil {
+		t.Fatalf("EachPixel Test failed: %v", err)
+	}
+
+	err = fd.Close()
+	if err != nil {
+		t.Fatalf("EachPixel Test failed: %v", err)
 	}
 }

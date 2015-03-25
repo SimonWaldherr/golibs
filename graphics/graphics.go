@@ -12,7 +12,6 @@ import (
 )
 
 func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) image.Image {
-
 	src, _, err := image.Decode(file)
 
 	if err != nil {
@@ -35,4 +34,28 @@ func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, 
 		}
 	}
 	return img
+}
+
+func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) *image.NRGBA {
+	img, _, err := image.Decode(file)
+
+	if err != nil {
+		return nil
+	}
+
+	w := img.Bounds().Max.X
+	h := img.Bounds().Max.Y
+	newimg := image.NewNRGBA(image.Rectangle{Min: image.Point{0, 0}, Max: image.Point{newWidth, newHeight}})
+
+	xn := (w<<16)/newWidth + 1
+	yn := (h<<16)/newHeight + 1
+
+	for yo := 0; yo < newHeight; yo++ {
+		y := (yo * yn) >> 16
+		for xo := 0; xo < newWidth; xo++ {
+			x := (xo * xn) >> 16
+			newimg.Set(xo, yo, img.At(x, y))
+		}
+	}
+	return newimg
 }
