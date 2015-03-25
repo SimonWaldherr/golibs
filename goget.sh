@@ -12,6 +12,9 @@ go get -u github.com/simonwaldherr/golibs/cache
 echo "go get golibs/graphics"
 go get -u github.com/simonwaldherr/golibs/graphics
 
+echo "go get golibs/regex"
+go get -u github.com/simonwaldherr/golibs/regex
+
 echo "go get golibs/stack"
 go get -u github.com/simonwaldherr/golibs/stack
 
