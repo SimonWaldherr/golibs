@@ -8,6 +8,7 @@ import (
 	"github.com/simonwaldherr/golibs/ansi"
 	"github.com/simonwaldherr/golibs/stack"
 	"github.com/simonwaldherr/golibs/xmath"
+	"github.com/simonwaldherr/golibs/regex"
 	"log"
 	"strconv"
 )
@@ -24,6 +25,7 @@ func main() {
 		log.Println(array.Pop())
 	}
 
+	array.Push(string(as.Bytes(regex.ReplaceAllString("foobar", "o+", "u"))))
 	array.Push(as.Int(23.0000))
 	array.Push(as.Float(13.37))
 	array.Push(as.String(23.0))
