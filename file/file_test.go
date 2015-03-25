@@ -7,10 +7,24 @@ import (
 	"testing"
 )
 
+func Test_Read(t *testing.T) {
+	str, err := Read("test.txt")
+	if err != nil {
+		t.Fatalf("file.Read Test failed")
+	}
+	if str != "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." {
+		t.Fatalf("file.Read Test failed")
+	}
+}
+
 func Test_ReadUntil(t *testing.T) {
 	content, lastChar, pos, err := ReadUntil("file.go", []string{"\n", "\r"})
 	if err != nil || content != "package file" || lastChar != "\n" || pos != 12 {
-		t.Fatalf("file.Each Test failed")
+		t.Fatalf("file.ReadUntil Test failed")
+	}
+	content, lastChar, pos, err = ReadUntil("file1.go", []string{"\n", "\r"})
+	if err == nil {
+		t.Fatalf("file.ReadUntil Test failed")
 	}
 }
 
@@ -26,7 +40,7 @@ func Test_ReadBlocks(t *testing.T) {
 	lines2 = strings.Count(content, "\n")
 	log.Printf("x:%v x:%v\n", lines1, lines2)
 	if err != nil || (lines1 != lines2+1) {
-		t.Fatalf("file.Each Test failed")
+		t.Fatalf("file.ReadBlocks Test failed")
 	}
 }
 

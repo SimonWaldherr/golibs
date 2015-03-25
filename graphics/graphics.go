@@ -11,11 +11,11 @@ import (
 	"os"
 )
 
-func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) image.Image {
+func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) (image.Image, error) {
 	src, _, err := image.Decode(file)
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	bsrc := src.Bounds()
@@ -33,14 +33,14 @@ func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, 
 			img.Set(x, y, pixel)
 		}
 	}
-	return img
+	return img, nil
 }
 
-func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) *image.NRGBA {
+func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA, error) {
 	img, _, err := image.Decode(file)
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	w := img.Bounds().Max.X
@@ -57,5 +57,5 @@ func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) *image.NRGBA 
 			newimg.Set(xo, yo, img.At(x, y))
 		}
 	}
-	return newimg
+	return newimg, nil
 }
