@@ -49,6 +49,22 @@ func Test_Round(t *testing.T) {
 	if Round(-0.6) != -1 {
 		t.Fatalf("Round Test failed")
 	}
+	i := 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564
+	if float64(Round(i*100))/100 != 3.14 {
+		t.Fatalf("Round Test failed")
+	}
+}
+
+func Test_FloatRound(t *testing.T) {
+	var f float64 = FloatRound(-1.15, 1)
+	f += FloatRound(-0.33, 1)
+	f += FloatRound(1.54, 1)
+	f += FloatRound(1.55, 1)
+	f += FloatRound(1.4, 0)
+
+	if f != 2.6 {
+		t.Fatalf("FloatRound Test failed")
+	}
 }
 
 func Test_Count(t *testing.T) {
@@ -70,6 +86,9 @@ func Test_Sum(t *testing.T) {
 }
 
 func Test_Min(t *testing.T) {
+	if Min([]int{3, 5, 7, -9, 11}) != -9 {
+		t.Fatalf("Min Test failed")
+	}
 	if Min(f) != 0.5 {
 		t.Fatalf("MinFloat Test failed")
 	}
@@ -79,6 +98,9 @@ func Test_Min(t *testing.T) {
 }
 
 func Test_Max(t *testing.T) {
+	if Max([]int{1, 3, 5, 42}) != 42 {
+		t.Fatalf("Max Test failed")
+	}
 	if Max(f) != 42.000003 {
 		t.Fatalf("MaxFloat Test failed")
 	}

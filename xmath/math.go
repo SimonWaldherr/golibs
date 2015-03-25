@@ -73,6 +73,14 @@ func Round(v float64) int {
 	return int(math.Floor(v + 0.5))
 }
 
+// Round returns a rounded float64 from a float64
+// with d digits after the point. It rounds via
+// "Round half away from zero".
+func FloatRound(v float64, d int) float64 {
+	pow := math.Pow(10, float64(d))
+	return float64(Round(v*pow)) / pow
+}
+
 // Count returns the length of any slice (like len()).
 func Count(val interface{}) int {
 	slice := reflect.ValueOf(val)
