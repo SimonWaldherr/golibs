@@ -4,15 +4,12 @@ go:
     - tip
 
 install:
-    - go get -t ./...
-    - curl -sLOf https://raw.githubusercontent.com/rafecolton/fmtpolice/master/coverage
-    - go get -u code.google.com/p/go.tools/cmd/cover || go get -u golang.org/x/tools/cmd/cover
-    - go get -u github.com/axw/gocov/gocov github.com/mattn/goveralls
+    - go get github.com/axw/gocov/gocov
+    - go get github.com/mattn/goveralls
+    - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
 
 script:
-    - go test ./...
-    - bash coverage
-    - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -repotoken 5q0ICCCcMrTFcxAkkneaBNa2g9OLFatsB
+    - $HOME/gopath/bin/goveralls -service=travis-ci -repotoken 5q0ICCCcMrTFcxAkkneaBNa2g9OLFatsB
 
 notifications:
   email:

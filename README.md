@@ -72,6 +72,22 @@ var x time.Time = as.Time("31.12.2014")
 go get github.com/simonwaldherr/golibs/cache
 ```
 
+
+##file
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/file?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/file)  
+
+```
+go get github.com/simonwaldherr/golibs/file
+```
+
+**file** wraps around the standard functions to simplify reading and writing on disk
+
+```go
+str := "Neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit."
+err := file.Write("filename.txt", str, false)
+```
+
 ##graphics
 
 [![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/graphics?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics)  
@@ -85,6 +101,22 @@ with **graphics** you can manipulate images
 ```go
 img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
 	return g, b, r, a
+})
+```
+
+
+##regex
+
+[![GoDoc](https://godoc.org/github.com/SimonWaldherr/golibs/regex?status.svg)](https://godoc.org/github.com/SimonWaldherr/golibs/regex)  
+
+```
+go get github.com/simonwaldherr/golibs/regex
+```
+
+**regex** is a layer to speed up your regular expression development  
+
+```go
+str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
 })
 ```
 
