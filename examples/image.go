@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		log.Printf("EachPixel Test failed: %v", err)
 	}
-	img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
+	img, _ := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
 		fmt.Printf("r: %v\tg: %v\tb: %v\n", ansi.Color(r, ansi.Red), ansi.Color(g, ansi.Green), ansi.Color(b, ansi.Blue))
 		return uint8(255-r), uint8(255-g), uint8(255-b), a
 	})

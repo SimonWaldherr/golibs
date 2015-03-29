@@ -267,14 +267,19 @@ func Test_Uint(t *testing.T) {
 }
 
 func println_type(t *testing.T, str, type1, type2 string) {
-	t1 := Type(str)
+	t1, err := Type(str)
+
+	if err != nil {
+		t.Fatalf("Type Test for %v failed with: %v", str, err)
+	}
+
 	t2 := DBType(str)
 
 	if t1 != type1 {
-		t.Fatalf("Type Test for %v failed", str)
+		t.Fatalf("Type Test for %v failed with wrong value: %v != %v", str, t1, type1)
 	}
 	if t2 != type2 {
-		t.Fatalf("DBType Test for %v failed", str)
+		t.Fatalf("DBType Test for %v failed with wrong value: %v != %v", str, t2, type2)
 	}
 }
 
@@ -291,4 +296,6 @@ func Test_Type(t *testing.T) {
 	println_type(t, "2a01:4f8:192:34aa::10", "ipv6", "string")
 	println_type(t, "b8:c7:5d:c6:6c:c6", "mac", "string")
 	println_type(t, "#fefefe", "color", "string")
+	println_type(t, "THk4Z1JFSlVlWEJsSUhKbGRIVnlibk1nWVNCRVlYUmhZbUZ6WlNCVWVYQmxJRzltSUdFZ2MzUnlhVzVuTGcwS1puVnVZeUJFUWxSNWNHVW9jM1J5SUhOMGNtbHVaeWtnYzNSeWFXNW5JSHNOQ2dsMExDQmxjbklnT2owZ1ZIbHdaU2h6ZEhJcERRb0phV1lnWlhKeUlDRTlJRzVwYkNCN0RRb0pDWEpsZEhWeWJpQWljM1J5YVc1bklnMEtDWDBOQ2dsemQybDBZMmdnZENCN0RRb0pZMkZ6WlNBaVltOXZiQ0lzSUNKcGJuUWlMQ0FpYzNSeWFXNW5JaXdnSW1ac2IyRjBJam9OQ2drSmNtVjBkWEp1SUhRTkNnbGtaV1poZFd4ME9nMEtDUWx5WlhSMWNtNGdJbk4wY21sdVp5SU5DZ2w5RFFwOQ==", "base64", "string")
+	println_type(t, "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~ ", "ascii", "string")
 }
