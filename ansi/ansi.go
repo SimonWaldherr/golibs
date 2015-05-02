@@ -1,3 +1,4 @@
+// "ansi" can print colored and styled text to your terminal.
 package ansi
 
 import (
@@ -18,10 +19,59 @@ const (
 	Cyan
 	White
 )
+const (
+	TReset = Col(iota)
+	TBold
+	TFaint
+	TItalic
+	TUnderline
+	TBlinkSlow
+	TBlinkFast
+	TNegative
+	TConceal
+	TCrossedOut
+)
 
-// Color adds the color code of col to str and returns as string
+// Foreground text colors
+const (
+	FgBlack = Col(iota + 30)
+	FgRed
+	FgGreen
+	FgYellow
+	FgBlue
+	FgMagenta
+	FgCyan
+	FgWhite
+)
+
+// Background text colors
+const (
+	BgBlack = Col(iota + 40)
+	BgRed
+	BgGreen
+	BgYellow
+	BgBlue
+	BgMagenta
+	BgCyan
+	BgWhite
+)
+
+func Set(str interface{}, Attribute ...Col) string {
+	var rstr string = fmt.Sprint(str)
+	for _, attr := range Attribute {
+		rstr = fmt.Sprintf("\033[%vm%v\033[0m", attr, rstr)
+	}
+	return rstr
+}
+
+// Color adds the color code of col as text color to str and returns as string
 func Color(str interface{}, col Col) string {
 	return fmt.Sprintf("\033[3%vm%v\033[0m", col, str)
+}
+
+// Color adds the color code of col as background color to str and returns as string
+func BgColor(str interface{}, col Col) string {
+	return fmt.Sprintf("\033[4%vm%v\033[0m", col, str)
 }
 
 // Bold surrounds str with the code for bold styled text

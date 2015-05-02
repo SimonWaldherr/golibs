@@ -1,3 +1,4 @@
+// "file" wraps around the standard functions to simplify reading and writing on disk
 package file
 
 import (
@@ -14,6 +15,46 @@ func contains(s []string, e string) bool {
 		if a == e {
 			return true
 		}
+	}
+	return false
+}
+
+func Exists(fn string) bool {
+	if _, err := os.Stat(fn); err == nil {
+		return true
+	}
+	return false
+}
+
+func IsDir(fn string) bool {
+	f, err := os.Stat(fn)
+	if err != nil {
+		return false
+	}
+	if f.IsDir() {
+		return true
+	}
+	return false
+}
+
+func IsFile(fn string) bool {
+	f, err := os.Stat(fn)
+	if err != nil {
+		return false
+	}
+	if f.Mode().IsRegular() {
+		return true
+	}
+	return false
+}
+
+func IsSymlink(fn string) bool {
+	f, err := os.Lstat(fn)
+	if err != nil {
+		return false
+	}
+	if f.Mode()&os.ModeSymlink == os.ModeSymlink {
+		return true
 	}
 	return false
 }

@@ -1,3 +1,5 @@
+// xmath is a package with math functions.
+// Besides a few standard formulas it contains various mean algorithms.
 package xmath
 
 import (

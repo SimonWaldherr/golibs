@@ -18,7 +18,7 @@ func Test_Read(t *testing.T) {
 }
 
 func Test_ReadUntil(t *testing.T) {
-	content, lastChar, pos, err := ReadUntil("file.go", []string{"\n", "\r"})
+	content, lastChar, pos, err := ReadUntil("file_test.go", []string{"\n", "\r"})
 	if err != nil || content != "package file" || lastChar != "\n" || pos != 12 {
 		t.Fatalf("file.ReadUntil Test failed")
 	}
@@ -123,6 +123,25 @@ func Test_Delete(t *testing.T) {
 func Test_X2(t *testing.T) {
 	_, err := Size("writetest2.log")
 	if err == nil {
-		t.Fatalf("file.X Test failed")
+		t.Fatalf("file.X2 Test failed")
+	}
+}
+
+func Test_X3(t *testing.T) {
+	x := Exists("test.txt")
+	if x != true {
+		t.Fatalf("file.Exists Test failed")
+	}
+	x = IsDir("test.txt")
+	if x != false {
+		t.Fatalf("file.IsDir Test failed")
+	}
+	x = IsFile("test.txt")
+	if x != true {
+		t.Fatalf("file.IsFile Test failed")
+	}
+	x = IsSymlink("test.txt")
+	if x != false {
+		t.Fatalf("file.IsSymlink Test failed")
 	}
 }

@@ -1,3 +1,4 @@
+// The "as" package helps by converting various data types to various other types
 package as
 
 import (

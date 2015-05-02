@@ -26,6 +26,27 @@ func Test_Color(t *testing.T) {
 	}
 }
 
+func Test_BgColor(t *testing.T) {
+	if BgColor("X", Red) != "\033[41mX\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+	if BgColor("X", Yellow) != "\033[43mX\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+	if BgColor("X", Green) != "\033[42mX\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+	if BgColor("X", Blue) != "\033[44mX\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+	if BgColor("X", Magenta) != "\033[45mX\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+	if BgColor(3*3, Magenta) != "\033[45m9\033[0m" {
+		t.Fatalf("BgColor Test failed")
+	}
+}
+
 func Test_Bold(t *testing.T) {
 	if Bold("X") != "\033[1mX\033[0m" {
 		t.Fatalf("Bold Test failed")
@@ -50,5 +71,11 @@ func Test_Log(t *testing.T) {
 	}
 	if Log(strconv.ParseInt("Foobar", 10, 0)).(int64) != int64(0) {
 		t.Fatalf("Log Test failed %v", Log(strconv.ParseInt("Foobar", 10, 0)))
+	}
+}
+
+func Test_Set(t *testing.T) {
+	if Set("01234567890", TCrossedOut, FgGreen, BgCyan, TBold) != "\033[1m\033[46m\033[32m\033[9m01234567890\033[0m\033[0m\033[0m\033[0m" {
+		t.Fatalf(Set("01234567890", TCrossedOut, FgGreen, BgCyan, TBold))
 	}
 }
