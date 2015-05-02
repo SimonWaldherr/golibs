@@ -4,9 +4,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/simonwaldherr/golibs/as"
-	"github.com/simonwaldherr/golibs/ansi"
-	"github.com/simonwaldherr/golibs/cache"
+	"simonwaldherr.de/go/golibs/as"
+	"simonwaldherr.de/go/golibs/ansi"
+	"simonwaldherr.de/go/golibs/cache"
 	"math/rand"
 	"time"
 	"runtime"

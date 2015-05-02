@@ -10,7 +10,7 @@
 golang functions (to be included in other projects)
 
 ```sh
-go get -u -t github.com/simonwaldherr/golibs/...
+go get -u -t simonwaldherr.de/go/golibs/...
 ```
 
 ##ansi
@@ -18,7 +18,7 @@ go get -u -t github.com/simonwaldherr/golibs/...
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi)  
 
 ```go
-import "github.com/simonwaldherr/golibs/ansi"
+import "simonwaldherr.de/go/golibs/ansi"
 ```
 
 **ansi** can print colored and styled text to your terminal:
@@ -42,7 +42,7 @@ fmt.Printf("this is %v and %v text", ansi.Bold("bold"), ansi.Underline("underlin
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/as)  
 
 ```go
-import "github.com/simonwaldherr/golibs/as"
+import "simonwaldherr.de/go/golibs/as"
 ```
 
 with **as** you can convert most standard data types to most other data types e.g.
@@ -70,7 +70,7 @@ var x time.Time = as.Time("31.12.2014")
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/cache)  
 
 ```go
-import "github.com/simonwaldherr/golibs/cache"
+import "simonwaldherr.de/go/golibs/cache"
 ```
 
 
@@ -79,7 +79,7 @@ import "github.com/simonwaldherr/golibs/cache"
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/file)  
 
 ```go
-import "github.com/simonwaldherr/golibs/file"
+import "simonwaldherr.de/go/golibs/file"
 ```
 
 **file** wraps around the standard functions to simplify reading and writing on disk
@@ -94,7 +94,7 @@ err := file.Write("filename.txt", str, false)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics)  
 
 ```go
-import "github.com/simonwaldherr/golibs/graphics"
+import "simonwaldherr.de/go/golibs/graphics"
 ```
 
 with **graphics** you can manipulate images  
@@ -111,7 +111,7 @@ img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uin
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex)  
 
 ```go
-import "github.com/simonwaldherr/golibs/regex"
+import "simonwaldherr.de/go/golibs/regex"
 ```
 
 **regex** is a layer to speed up your regular expression development  
@@ -125,7 +125,7 @@ str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/stack)  
 
 ```go
-import "github.com/simonwaldherr/golibs/stack"
+import "simonwaldherr.de/go/golibs/stack"
 ```
 
 with **stack** you can store your values in stacks and rings  
@@ -145,7 +145,7 @@ for array.Len() > 0 {
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath)  
 
 ```go
-import "github.com/simonwaldherr/golibs/xmath"
+import "simonwaldherr.de/go/golibs/xmath"
 ```
 
 **xmath** provides a few mathematical functions like *Max*, *Min*, *Sum*, *Median*, *Harmonic*-mean, ...

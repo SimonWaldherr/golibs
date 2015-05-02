@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/simonwaldherr/golibs/graphics"
-	"github.com/simonwaldherr/golibs/ansi"
+	"simonwaldherr.de/go/golibs/graphics"
+	"simonwaldherr.de/go/golibs/ansi"
 	"image/jpeg"
 	"log"
 	"fmt"

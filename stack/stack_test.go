@@ -2,7 +2,7 @@ package stack
 
 import (
 	"fmt"
-	"github.com/simonwaldherr/golibs/as"
+	"simonwaldherr.de/go/golibs/as"
 	"strings"
 	"testing"
 )

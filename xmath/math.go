@@ -3,7 +3,7 @@
 package xmath
 
 import (
-	"github.com/simonwaldherr/golibs/as"
+	"simonwaldherr.de/go/golibs/as"
 	"math"
 	"reflect"
 	"sort"
@@ -90,7 +90,7 @@ func Count(val interface{}) int {
 }
 
 // Sum returns the sum from a slice of Values as float64.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Sum(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -107,7 +107,7 @@ func Sum(val interface{}) float64 {
 }
 
 // Min returns the smallest number from a slice of Values as float64.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Min(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -126,7 +126,7 @@ func Min(val interface{}) float64 {
 }
 
 // Max returns the greatest number from a slice of Values as float64.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Max(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -149,7 +149,7 @@ func Max(val interface{}) float64 {
 // of a data sample from the lower half. The median of a list of
 // numbers can be found by arranging all the observations from
 // lowest value to highest value and picking the middle one.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Median(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -169,7 +169,7 @@ func Median(val interface{}) float64 {
 // The arithmetic mean or simply the mean or average when the context is clear,
 // is the sum of a list of numbers divided by the number of numbers
 // in the list.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Arithmetic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -185,7 +185,7 @@ func Arithmetic(val interface{}) float64 {
 // The arithmetic mean or simply the mean or average when the context is clear,
 // is the sum of a list of numbers divided by the number of numbers
 // in the list.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Harmonic(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
@@ -202,7 +202,7 @@ func Harmonic(val interface{}) float64 {
 // tendency or typical value of a set of numbers by using the product of their
 // values (as opposed to the arithmetic mean which uses their sum). The
 // geometric mean is defined as the nth root of the product of n numbers.
-// It uses "as" (github.com/simonwaldherr/golibs/as) to
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Geometric(val interface{}) float64 {
 	slice := reflect.ValueOf(val)
