@@ -106,6 +106,23 @@ img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uin
 ```
 
 
+##re
+
+[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/re)  
+
+```go
+import "simonwaldherr.de/go/golibs/re"
+```
+
+**re** helps you whenever you have to do something multiple times  
+
+```go
+data, stop := re.Do(time.Second * 5, func(data chan<- interface{}) {
+	data <- fmt.Sprintf("%v\n", time.Now().Format("02.01.2006 15:04:05"))
+})
+```
+
+
 ##regex
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex)  
@@ -119,6 +136,22 @@ import "simonwaldherr.de/go/golibs/regex"
 ```go
 str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
 ```
+
+
+##ssl
+
+[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ssl)  
+
+```go
+import "simonwaldherr.de/go/golibs/ssl"
+```
+
+**ssl** generates ssl certificates for http**s**  
+
+```go
+err := ssl.Generate(options)
+```
+
 
 ##stack
 
