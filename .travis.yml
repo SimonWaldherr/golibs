@@ -1,6 +1,7 @@
 language: go
 
 go:
+    - 1.1
     - 1.3
     - 1.4
     - release
@@ -8,6 +9,7 @@ go:
 
 install:
     - go get -t ./...
+    - go get simonwaldherr.de/go/golibs/...
     - go get golang.org/x/tools/cmd/cover
     - go get github.com/axw/gocov/gocov
     - go get github.com/modocache/gover
@@ -21,7 +23,9 @@ script:
     - go test -v -coverprofile=cache.coverprofile ./cache
     - go test -v -coverprofile=file.coverprofile ./file
     - go test -v -coverprofile=graphics.coverprofile ./graphics
+    - go test -v -coverprofile=re.coverprofile ./re
     - go test -v -coverprofile=regex.coverprofile ./regex
+    - go test -v -coverprofile=ssl.coverprofile ./ssl
     - go test -v -coverprofile=stack.coverprofile ./stack
     - go test -v -coverprofile=xmath.coverprofile ./xmath
     - $HOME/gopath/bin/gover

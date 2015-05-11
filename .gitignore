@@ -22,3 +22,5 @@ _testmain.go
 *.exe
 inv.png
 inv.jpg
+*.cert
+*.key

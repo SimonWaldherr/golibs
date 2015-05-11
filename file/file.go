@@ -27,33 +27,33 @@ func Exists(fn string) bool {
 }
 
 func IsDir(fn string) bool {
-	f, err := os.Stat(fn)
+	file, err := os.Stat(fn)
 	if err != nil {
 		return false
 	}
-	if f.IsDir() {
+	if file.IsDir() {
 		return true
 	}
 	return false
 }
 
 func IsFile(fn string) bool {
-	f, err := os.Stat(fn)
+	file, err := os.Stat(fn)
 	if err != nil {
 		return false
 	}
-	if f.Mode().IsRegular() {
+	if file.Mode().IsRegular() {
 		return true
 	}
 	return false
 }
 
 func IsSymlink(fn string) bool {
-	f, err := os.Lstat(fn)
+	file, err := os.Lstat(fn)
 	if err != nil {
 		return false
 	}
-	if f.Mode()&os.ModeSymlink == os.ModeSymlink {
+	if file.Mode()&os.ModeSymlink == os.ModeSymlink {
 		return true
 	}
 	return false
@@ -61,12 +61,15 @@ func IsSymlink(fn string) bool {
 
 func Read(fn string) (string, error) {
 	buf := bytes.NewBuffer(nil)
-	f, err := os.Open(fn)
+	file, err := os.Open(fn)
+
+	defer file.Close()
+
 	if err != nil {
 		return "", err
 	}
-	io.Copy(buf, f)
-	f.Close()
+	io.Copy(buf, file)
+
 	s := string(buf.Bytes())
 	return s, nil
 }
@@ -74,11 +77,11 @@ func Read(fn string) (string, error) {
 func ReadUntil(fn string, delim []string) (string, string, int, error) {
 	file, err := os.Open(fn)
 
+	defer file.Close()
+
 	if err != nil {
 		return "", "", 0, err
 	}
-
-	defer file.Close()
 
 	reader := bufio.NewReader(file)
 	scanner := bufio.NewScanner(reader)
@@ -101,11 +104,11 @@ func ReadUntil(fn string, delim []string) (string, string, int, error) {
 func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error) {
 	file, err := os.Open(fn)
 
+	defer file.Close()
+
 	if err != nil {
 		return "", err
 	}
-
-	defer file.Close()
 
 	reader := bufio.NewReader(file)
 	scanner := bufio.NewScanner(reader)
@@ -131,38 +134,38 @@ func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (st
 
 func Write(fn, str string, append bool) error {
 	var (
-		f   *os.File
+		file   *os.File
 		err error
 	)
 	if append {
-		f, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
+		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
 	} else {
-		f, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
+		file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
 	}
+
+	defer file.Close()
 
 	if err != nil {
 		return err
 	}
 
-	defer f.Close()
-
-	_, err = f.WriteString(str)
+	_, err = file.WriteString(str)
 	if err != nil {
 		return err
 	}
 
-	f.Sync()
+	file.Sync()
 	return nil
 }
 
 func Size(fn string) (int64, error) {
 	file, err := os.Open(fn)
 
+	defer file.Close()
+
 	if err != nil {
 		return -1, err
 	}
-
-	defer file.Close()
 
 	fi, err := file.Stat()
 
@@ -196,12 +199,15 @@ func Delete(fn string) error {
 }
 
 func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
-	f, err := os.Open(dirname)
+	file, err := os.Open(dirname)
+
+	defer file.Close()
+
 	if err != nil {
 		return err
 	}
-	list, err := f.Readdir(-1)
-	f.Close()
+	list, err := file.Readdir(-1)
+
 	if err != nil {
 		return err
 	}
