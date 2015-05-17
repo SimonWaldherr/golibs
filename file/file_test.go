@@ -136,6 +136,10 @@ func Test_X3(t *testing.T) {
 	if x != false {
 		t.Fatalf("file.IsDir Test failed")
 	}
+	x = IsDir("../file/")
+	if x != true {
+		t.Fatalf("file.IsDir Test failed")
+	}
 	x = IsFile("test.txt")
 	if x != true {
 		t.Fatalf("file.IsFile Test failed")

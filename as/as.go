@@ -313,7 +313,7 @@ func String(valuea ...interface{}) string {
 	case time.Time:
 		return string(val.Format(time.RFC3339))
 	case string:
-		return string(val)
+		return val
 	case []byte:
 		return string(val)
 	default:
