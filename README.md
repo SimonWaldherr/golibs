@@ -1,18 +1,26 @@
 #golibs
 
-[![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs)
-[![Build Status](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
-[![Build status](https://ci.appveyor.com/api/projects/status/d8axib00wrncdyt1/branch/master?svg=true)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master)
-[![License MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT)
-[![Flattr donate button](https://raw.github.com/balupton/flattr-buttons/master/badge-89x18.gif)](https://flattr.com/submit/auto?user_id=SimonWaldherr&url=http%3A%2F%2Fgithub.com%2FSimonWaldherr%2Fgolibs "Donate monthly to this project using Flattr")
-
-[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/)  
-
 golang functions (to be included in other projects)
 
 ```sh
 go get -u -t simonwaldherr.de/go/golibs/...
 ```
+
+---
+
+```sh
+go test ./...
+```
+   | service | info
+---|---------|------
+[![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
+[![Build Status](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
+[![Build status](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
+![Build status](https://magnum-ci.com/status/e9ccc5689f4135e4021475bfdf0cf527.png) | magnum-ci.com | yet another ci service  
+[![License MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) |  | free + open source license  
+[![Flattr donate button](https://img.shields.io/badge/flattr-donate-orange.svg?style=flat-square)](https://flattr.com/submit/auto?user_id=SimonWaldherr&url=http%3A%2F%2Fgithub.com%2FSimonWaldherr%2Fgolibs "Donate monthly to this project using Flattr") | flattr.com | micro donation  
+[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
+
 
 ##ansi
 
