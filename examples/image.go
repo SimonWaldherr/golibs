@@ -3,12 +3,12 @@
 package main
 
 import (
-	"simonwaldherr.de/go/golibs/graphics"
-	"simonwaldherr.de/go/golibs/ansi"
+	"fmt"
 	"image/jpeg"
 	"log"
-	"fmt"
 	"os"
+	"simonwaldherr.de/go/golibs/ansi"
+	"simonwaldherr.de/go/golibs/graphics"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	}
 	img, _ := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
 		fmt.Printf("r: %v\tg: %v\tb: %v\n", ansi.Color(r, ansi.Red), ansi.Color(g, ansi.Green), ansi.Color(b, ansi.Blue))
-		return uint8(255-r), uint8(255-g), uint8(255-b), a
+		return uint8(255 - r), uint8(255 - g), uint8(255 - b), a
 	})
 	fd, err := os.Create("./inv.jpg")
 	if err != nil {

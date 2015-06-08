@@ -4,11 +4,11 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/as"
-	"simonwaldherr.de/go/golibs/ansi"
-	"simonwaldherr.de/go/golibs/stack"
 	"log"
 	"math/rand"
+	"simonwaldherr.de/go/golibs/ansi"
+	"simonwaldherr.de/go/golibs/as"
+	"simonwaldherr.de/go/golibs/stack"
 	"time"
 )
 

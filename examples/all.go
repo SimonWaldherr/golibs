@@ -4,12 +4,12 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/as"
+	"log"
 	"simonwaldherr.de/go/golibs/ansi"
+	"simonwaldherr.de/go/golibs/as"
+	"simonwaldherr.de/go/golibs/regex"
 	"simonwaldherr.de/go/golibs/stack"
 	"simonwaldherr.de/go/golibs/xmath"
-	"simonwaldherr.de/go/golibs/regex"
-	"log"
 	"strconv"
 )
 

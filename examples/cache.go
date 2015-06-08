@@ -4,13 +4,13 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/as"
-	"simonwaldherr.de/go/golibs/ansi"
-	"simonwaldherr.de/go/golibs/cache"
-	"math/rand"
-	"time"
-	"runtime"
 	"log"
+	"math/rand"
+	"runtime"
+	"simonwaldherr.de/go/golibs/ansi"
+	"simonwaldherr.de/go/golibs/as"
+	"simonwaldherr.de/go/golibs/cache"
+	"time"
 )
 
 func runt() {
@@ -54,14 +54,14 @@ func main() {
 	for i := 500; i < 1000; i++ {
 		rand.Seed(time.Now().UnixNano())
 		time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
-	
+
 		rand.Seed(time.Now().UnixNano())
 		ran := as.String(rand.Intn(999))
-	
+
 		c.Add(fmt.Sprintf("Value %v", i), ran)
 	}
 	size(c)
-	
+
 	log.Println("delete random values")
 	for i := 200; i < 300; i++ {
 		c.Delete(fmt.Sprintf("Value %v", c.Get(fmt.Sprintf("Value %v", i))))

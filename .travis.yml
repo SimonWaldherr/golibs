@@ -18,6 +18,7 @@ install:
 script:
     - go test -v ./...
     - go test -v -coverprofile=ansi.coverprofile ./ansi
+    - go test -v -coverprofile=arg.coverprofile ./arg
     - go test -v -coverprofile=as.coverprofile ./as
     - go test -v -coverprofile=cache.coverprofile ./cache
     - go test -v -coverprofile=file.coverprofile ./file
