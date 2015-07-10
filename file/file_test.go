@@ -144,8 +144,16 @@ func Test_X3(t *testing.T) {
 	if x != true {
 		t.Fatalf("file.IsFile Test failed")
 	}
+	x = IsFile("😃")
+	if x == true {
+		t.Fatalf("file.IsFile Test failed")
+	}
 	x = IsSymlink("test.txt")
 	if x != false {
-		t.Fatalf("file.IsSymlink Test failed")
+		t.Fatalf("file.IsSymlink1 Test failed")
+	}
+	x = IsSymlink("😃")
+	if x != false {
+		t.Fatalf("file.IsSymlink2 Test failed")
 	}
 }
