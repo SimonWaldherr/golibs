@@ -3,9 +3,9 @@
 package xmath
 
 import (
-	"simonwaldherr.de/go/golibs/as"
 	"math"
 	"reflect"
+	"simonwaldherr.de/go/golibs/as"
 	"sort"
 )
 

@@ -7,6 +7,56 @@ import (
 	"testing"
 )
 
+type pathTest struct {
+	in  string
+	out string
+}
+
+var pathTests []pathTest
+
+func init() {
+	os.Symlink("../examples/all.go", "../examples/symlink")
+	pathTests = []pathTest{
+		{
+			in:  "/Users/simonwaldherr/git/golibs/file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "/Users/simonwaldherr/git/golibs/../../git/golibs/file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "~/git/golibs/file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "~/git/golibs/.//file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "./test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "../file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "./../file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "../file/../file/test.txt",
+			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "../file/../file/../examples/symlink",
+			out: "/Users/simonwaldherr/git/golibs/examples/all.go",
+		},
+	}
+	FakeHomeDir("/Users/simonwaldherr")
+}
+
 func Test_Read(t *testing.T) {
 	str, err := Read("test.txt")
 	if err != nil {
@@ -47,7 +97,7 @@ func Test_ReadBlocks(t *testing.T) {
 func Test_Each(t *testing.T) {
 	err := Each("..", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {
 		if extension == "go" && !dir {
-			log.Printf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
+			t.Logf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
 		}
 	})
 	if err != nil {
@@ -155,5 +205,13 @@ func Test_X3(t *testing.T) {
 	x = IsSymlink("😃")
 	if x != false {
 		t.Fatalf("file.IsSymlink2 Test failed")
+	}
+}
+
+func TestGetAbsolutePath(t *testing.T) {
+	for i, te := range pathTests {
+		if v, err := GetAbsolutePath(te.in); v != te.out {
+			t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, te.in, te.out, v, err)
+		}
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -48,15 +49,16 @@ func IsFile(fn string) bool {
 	return false
 }
 
+func isSymlink(fi os.FileInfo) bool {
+	return fi.Mode()&os.ModeSymlink == os.ModeSymlink
+}
+
 func IsSymlink(fn string) bool {
 	file, err := os.Lstat(fn)
 	if err != nil {
 		return false
 	}
-	if file.Mode()&os.ModeSymlink == os.ModeSymlink {
-		return true
-	}
-	return false
+	return isSymlink(file)
 }
 
 func Read(fn string) (string, error) {
@@ -134,8 +136,8 @@ func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (st
 
 func Write(fn, str string, append bool) error {
 	var (
-		file   *os.File
-		err error
+		file *os.File
+		err  error
 	)
 	if append {
 		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
@@ -225,4 +227,116 @@ func Each(dirname string, recursive bool, fnc func(string, string, string, bool,
 		}
 	}
 	return nil
+}
+
+var HomeDir string = ""
+
+func SetHomeDir() string {
+	if runtime.GOOS == "windows" {
+		home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
+		if home == "" {
+			home = os.Getenv("USERPROFILE")
+		}
+		HomeDir = home
+		return home
+	}
+	HomeDir = os.Getenv("HOME")
+	return os.Getenv("HOME")
+}
+
+func FakeHomeDir(dir string) string {
+	HomeDir = dir
+	return dir
+}
+
+func GetHomeDir() string {
+	if HomeDir == "" {
+		return SetHomeDir()
+	}
+	return HomeDir
+}
+
+func switchSymlink(path []byte, start int, link, after string) []byte {
+	if link[0] == os.PathSeparator {
+		return []byte(filepath.Join(link, after))
+	}
+	return []byte(filepath.Join(string(path[0:start]), link, after))
+}
+
+func nextComponent(path []byte, start int) []byte {
+	v := bytes.IndexByte(path[start:], os.PathSeparator)
+	if v < 0 {
+		return path
+	}
+	return path[0 : start+v]
+}
+
+func GetAbsolutePath(fn string) (string, error) {
+	if len(fn) == 0 {
+		return "", os.ErrInvalid
+	}
+
+	if fn[0] != os.PathSeparator {
+		if fn[0] == '.' {
+			pwd, err := os.Getwd()
+			if err != nil {
+				return "", err
+			}
+			fn = filepath.Join(pwd, fn)
+		} else {
+			fn = strings.Replace(fn, "~", GetHomeDir(), 1)
+		}
+	}
+
+	path := []byte(fn)
+	nlinks := 0
+	start := 1
+	prev := 1
+
+	for start < len(path) {
+		c := nextComponent(path, start)
+		cur := c[start:]
+
+		if len(cur) == 0 {
+			copy(path[start:], path[start+1:])
+			path = path[0 : len(path)-1]
+		} else if len(cur) == 1 && cur[0] == '.' {
+			if start+2 < len(path) {
+				copy(path[start:], path[start+2:])
+			}
+			path = path[0 : len(path)-2]
+		} else if len(cur) == 2 && cur[0] == '.' && cur[1] == '.' {
+			copy(path[prev:], path[start+2:])
+			path = path[0 : len(path)+prev-(start+2)]
+			prev = 1
+			start = 1
+		} else {
+			fi, err := os.Lstat(string(c))
+			if err == nil {
+				if isSymlink(fi) {
+					nlinks++
+					if nlinks > 8 {
+						return "", os.ErrInvalid
+					}
+
+					var link string
+					link, err = os.Readlink(string(c))
+					after := string(path[len(c):])
+					path = switchSymlink(path, start, link, after)
+					prev = 1
+					start = 1
+				} else {
+					prev = start
+					start = len(c) + 1
+				}
+			} else {
+				return string(path), nil
+			}
+		}
+	}
+
+	for len(path) > 1 && path[len(path)-1] == os.PathSeparator {
+		path = path[0 : len(path)-1]
+	}
+	return string(path), nil
 }
