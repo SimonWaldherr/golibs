@@ -26,10 +26,6 @@ func init() {
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
 		},
 		{
-			in:  "/Users/simonwaldherr/git/golibs/file/",
-			out: "/Users/simonwaldherr/git/golibs/file",
-		},
-		{
 			in:  "~/git/golibs/file/test.txt",
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
 		},
@@ -268,8 +264,8 @@ func TestGetAbsolutePath(t *testing.T) {
 		// replace travis ci home dir
 		converted = strings.Replace(converted, "/home/travis/gopath/src/github.com/SimonWaldherr/", "/Users/simonwaldherr/git/", 1)
 
-		if converted != te.out {
-			t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, te.in, te.out, converted, err)
+		if converted != expected {
+			t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, input, expected, converted, err)
 		}
 	}
 }
