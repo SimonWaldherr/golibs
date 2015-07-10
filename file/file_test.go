@@ -14,12 +14,15 @@ type pathTest struct {
 }
 
 var pathTests []pathTest
+var realHome string
 
 func init() {
 	os.Symlink("../examples/all.go", "../examples/symlink")
+	os.Symlink("../examples/1", "../examples/2")
+	os.Symlink("../examples/2", "../examples/1")
 	pathTests = []pathTest{
 		{
-			in:  "/Users/simonwaldherr/git/golibs/file/test.txt",
+			in:  "/Users/simonwaldherr/git/golibs/file/test.txt/",
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
 		},
 		{
@@ -46,7 +49,12 @@ func init() {
 			in:  "../file/../file/../examples/symlink",
 			out: "/Users/simonwaldherr/git/golibs/examples/all.go",
 		},
+		{
+			in:  "../file/../file/../examples/2",
+			out: "",
+		},
 	}
+	realHome = GetHomeDir()
 	FakeHomeDir("/Users/simonwaldherr")
 }
 
@@ -198,6 +206,15 @@ func Test_X3(t *testing.T) {
 	x = IsSymlink("😃")
 	if x != false {
 		t.Fatalf("file.IsSymlink2 Test failed")
+	}
+}
+
+func TestHomeDir(t *testing.T) {
+	if HomeDir == "" {
+		t.Errorf("file.[SG]etHomeDir test #1 failed: %v", HomeDir)
+	}
+	if realHome == "" {
+		t.Errorf("file.[SG]etHomeDir test #2 failed: %v", realHome)
 	}
 }
 
