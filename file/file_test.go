@@ -22,8 +22,12 @@ func init() {
 	os.Symlink("../examples/2", "../examples/1")
 	pathTests = []pathTest{
 		{
-			in:  "/Users/simonwaldherr/git/golibs/file/test.txt/",
+			in:  "/Users/simonwaldherr/git/golibs/file/test.txt",
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
+		},
+		{
+			in:  "/Users/simonwaldherr/git/golibs/file/",
+			out: "/Users/simonwaldherr/git/golibs/file",
 		},
 		{
 			in:  "~/git/golibs/file/test.txt",
@@ -64,6 +68,10 @@ func Test_Read(t *testing.T) {
 		t.Fatalf("file.Read Test failed")
 	}
 	if str != "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." {
+		t.Fatalf("file.Read Test failed")
+	}
+	_, err = Read("😃")
+	if err == nil {
 		t.Fatalf("file.Read Test failed")
 	}
 }
@@ -191,21 +199,48 @@ func Test_X3(t *testing.T) {
 	if x != true {
 		t.Fatalf("file.IsDir Test failed")
 	}
-	x = IsFile("test.txt")
-	if x != true {
-		t.Fatalf("file.IsFile Test failed")
-	}
-	x = IsFile("😃")
+	x = IsFile("../file/")
 	if x == true {
 		t.Fatalf("file.IsFile Test failed")
+	}
+	x = IsFile("test.txt")
+	if x != true {
+		t.Fatalf("file.IsFile2 Test failed")
 	}
 	x = IsSymlink("test.txt")
 	if x != false {
 		t.Fatalf("file.IsSymlink1 Test failed")
 	}
+}
+
+func Test_Ψ(t *testing.T) {
+	x := Exists("😃")
+	if x == true {
+		t.Fatalf("file.Exists2 Test failed")
+	}
+	x = IsFile("😃")
+	if x == true {
+		t.Fatalf("file.IsFile3 Test failed")
+	}
 	x = IsSymlink("😃")
 	if x != false {
 		t.Fatalf("file.IsSymlink2 Test failed")
+	}
+	x = IsDir("😃")
+	if x != false {
+		t.Fatalf("file.IsDir2 Test failed")
+	}
+	_, err := Size("😃")
+	if err == nil {
+		t.Fatalf("file.Size Test failed")
+	}
+	err = Rename("😃", "😃")
+	if err == nil {
+		t.Fatalf("file.Rename Test failed")
+	}
+	err = Delete("😃")
+	if err == nil {
+		t.Fatalf("file.Delete Test failed")
 	}
 }
 
