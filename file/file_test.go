@@ -3,6 +3,7 @@ package file
 import (
 	"log"
 	"os"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -22,15 +23,7 @@ func init() {
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
 		},
 		{
-			in:  "/Users/simonwaldherr/git/golibs/../../git/golibs/file/test.txt",
-			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
-		},
-		{
 			in:  "~/git/golibs/file/test.txt",
-			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
-		},
-		{
-			in:  "~/git/golibs/.//file/test.txt",
 			out: "/Users/simonwaldherr/git/golibs/file/test.txt",
 		},
 		{
@@ -210,8 +203,21 @@ func Test_X3(t *testing.T) {
 
 func TestGetAbsolutePath(t *testing.T) {
 	for i, te := range pathTests {
-		if v, err := GetAbsolutePath(te.in); v != te.out {
-			t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, te.in, te.out, v, err)
+		input := te.in
+		expected := te.out
+		if runtime.GOOS == "windows" {
+			input = strings.Replace(input, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
+			expected = strings.Replace(expected, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
+		}
+		converted, err := GetAbsolutePath(te.in)
+
+		// replace magnum ci home dir
+		converted = strings.Replace(converted, "/home/magnum/", "/Users/simonwaldherr/git/", 1)
+		// replace travis ci home dir
+		converted = strings.Replace(converted, "/home/travis/gopath/src/github.com/SimonWaldherr/", "/Users/simonwaldherr/git/", 1)
+
+		if converted != te.out {
+			t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, te.in, te.out, converted, err)
 		}
 	}
 }
