@@ -1,7 +1,7 @@
 package graphics
 
 import (
-	_ "code.google.com/p/vp8-go/webp"
+	_ "golang.org/x/image/webp"
 	"image"
 	"image/color"
 	"image/draw"
