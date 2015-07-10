@@ -1,0 +1,20 @@
+#!/bin/sh
+
+declare -a libs=(ansi arg as cache file graphics re regex ssl stack xmath)
+
+echo "COVERAGE TEST" > coverage.log
+
+for i in "${libs[@]}"
+do
+	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
+	 if [ "x$COVER" == "x" ]; then
+		 echo "$i 0% (could not build)"
+		 echo "$i 0% (could not build)" >> coverage.log
+	 else
+		 echo "$i $COVER"
+		 echo "$i $COVER" >> coverage.log
+		 rm "$i.coverprofile"
+	 fi
+done
+
+git add coverage.log
