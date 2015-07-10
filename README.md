@@ -6,12 +6,13 @@ golang functions (to be included in other projects)
 go get -u -t simonwaldherr.de/go/golibs/...
 ```
 
----
+##coverage & tests
 
 ```sh
 go test ./...
 ```
-   | service | info
+
+ . | service | info
 ---|---------|------
 [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
 [![Build Status](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
@@ -22,7 +23,20 @@ go test ./...
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
 
 
-##ansi
+each new build gets tested in multiple steps:
+
+* on development i regularly type ```go test``` from time to time to check the test suite
+* also there are a few go apps in the [examples](https://github.com/SimonWaldherr/golibs/tree/master/examples)-folder which i test to build and run
+* on commit, git automatically runs the [pre-commit](https://github.com/SimonWaldherr/golibs/blob/master/pre-commit)-hook shell script ...
+* ... and adds the output ([coverage.log](https://github.com/SimonWaldherr/golibs/blob/master/coverage.log)) via the [prepare-commit-msg](https://github.com/SimonWaldherr/golibs/blob/master/prepare-commit-msg)-hook script to the commit message
+* after a commit gets pushed to **GitHub**, the following tests are started via Webhooks and Services
+	* **Travis CI** build the lib and all tests on docker containers with the go versions noted in [.travis.yml](https://github.com/SimonWaldherr/golibs/blob/master/.travis.yml)
+	* **appveyor** builds the lib on Windows Server to test against the Microsoft Infrastructure ([.appveyor.yml](https://github.com/SimonWaldherr/golibs/blob/master/.appveyor.yml))
+	* **magnum-ci**, another ci service build the lib and tests on a linux machine
+
+##sublibs
+
+###ansi
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi)  
 
@@ -46,7 +60,7 @@ log.Println(ansi.Color("ERROR: OMG!!!", ansi.Red))
 fmt.Printf("this is %v and %v text", ansi.Bold("bold"), ansi.Underline("underlined"))
 ```
 
-##as
+###as
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/as)  
 
@@ -74,7 +88,7 @@ var x int = as.Int("32")
 var x time.Time = as.Time("31.12.2014")
 ```
 
-##cache
+###cache
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/cache)  
 
@@ -83,7 +97,7 @@ import "simonwaldherr.de/go/golibs/cache"
 ```
 
 
-##file
+###file
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/file)  
 
@@ -98,7 +112,7 @@ str := "Neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, conse
 err := file.Write("filename.txt", str, false)
 ```
 
-##graphics
+###graphics
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics)  
 
@@ -115,7 +129,7 @@ img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uin
 ```
 
 
-##re
+###re
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/re)  
 
@@ -132,7 +146,7 @@ data, stop := re.Do(time.Second * 5, func(data chan<- interface{}) {
 ```
 
 
-##regex
+###regex
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex)  
 
@@ -147,7 +161,7 @@ str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
 ```
 
 
-##ssl
+###ssl
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ssl)  
 
@@ -162,7 +176,7 @@ err := ssl.Generate(options)
 ```
 
 
-##stack
+###stack
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/stack)  
 
@@ -182,7 +196,7 @@ for array.Len() > 0 {
 }
 ```
 
-##xmath
+###xmath
 
 [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath)  
 
