@@ -7,6 +7,6 @@ file coverage: 85.3% of statements
 graphics coverage: 96.6% of statements
 re coverage: 100.0% of statements
 regex coverage: 87.5% of statements
-ssl coverage: 57.5% of statements
+ssl coverage: 90.4% of statements
 stack coverage: 100.0% of statements
 xmath coverage: 100.0% of statements
