@@ -24,6 +24,7 @@ script:
     - go test -v -coverprofile=arg.coverprofile ./arg
     - go test -v -coverprofile=as.coverprofile ./as
     - go test -v -coverprofile=cache.coverprofile ./cache
+    - go test -v -coverprofile=cachedfile.coverprofile ./cachedfile
     - go test -v -coverprofile=file.coverprofile ./file
     - go test -v -coverprofile=graphics.coverprofile ./graphics
     - go test -v -coverprofile=re.coverprofile ./re

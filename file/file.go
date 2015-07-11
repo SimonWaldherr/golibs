@@ -2,24 +2,14 @@
 package file
 
 import (
-	"../cache"
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
-	"time"
 )
-
-var fileCache *cache.Cache
-var cacheInit bool = false
-
-func cacheWorker(key string, value interface{}) {
-	Write(key, fmt.Sprint(value), false)
-}
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
@@ -84,28 +74,6 @@ func Read(fn string) (string, error) {
 
 	s := string(buf.Bytes())
 	return s, nil
-}
-
-func CachedRead(fn string) (string, error) {
-	if cacheInit == false {
-		cacheInit = true
-		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
-	}
-	var err error
-	var data string
-	fn, err = GetAbsolutePath(fn)
-	if err != nil {
-		return "", err
-	}
-	if xdata := fileCache.Get(fn); xdata == nil {
-		if data, err = Read(fn); err != nil {
-			return "", err
-		}
-		fileCache.Set(fn, data)
-	} else {
-		data = fmt.Sprint(xdata)
-	}
-	return data, nil
 }
 
 func ReadUntil(fn string, delim []string) (string, string, int, error) {
@@ -190,35 +158,6 @@ func Write(fn, str string, append bool) error {
 
 	file.Sync()
 	return nil
-}
-
-func CachedWrite(fn, str string, append bool) error {
-	if cacheInit == false {
-		cacheInit = true
-		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
-	}
-	var err error
-	var data string
-	fn, err = GetAbsolutePath(fn)
-	if err != nil {
-		return err
-	}
-	if append {
-		data, err = CachedRead(fn)
-		if err != nil {
-			return err
-		}
-		fileCache.Set(fn, data+str)
-	} else {
-		fileCache.Set(fn, str)
-	}
-	return nil
-}
-
-func StopCache() {
-	if cacheInit == true {
-		fileCache.DeleteAllWithFunc(cacheWorker)
-	}
 }
 
 func Size(fn string) (int64, error) {
