@@ -1,6 +1,11 @@
 package cache
 
-import "time"
+import (
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
 
 type Item struct {
 	Object     interface{}
@@ -64,6 +69,22 @@ func (cache *Cache) DeleteExpired() {
 	}
 }
 
+func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})) {
+	for k, v := range cache.items {
+		if v.isExpired() {
+			fn(k, cache.items[k].Object)
+			cache.Delete(k)
+		}
+	}
+}
+
+func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) {
+	for k, _ := range cache.items {
+		fn(k, cache.items[k].Object)
+		cache.Delete(k)
+	}
+}
+
 func (cache *Cache) Size() int {
 	n := len(cache.items)
 	return n
@@ -83,6 +104,23 @@ func cleaner(cache *Cache, interval time.Duration) {
 	}
 }
 
+func cleanerWithFunc(cache *Cache, interval time.Duration, fn func(key string, value interface{})) {
+	defer cache.DeleteAllWithFunc(fn)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	ticker := time.Tick(interval)
+	for {
+		select {
+		case <-ticker:
+			cache.DeleteExpiredWithFunc(fn)
+		case <-c:
+			cache.DeleteAllWithFunc(fn)
+			os.Exit(1)
+		}
+	}
+}
+
 func New(expirationTime, cleanupInterval time.Duration) *Cache {
 	items := make(map[string]*Item)
 	if expirationTime == 0 {
@@ -93,6 +131,20 @@ func New(expirationTime, cleanupInterval time.Duration) *Cache {
 		items:      items,
 	}
 	go cleaner(cache, cleanupInterval)
+
+	return cache
+}
+
+func New2(expirationTime, cleanupInterval time.Duration, fn func(key string, value interface{})) *Cache {
+	items := make(map[string]*Item)
+	if expirationTime == 0 {
+		expirationTime = -1
+	}
+	cache := &Cache{
+		Expiration: expirationTime,
+		items:      items,
+	}
+	go cleanerWithFunc(cache, cleanupInterval, fn)
 
 	return cache
 }

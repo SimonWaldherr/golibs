@@ -256,6 +256,7 @@ func TestGetAbsolutePath(t *testing.T) {
 		if runtime.GOOS == "windows" {
 			input = strings.Replace(input, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
 			expected = strings.Replace(expected, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
+			expected = strings.Replace(expected, "/", "\\", -1)
 		}
 		converted, err := GetAbsolutePath(te.in)
 

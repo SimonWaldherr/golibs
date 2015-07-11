@@ -27,8 +27,7 @@ each new build gets tested in multiple steps:
 
 * on development i regularly type ```go test``` from time to time to check the test suite
 * also there are a few go apps in the [examples](https://github.com/SimonWaldherr/golibs/tree/master/examples)-folder which i test to build and run
-* on commit, git automatically runs the [pre-commit](https://github.com/SimonWaldherr/golibs/blob/master/pre-commit)-hook shell script ...
-* ... and adds the output ([coverage.log](https://github.com/SimonWaldherr/golibs/blob/master/coverage.log)) via the [prepare-commit-msg](https://github.com/SimonWaldherr/golibs/blob/master/prepare-commit-msg)-hook script to the commit message
+* on commit, git automatically runs the [pre-commit](https://github.com/SimonWaldherr/golibs/blob/master/pre-commit)-hook shell script
 * after a commit gets pushed to **GitHub**, the following tests are started via Webhooks and Services
 	* **Travis CI** build the lib and all tests on docker containers with the go versions noted in [.travis.yml](https://github.com/SimonWaldherr/golibs/blob/master/.travis.yml)
 	* **appveyor** builds the lib on Windows Server to test against the Microsoft Infrastructure ([.appveyor.yml](https://github.com/SimonWaldherr/golibs/blob/master/.appveyor.yml))
