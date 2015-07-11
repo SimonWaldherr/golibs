@@ -1,9 +1,9 @@
 package cachedfile
 
 import (
-	"../cache"
-	"../file"
 	"fmt"
+	"simonwaldherr.de/go/golibs/cache"
+	"simonwaldherr.de/go/golibs/file"
 	"time"
 )
 
@@ -14,7 +14,7 @@ func cacheWorker(key string, value interface{}) {
 	file.Write(key, fmt.Sprint(value), false)
 }
 
-func CachedRead(fn string) (string, error) {
+func Read(fn string) (string, error) {
 	if cacheInit == false {
 		cacheInit = true
 		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
@@ -36,7 +36,7 @@ func CachedRead(fn string) (string, error) {
 	return data, nil
 }
 
-func CachedWrite(fn, str string, append bool) error {
+func Write(fn, str string, append bool) error {
 	if cacheInit == false {
 		cacheInit = true
 		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
@@ -48,7 +48,7 @@ func CachedWrite(fn, str string, append bool) error {
 		return err
 	}
 	if append {
-		data, err = CachedRead(fn)
+		data, err = Read(fn)
 		if err != nil {
 			return err
 		}
@@ -59,7 +59,7 @@ func CachedWrite(fn, str string, append bool) error {
 	return nil
 }
 
-func StopCache() {
+func Stop() {
 	if cacheInit == true {
 		fileCache.DeleteAllWithFunc(cacheWorker)
 	}

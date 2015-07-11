@@ -1,7 +1,7 @@
 package cachedfile
 
 import (
-	"../file"
+	"simonwaldherr.de/go/golibs/file"
 	"testing"
 )
 
@@ -10,25 +10,25 @@ func Test_Cache(t *testing.T) {
 
 	fn = "./test.txt"
 
-	CachedWrite(fn, "\nFoobar\n", true)
-	CachedWrite(fn, "\nFoobar\n", true)
+	Write(fn, "\nFoobar\n", true)
+	Write(fn, "\nFoobar\n", true)
 
 	fs, _ = file.Read(fn)
-	ca, _ = CachedRead(fn)
+	ca, _ = Read(fn)
 	original = fs
 
 	if fs == ca {
 		t.Fatalf("CachedFile Test 1 failed")
 	}
 
-	StopCache()
+	Stop()
 
 	fs, _ = file.Read(fn)
-	ca, _ = CachedRead(fn)
+	ca, _ = Read(fn)
 
 	if fs != ca {
 		t.Fatalf("CachedFile Test 2 failed")
 	}
 
-	CachedWrite(fn, original, false)
+	Write(fn, original, false)
 }

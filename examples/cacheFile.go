@@ -3,9 +3,9 @@
 package main
 
 import (
-	"../file"
-	"../cachedfile"
 	"log"
+	"simonwaldherr.de/go/golibs/cachedfile"
+	"simonwaldherr.de/go/golibs/file"
 	"time"
 )
 
@@ -15,25 +15,25 @@ func main() {
 	fn = "./test.txt"
 
 	log.Println(file.GetAbsolutePath(fn))
-	cachedfile.CachedWrite(fn, "\nFoobar\n", true)
+	cachedfile.Write(fn, "\nFoobar\n", true)
 	time.Sleep(5 * time.Second)
-	cachedfile.CachedWrite(fn, "\nFoobar\n", true)
-	time.Sleep(5 * time.Second)
-
-	fs, _ = file.Read(fn)
-	ca, _ = cachedfile.CachedRead(fn)
-	log.Printf("\nfile:\t%v\ncached:\t%v\n\n", fs, ca)
-
-	cachedfile.CachedWrite(fn, "\nFoobar\n", true)
-	time.Sleep(5 * time.Second)
-	cachedfile.CachedWrite(fn, "\nFoobar\n", true)
+	cachedfile.Write(fn, "\nFoobar\n", true)
 	time.Sleep(5 * time.Second)
 
 	fs, _ = file.Read(fn)
-	ca, _ = cachedfile.CachedRead(fn)
+	ca, _ = cachedfile.Read(fn)
 	log.Printf("\nfile:\t%v\ncached:\t%v\n\n", fs, ca)
 
-	cachedfile.CachedWrite(fn, "\nFoobar\n", true)
+	cachedfile.Write(fn, "\nFoobar\n", true)
+	time.Sleep(5 * time.Second)
+	cachedfile.Write(fn, "\nFoobar\n", true)
+	time.Sleep(5 * time.Second)
+
+	fs, _ = file.Read(fn)
+	ca, _ = cachedfile.Read(fn)
+	log.Printf("\nfile:\t%v\ncached:\t%v\n\n", fs, ca)
+
+	cachedfile.Write(fn, "\nFoobar\n", true)
 	time.Sleep(25 * time.Second)
-	cachedfile.StopCache()
+	cachedfile.Stop()
 }
