@@ -4,6 +4,8 @@ declare -a libs=(ansi arg as cache cachedfile file graphics re regex ssl stack x
 
 echo "COVERAGE TEST" > coverage.log
 
+BADGEBUILD=" ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  "
+
 for i in "${libs[@]}"
 do
 	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
@@ -33,6 +35,7 @@ do
 		 echo "$i 0% (could not build)"
 		 echo "$i 0% (could not build)" >> coverage.log
 
+		 BADGEBUILD=" ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square) |  | go test ./...  "
 		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
 		 NHEADER="###$i - $BADGEDOC $BADGECOV $BADGEBLD"
 	 else
@@ -49,6 +52,8 @@ do
      cat README.md | replace "$CHEADER" "$NHEADER" > README.$i.md; mv README.$i.md README.md
 	 fi
 done
+
+cat README.md | replace "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" > README.x.md; mv README.x.md README.md
 
 cp ./file/test.txt ./cachedfile/test.txt
 cp ./file/test.txt ./examples/test.txt

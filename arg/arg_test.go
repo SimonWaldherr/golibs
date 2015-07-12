@@ -17,6 +17,6 @@ func Test_String(t *testing.T) {
 	Dump()
 
 	if str != "" {
-		t.Fatalf("arg.String Test failed")
+		t.Fatalf("arg.String Test failed, str contains: %v", str)
 	}
 }
