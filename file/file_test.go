@@ -252,23 +252,19 @@ func TestHomeDir(t *testing.T) {
 func TestGetAbsolutePath(t *testing.T) {
 	wd, _ := os.Getwd()
 	wd = strings.Replace(wd+"--", "file--", "", 1)
+
 	for i, te := range pathTests {
 		input := te.in
 		expected := te.out
 		if i > 1 {
 			expected = strings.Replace(expected, "/Users/simonwaldherr/git/golibs/", wd, 1)
+			if runtime.GOOS == "windows" {
+				expected = strings.Replace(expected, "/", "\\", -1)
+			}
 		} else if runtime.GOOS == "windows" {
-			//input = strings.Replace(input, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
-			//expected = strings.Replace(expected, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
-			expected = strings.Replace(expected, "/", "\\", -1)
 			input = strings.Replace(input, "/", "\\", -1)
 		}
 		converted, err := GetAbsolutePath(te.in)
-
-		// replace magnum ci home dir
-		converted = strings.Replace(converted, "/home/magnum/", "/Users/simonwaldherr/git/", 1)
-		// replace travis ci home dir
-		converted = strings.Replace(converted, "/home/travis/gopath/src/github.com/SimonWaldherr/", "/Users/simonwaldherr/git/", 1)
 
 		if !(runtime.GOOS == "windows" && i == 6) {
 			if converted != expected {

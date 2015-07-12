@@ -50,5 +50,7 @@ do
 	 fi
 done
 
+cp ./file/test.txt ./cachedfile/test.txt
+cp ./file/test.txt ./examples/test.txt
 git add coverage.log
 git add README.md
