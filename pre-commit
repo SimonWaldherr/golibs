@@ -7,14 +7,48 @@ echo "COVERAGE TEST" > coverage.log
 for i in "${libs[@]}"
 do
 	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
+	 COVERAGE="$(echo $COVER | sed -E "s/^.+ ([0-9.%]+) .+/\1/")"
+	 COVERINT="$(echo $COVER | sed -E "s/^.+ ([0-9]+).[0-9]%.+/\1/")"
+	 CHEADER="$(cat README.md | grep "###" | grep "$i ")"
+
+	 if [ "$COVERINT" -gt "90" ]; then
+		 COVCOL="brightgreen"
+	 elif [ "$COVERINT" -gt "80" ]; then
+		 COVCOL="green"
+	 elif [ "$COVERINT" -gt "70" ]; then
+		 COVCOL="yellowgreen"
+	 elif [ "$COVERINT" -gt "60" ]; then
+		 COVCOL="yellow"
+	 elif [ "$COVERINT" -gt "50" ]; then
+		 COVCOL="orange"
+	 else
+		 COVCOL="red"
+	 fi
+
+	 BADGEDOC="[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/$i)"
+	 BADGECOV="[![Coverage Status](https://img.shields.io/badge/coverage-$COVERINT%25-$COVCOL.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs)"
+	 BADGEBLD=""
+
 	 if [ "x$COVER" == "x" ]; then
 		 echo "$i 0% (could not build)"
 		 echo "$i 0% (could not build)" >> coverage.log
+
+		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
+		 NHEADER="###$i - $BADGEDOC $BADGECOV $BADGEBLD"
 	 else
 		 echo "$i $COVER"
 		 echo "$i $COVER" >> coverage.log
+
+		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
+		 NHEADER="###$i - $BADGEDOC $BADGECOV $BADGEBLD"
+
 		 rm "$i.coverprofile"
+	 fi
+
+	 if [ "x$CHEADER" != "x" ]; then
+     cat README.md | replace "$CHEADER" "$NHEADER" > README.$i.md; mv README.$i.md README.md
 	 fi
 done
 
 git add coverage.log
+git add README.md
