@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Cache(t *testing.T) {
+func Test_Cache1(t *testing.T) {
 	var fn, fs, ca, original string
 
 	fn = "./test.txt"
@@ -31,4 +31,30 @@ func Test_Cache(t *testing.T) {
 	}
 
 	Write(fn, original, false)
+	Stop()
+}
+
+func Test_Cache2(t *testing.T) {
+	fn := "./test.txt"
+
+	str, _ := Read(fn)
+	if str != "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." {
+		t.Fatalf("CachedFile Test 3 failed")
+	}
+}
+
+func Test_Cache3(t *testing.T) {
+	var err error
+	var fn string
+	fn = ""
+
+	_, err = Read(fn)
+	if err == nil {
+		t.Fatalf("CachedFile Test 4 failed")
+	}
+
+	err = Write(fn, fn, false)
+	if err == nil {
+		t.Fatalf("CachedFile Test 5 failed")
+	}
 }

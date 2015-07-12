@@ -13,7 +13,7 @@ type Item struct {
 }
 
 func (item *Item) isExpired() bool {
-	if item.Expiration.IsZero() == true {
+	if item.Expiration.IsZero() {
 		return false
 	}
 	return item.Expiration.Before(time.Now())

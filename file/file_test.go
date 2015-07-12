@@ -75,11 +75,15 @@ func Test_Read(t *testing.T) {
 func Test_ReadUntil(t *testing.T) {
 	content, lastChar, pos, err := ReadUntil("file_test.go", []string{"\n", "\r"})
 	if err != nil || content != "package file" || lastChar != "\n" || pos != 12 {
-		t.Fatalf("file.ReadUntil Test failed")
+		t.Fatalf("file.ReadUntil Test #1 failed")
 	}
 	content, lastChar, pos, err = ReadUntil("file1.go", []string{"\n", "\r"})
 	if err == nil {
-		t.Fatalf("file.ReadUntil Test failed")
+		t.Fatalf("file.ReadUntil Test #2 failed")
+	}
+	content, lastChar, pos, err = ReadUntil("file1.go", []string{"😃"})
+	if err == nil || lastChar != "" {
+		t.Fatalf("file.ReadUntil Test #3 failed: %v %v", err, lastChar)
 	}
 }
 
@@ -95,7 +99,15 @@ func Test_ReadBlocks(t *testing.T) {
 	lines2 = strings.Count(content, "\n")
 	log.Printf("x:%v x:%v\n", lines1, lines2)
 	if err != nil || (lines1 != lines2+1) {
-		t.Fatalf("file.ReadBlocks Test failed")
+		t.Fatalf("file.ReadBlocks1 Test failed")
+	}
+
+	content, err = ReadBlocks("", []string{"\n", "\r"}, func(x string) (string, error) {
+		lines1++
+		return x, nil
+	})
+	if err == nil {
+		t.Fatalf("file.ReadBlocks2 Test failed")
 	}
 }
 
@@ -250,6 +262,9 @@ func TestHomeDir(t *testing.T) {
 }
 
 func TestGetAbsolutePath(t *testing.T) {
+	var err error
+	var converted string
+
 	wd, _ := os.Getwd()
 	wd = strings.Replace(wd+"--", "file--", "", 1)
 
@@ -264,12 +279,30 @@ func TestGetAbsolutePath(t *testing.T) {
 		} else if runtime.GOOS == "windows" {
 			input = strings.Replace(input, "/", "\\", -1)
 		}
-		converted, err := GetAbsolutePath(te.in)
+		converted, err = GetAbsolutePath(te.in)
 
 		if !(runtime.GOOS == "windows" && i == 6) {
 			if converted != expected {
-				t.Errorf("Failed test #%d\nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, input, expected, converted, err)
+				t.Errorf("GetAbsolutePath test #%d failed \nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, input, expected, converted, err)
 			}
+		}
+	}
+	if runtime.GOOS != "windows" {
+		converted, err = GetAbsolutePath("")
+		if err == nil {
+			t.Errorf("GetAbsolutePath test #8 failed: %v", converted)
+		}
+		converted, err = GetAbsolutePath("///")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #9 failed: %v", converted)
+		}
+		converted, err = GetAbsolutePath("/././")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #10 failed: %v", converted)
+		}
+		converted, err = GetAbsolutePath("/../")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #11 failed: %v", converted)
 		}
 	}
 }

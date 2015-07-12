@@ -34,6 +34,69 @@ func Test_Cache_Expire(t *testing.T) {
 	}
 }
 
+func Test_Cache_DeleteExpiredWithFunc(t *testing.T) {
+	c := New(100*time.Millisecond, 2*time.Second)
+	var count int
+
+	for i := 0; i < 100; i++ {
+		key, value = string(i), "test"
+		c.Set(key, value)
+	}
+
+	for i := 0; i < 50; i++ {
+		key = string(i)
+		c.Get(key)
+		time.Sleep(10 * time.Millisecond)
+	}
+	size := c.Size()
+	c.DeleteExpiredWithFunc(func(key string, value interface{}) {
+		count++
+	})
+
+	if size != count {
+		t.Fatalf("Cache_DeleteExpiredWithFunc Test failed")
+	}
+}
+
+func Test_Cache_DeleteAllWithFunc(t *testing.T) {
+	c := New(100*time.Second, 100*time.Second)
+	var count int
+
+	for i := 0; i < 100; i++ {
+		key, value = string(i), "test"
+		c.Set(key, value)
+	}
+
+	size := c.Size()
+	c.DeleteAllWithFunc(func(key string, value interface{}) {
+		count++
+	})
+
+	if size != count {
+		t.Fatalf("Cache_DeleteAllWithFunc Test failed")
+	}
+}
+
+func Test_Cache_DeleteAllWithFunc2(t *testing.T) {
+	var count int
+	c := New2(100*time.Millisecond, 60*time.Millisecond, func(key string, value interface{}) {
+		count++
+	})
+
+	for i := 0; i < 100; i++ {
+		key, value = string(i), "test"
+		c.Set(key, value)
+	}
+
+	size1 := c.Size()
+	time.Sleep(130 * time.Millisecond)
+	size2 := c.Size()
+
+	if size1 != 100 || size2 != 0 {
+		t.Fatalf("Cache_DeleteAllWithFunc2 Test failed")
+	}
+}
+
 func Test_Cache_Overwrite(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
 

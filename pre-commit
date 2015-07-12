@@ -8,6 +8,7 @@ BADGEBUILD=" ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Buil
 
 for i in "${libs[@]}"
 do
+	 go fmt ./$i
 	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
 	 COVERAGE="$(echo $COVER | sed -E "s/^.+ ([0-9.%]+) .+/\1/")"
 	 COVERINT="$(echo $COVER | sed -E "s/^.+ ([0-9]+).[0-9]%.+/\1/")"
@@ -49,7 +50,7 @@ do
 	 fi
 
 	 if [ "x$CHEADER" != "x" ]; then
-     cat README.md | replace "$CHEADER" "$NHEADER" > README.$i.md; mv README.$i.md README.md
+		 cat README.md | replace "$CHEADER" "$NHEADER" > README.$i.md; mv README.$i.md README.md
 	 fi
 done
 
