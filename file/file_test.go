@@ -250,12 +250,15 @@ func TestHomeDir(t *testing.T) {
 }
 
 func TestGetAbsolutePath(t *testing.T) {
+	wd, _ := os.Getwd()
+	wd = strings.Replace(wd+"--", "file--", "", 1)
 	for i, te := range pathTests {
 		input := te.in
 		expected := te.out
+		expected = strings.Replace(expected, "/Users/simonwaldherr/git/golibs/", wd, 1)
 		if runtime.GOOS == "windows" {
-			input = strings.Replace(input, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
-			expected = strings.Replace(expected, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
+			//input = strings.Replace(input, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
+			//expected = strings.Replace(expected, "/Users/simonwaldherr/git", "c:\\gopath\\src\\github.com\\simonwaldherr", 1)
 			expected = strings.Replace(expected, "/", "\\", -1)
 			input = strings.Replace(input, "/", "\\", -1)
 		}
