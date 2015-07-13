@@ -78,3 +78,16 @@ func Test_Cache4(t *testing.T) {
 		t.Fatalf("CachedFile Test 9 failed")
 	}
 }
+
+func Test_Cache5(t *testing.T) {
+	var err error
+	var fn string
+
+	Reset()
+	fn = "😃"
+
+	_, err = Size(fn)
+	if err == nil {
+		t.Fatalf("CachedFile Test 10 failed")
+	}
+}

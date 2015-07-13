@@ -1,9 +1,9 @@
 COVERAGE TEST
 ansi coverage: 100.0% of statements
 arg coverage: 89.5% of statements
-as coverage: 98.0% of statements
+as coverage: 99.3% of statements
 cache coverage: 93.8% of statements
-cachedfile coverage: 86.5% of statements
+cachedfile coverage: 97.4% of statements
 file coverage: 91.2% of statements
 graphics coverage: 96.6% of statements
 re coverage: 100.0% of statements

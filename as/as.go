@@ -381,9 +381,9 @@ func Uint(valuea ...interface{}) uint64 {
 
 // Type returns a type (string) of a string.
 func Type(str string) (string, error) {
+	var err error
 	str = strings.Trim(str, " \t\n\r")
 	for _, b := range regex {
-		var err error
 		var match bool
 		re := "(?i)^" + b.re + "$"
 		if match, err = regexp.MatchString(re, str); match == true {
@@ -391,11 +391,8 @@ func Type(str string) (string, error) {
 			return b.typ, nil
 		}
 		//fmt.Printf("%v tested for %v with %v; result: %v\n", str, b.typ, b.re, match)
-		if err != nil {
-			return "", err
-		}
 	}
-	return "", nil
+	return "", err
 }
 
 // DBType returns a Database Type of a string.

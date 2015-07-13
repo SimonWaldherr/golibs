@@ -78,3 +78,8 @@ func Stop() {
 		fileCache.DeleteAllWithFunc(cacheWorker)
 	}
 }
+
+func Reset() {
+	fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
+	cacheInit = false
+}
