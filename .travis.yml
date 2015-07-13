@@ -8,18 +8,19 @@ go:
     - release
     - tip
 
+before_install:
+    - go get github.com/axw/gocov/...
+    - go get github.com/mattn/goveralls
+    - go get golang.org/x/tools/cmd/cover
+
 install:
     - go get -t ./...
-    - go get simonwaldherr.de/go/golibs/...
-    - go get golang.org/x/tools/cmd/cover
-    - go get github.com/axw/gocov/gocov
+    - go get -t simonwaldherr.de/go/golibs/...
     - go get github.com/modocache/gover
-    - go get github.com/mattn/goveralls
     - go get golang.org/x/image/webp
-    - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
 
 script:
-    - go test -v ./...
+    - go test ./...
     - go test -v -coverprofile=ansi.coverprofile ./ansi
     - go test -v -coverprofile=arg.coverprofile ./arg
     - go test -v -coverprofile=as.coverprofile ./as

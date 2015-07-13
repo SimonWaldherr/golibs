@@ -31,6 +31,10 @@ func Test_Main(t *testing.T) {
 	if err == nil {
 		t.Fatalf("There should be an error about a missing file\n")
 	}
+	err = Check("x.cert", "x.key")
+	if err != nil {
+		t.Fatalf("There should be no error\n")
+	}
 	options["keyPath"] = "/not/existing/path/x.key"
 	err = Generate(options)
 	if err == nil {

@@ -44,4 +44,12 @@ func Test_FindAllStringSubmatch(t *testing.T) {
 	if fmt.Sprintf("%v", FindAllStringSubmatch("a short text", "[a-z]+")) != "[[a] [short] [text]]" {
 		t.Fatalf("FindAllStringSubmatch failed")
 	}
+
+	if fmt.Sprintf("%v", FindAllStringSubmatch("text", "[a-z]")) != "[[t] [e] [x] [t]]" {
+		t.Fatalf("FindAllStringSubmatch failed")
+	}
+
+	if fmt.Sprintf("%v", FindAllStringSubmatch("1337", "\\d")) != "[[1] [3] [3] [7]]" {
+		t.Fatalf("FindAllStringSubmatch failed")
+	}
 }

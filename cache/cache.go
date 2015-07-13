@@ -1,8 +1,10 @@
 package cache
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
+	"sort"
 	"syscall"
 	"time"
 )
@@ -22,6 +24,21 @@ func (item *Item) isExpired() bool {
 type Cache struct {
 	Expiration time.Duration
 	items      map[string]*Item
+}
+
+func (cache *Cache) String() string {
+	var str string
+	var keys []string
+	for k := range cache.items {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		str += k + "\t" + fmt.Sprintf("%v", cache.items[k].Object) + "\n"
+	}
+
+	return str
 }
 
 func (cache *Cache) Set(key string, value interface{}) {

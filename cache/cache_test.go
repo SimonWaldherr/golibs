@@ -166,3 +166,17 @@ func Test_Cache_Size(t *testing.T) {
 		t.Fatalf("Cache_Size Test failed")
 	}
 }
+
+func Test_Cache_String(t *testing.T) {
+	c := New(5*time.Second, 1*time.Second)
+
+	c.Add("0", 23)
+	c.Add("1", 1*time.Second)
+	c.Add("2", "foobar")
+	c.Add("3", false)
+	c.Add("4", []byte("test"))
+
+	if c.String() != "0\t23\n1\t1s\n2\tfoobar\n3\tfalse\n4\t[116 101 115 116]\n" {
+		t.Fatalf("Cache_String Test failed")
+	}
+}

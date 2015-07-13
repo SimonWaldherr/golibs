@@ -59,6 +59,20 @@ func Write(fn, str string, append bool) error {
 	return nil
 }
 
+func Size(fn string) (int64, error) {
+	str, err := Read(fn)
+
+	if err != nil {
+		return -1, err
+	}
+
+	return int64(len(str)), nil
+}
+
+func Clean(fn string) error {
+	return Write(fn, "", false)
+}
+
 func Stop() {
 	if cacheInit == true {
 		fileCache.DeleteAllWithFunc(cacheWorker)
