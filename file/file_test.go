@@ -250,6 +250,23 @@ func Test_Ψ(t *testing.T) {
 	if err == nil {
 		t.Fatalf("file.Delete Test failed")
 	}
+	err = Write("", "", false)
+	if err == nil {
+		t.Fatalf("file.Write Test failed")
+	}
+	err = Each("", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {
+		if extension == "go" && !dir {
+			t.Logf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
+		}
+	})
+	if err == nil {
+		t.Fatalf("file.Each Test failed")
+	}
+	_, err = GetAbsolutePath("//\\//\\......//////..\\\\//😃\\")
+	_, err = GetAbsolutePath("")
+	if err == nil {
+		t.Errorf("file.GetAbsolutePath Test failed")
+	}
 }
 
 func TestHomeDir(t *testing.T) {
