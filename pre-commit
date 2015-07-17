@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export GOPATH="/Users/simonwaldherr/Golang"
+
 declare -a libs=(ansi arg as cache cachedfile file graphics re regex ssl stack xmath)
 
 echo "COVERAGE TEST" > coverage.log
@@ -12,7 +14,7 @@ do
 	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
 	 COVERAGE="$(echo $COVER | sed -E "s/^.+ ([0-9.%]+) .+/\1/")"
 	 COVERINT="$(echo $COVER | sed -E "s/^.+ ([0-9]+).[0-9]%.+/\1/")"
-	 CHEADER="$(cat README.md | grep "###" | grep "$i ")"
+	 CHEADER="$(cat README.md | grep "### " | grep "$i ")"
 
 	 if [ "$COVERINT" -gt "90" ]; then
 		 COVCOL="brightgreen"
@@ -38,13 +40,13 @@ do
 
 		 BADGEBUILD=" ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square) |  | go test ./...  "
 		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
-		 NHEADER="###$i - $BADGEDOC $BADGECOV $BADGEBLD"
+		 NHEADER="### $i - $BADGEDOC $BADGECOV $BADGEBLD"
 	 else
 		 echo "$i $COVER"
 		 echo "$i $COVER" >> coverage.log
 
 		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
-		 NHEADER="###$i - $BADGEDOC $BADGECOV $BADGEBLD"
+		 NHEADER="### $i - $BADGEDOC $BADGECOV $BADGEBLD"
 
 		 rm "$i.coverprofile"
 	 fi
