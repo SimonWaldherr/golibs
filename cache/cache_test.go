@@ -142,6 +142,24 @@ func Test_Cache_Clear(t *testing.T) {
 	}
 }
 
+func Test_Cache_Clear2(t *testing.T) {
+	var count int
+	c := New2(0, 1*time.Second, func(key string, value interface{}) {
+		count++
+	})
+
+	key, value = "foo", "bar"
+	c.Add(key, value)
+
+	c.Clear()
+
+	val := c.Get(key)
+
+	if val != nil {
+		t.Fatalf("Cache_Clear Test failed")
+	}
+}
+
 func Test_Cache_Size(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
 

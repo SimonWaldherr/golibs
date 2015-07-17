@@ -81,7 +81,7 @@ func Test_ReadUntil(t *testing.T) {
 	if err == nil {
 		t.Fatalf("file.ReadUntil Test #2 failed")
 	}
-	content, lastChar, pos, err = ReadUntil("file1.go", []string{"😃"})
+	content, lastChar, pos, err = ReadUntil("file.go", []string{"😃"})
 	if err == nil || lastChar != "" {
 		t.Fatalf("file.ReadUntil Test #3 failed: %v %v", err, lastChar)
 	}

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-export GOPATH="/Users/simonwaldherr/Golang"
-
 declare -a libs=(ansi arg as cache cachedfile file graphics re regex ssl stack xmath)
 
 echo "COVERAGE TEST" > coverage.log
