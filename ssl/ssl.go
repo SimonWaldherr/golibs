@@ -1,3 +1,4 @@
+// Generate SSL Certs via this simple to use ssl package.
 package ssl
 
 import (

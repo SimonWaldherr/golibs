@@ -1,3 +1,4 @@
+// manipulating images pixel by pixel
 package graphics
 
 import (

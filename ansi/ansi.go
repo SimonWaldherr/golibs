@@ -1,4 +1,4 @@
-// "ansi" can print colored and styled text to your terminal.
+// with this package you can print colored and styled text to your terminal.
 package ansi
 
 import (

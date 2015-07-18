@@ -1,4 +1,4 @@
-// "file" wraps around the standard functions to simplify reading and writing on disk
+// file wraps around the standard functions to simplify reading and writing on disk
 package file
 
 import (

@@ -1,4 +1,4 @@
-// "arg" simplifies cli flags (arguments)
+// the arg package simplifies cli flags (arguments)
 package arg
 
 import (

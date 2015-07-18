@@ -1,3 +1,4 @@
+// simplifies file access and adds a simple caching method
 package cachedfile
 
 import (

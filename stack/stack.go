@@ -1,3 +1,5 @@
+// stack implements a stack with "last in, first out" functionality.
+// it also provides a ring memory type which overrides itself after n write ops.
 package stack
 
 // Lifo returns a pointer to a new stack.

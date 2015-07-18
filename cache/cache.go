@@ -1,3 +1,4 @@
+// simple caching with GC
 package cache
 
 import (

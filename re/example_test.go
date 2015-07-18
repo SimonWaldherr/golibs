@@ -8,7 +8,7 @@ import (
 
 func ExampleDo() {
 	values := []string{"a", "b", "c", "d", "e"}
-	data, stop := re.Do(time.Millisecond*10, func(data chan<- interface{}) {
+	data, stop := re.Do(time.Millisecond*100, func(data chan<- interface{}) {
 		for i := 0; i < 5; i++ {
 			data <- fmt.Sprintf("%v", values[i])
 		}
@@ -22,7 +22,7 @@ func ExampleDo() {
 		}
 	}
 	stop <- true
-	time.Sleep(time.Millisecond * 100)
+	time.Sleep(time.Millisecond * 500)
 
 	// Output:
 	// a:0

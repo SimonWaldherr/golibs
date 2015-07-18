@@ -52,9 +52,9 @@ func Test_Try_Panic(t *testing.T) {
 }
 
 func Test_Do(t *testing.T) {
-	data, stop := Do(time.Millisecond*10, func(data chan<- interface{}) {
+	data, stop := Do(time.Millisecond*100, func(data chan<- interface{}) {
 		for i := 0; i < 10; i++ {
-			time.Sleep(time.Microsecond * 300)
+			time.Sleep(time.Microsecond * 600)
 			data <- fmt.Sprintf("\n%v: %v", time.Now().Format("02.01.2006 15:04:05"), i)
 		}
 	})

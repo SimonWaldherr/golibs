@@ -1,3 +1,5 @@
+// wanna do something several times?
+// Then this is the correct package for you.
 package re
 
 import (
