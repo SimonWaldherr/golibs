@@ -30,7 +30,7 @@ var regex = [...]ree{
 		re:  "[-+]?[0-9]*[\\.,]?[0-9]+([eE][-+]?[0-9]+)?",
 	}, {
 		typ: "price",
-		re:  "((€|$|¢|£|EURO?|DM|USD) ?)?[-+]?[0-9]*[\\.,]?[0-9]+([eE][-+]?[0-9]+)?( ?(€|$|¢|£|EURO?|DM|USD))?",
+		re:  "((€|\\$|¢|£|EURO?|DM|USD) ?)?[-+]?[0-9]*[\\.,]?[0-9]+([eE][-+]?[0-9]+)?( ?(€|\\$|¢|£|EURO?|DM|USD))?",
 	}, {
 		typ: "url",
 		re:  "(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?",
@@ -54,7 +54,10 @@ var regex = [...]ree{
 		re:  "#[a-f0-9]{2,6}",
 	}, {
 		typ: "color",
-		re:  "rgb\\( *\\d *, *\\d *, *\\d\\ *\\)",
+		re:  "(rgb|hsl|yuv)\\( *[\\d\\.%]+ *, *[\\d\\.%]+ *, *[\\d\\.%]+ *\\)",
+	}, {
+		typ: "color",
+		re:  "(rgba|cmyk)\\( *\\d+ *, *\\d+ *, *\\d+ *, *\\d+ *\\)",
 	}, {
 		typ: "isbn",
 		re:  "(1(?:(0)|3))?:?[- ]?(\\s)*[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]*[- ]*[xX0-9]",
@@ -380,9 +383,12 @@ func Uint(valuea ...interface{}) uint64 {
 }
 
 // Type returns a type (string) of a string.
-func Type(str string) (string, error) {
+func Type(valuea ...interface{}) (string, error) {
 	var err error
-	str = strings.Trim(str, " \t\n\r")
+	str := strings.Trim(String(valuea[0]), " \t\n\r")
+	if !Time(str).IsZero() {
+		return "date", nil
+	}
 	for _, b := range regex {
 		var match bool
 		re := "(?i)^" + b.re + "$"

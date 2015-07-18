@@ -71,7 +71,27 @@ func ExampleTime() {
 }
 
 func ExampleType() {
-	values := []string{"5€", "13,37", "https://simonwaldherr.de/", "127.0.0.1", "#ffffff"}
+	values := []string{
+		"false",
+		"0",
+		"3",
+		"5€",
+		"23$",
+		"42¢",
+		"1.337£",
+		"020161586X",
+		"13,37",
+		"https://simonwaldherr.de/",
+		"contact@simonwaldherr.de",
+		"127.0.0.1",
+		"rgb(255, 231, 200)",
+		"#ffffff",
+		"#03a",
+		"06.06.1989",
+		"2010/07/29",
+		"2006-01-02",
+		"¢«∑€®†Ω¨⁄øπ•±‘æœ@∆ºª©ƒ∂‚å≤¥≈ç√∫~µ∞…–¡“≠¿'¬”ﬁ",
+	}
 
 	fmt.Println("as.Type()")
 	for _, v := range values {
@@ -81,9 +101,23 @@ func ExampleType() {
 
 	// Output:
 	// as.Type()
+	// false => bool
+	// 0 => bool
+	// 3 => int
 	// 5€ => price
+	// 23$ => price
+	// 42¢ => price
+	// 1.337£ => price
+	// 020161586X => isbn
 	// 13,37 => float
 	// https://simonwaldherr.de/ => url
+	// contact@simonwaldherr.de => email
 	// 127.0.0.1 => ipv4
+	// rgb(255, 231, 200) => color
 	// #ffffff => color
+	// #03a => color
+	// 06.06.1989 => date
+	// 2010/07/29 => date
+	// 2006-01-02 => date
+	// ¢«∑€®†Ω¨⁄øπ•±‘æœ@∆ºª©ƒ∂‚å≤¥≈ç√∫~µ∞…–¡“≠¿'¬”ﬁ =>
 }
