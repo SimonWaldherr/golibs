@@ -2,6 +2,8 @@ package re_test
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"simonwaldherr.de/go/golibs/re"
 	"time"
 )
@@ -30,4 +32,24 @@ func ExampleDo() {
 	// c:2
 	// d:3
 	// e:4
+}
+
+func ExampleTry() {
+	re.Try(5, func() error {
+		var err error
+		response, err := http.Get("http://golang.org/")
+		if err != nil {
+			fmt.Printf("%s", err)
+			return err
+		} else {
+			defer response.Body.Close()
+			contents, err := ioutil.ReadAll(response.Body)
+			if err != nil {
+				fmt.Printf("%s", err)
+				return err
+			}
+			fmt.Printf("%s\n", string(contents))
+		}
+		return err
+	})
 }
