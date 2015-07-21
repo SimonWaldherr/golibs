@@ -292,7 +292,7 @@ func changeWD(str string) string {
 	case strings.Contains(str, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\"):
 		// https://ci.appveyor.com/
 		return strings.Replace(str, orig, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\", 1)
-	case strings.Contains(str, "/home/runner/workspace/"):
+	case strings.Contains(str, "/home/runner/golibs/"):
 		// https://semaphoreci.com/
 		return strings.Replace(str, orig, "/home/runner/golibs/", 1)
 	}
@@ -304,6 +304,7 @@ func changeWD(str string) string {
 func TestGetAbsolutePath(t *testing.T) {
 	var err error
 	var converted string
+	var failed bool = false
 
 	for i, te := range pathTests {
 		input := te.in
@@ -322,10 +323,17 @@ func TestGetAbsolutePath(t *testing.T) {
 
 		if !(runtime.GOOS == "windows" && i == 6) {
 			if converted != expected {
+				failed = true
 				t.Errorf("GetAbsolutePath test #%d failed \nIn: \"%s\"\nExpected: \"%s\"\nActually: \"%s\"\nError: \"%v\"", i, input, expected, converted, err)
 			}
 		}
 	}
+
+	if failed {
+		wd, _ := os.Getwd()
+		t.Errorf("os.Getwd() => %s\n", wd)
+	}
+
 	if runtime.GOOS != "windows" {
 		converted, err = GetAbsolutePath("")
 		if err == nil {
