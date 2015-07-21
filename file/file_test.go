@@ -278,18 +278,40 @@ func TestHomeDir(t *testing.T) {
 	}
 }
 
+func changeWD(str string) string {
+	var orig, wd string
+	orig = "/Users/simonwaldherr/git/golibs/"
+
+	switch {
+	case strings.Contains(str, "/home/travis/gopath/"):
+		// https://travis-ci.org/
+		return strings.Replace(str, orig, "/home/travis/gopath/src/github.com/SimonWaldherr/golibs/", 1)
+	case strings.Contains(str, "/home/magnum/golibs/"):
+		// https://magnum-ci.com/
+		return strings.Replace(str, orig, "/home/magnum/golibs/", 1)
+	case strings.Contains(str, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\"):
+		// https://ci.appveyor.com/
+		return strings.Replace(str, orig, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\", 1)
+	case strings.Contains(str, "/home/runner/workspace/"):
+		// https://semaphoreci.com/
+		return strings.Replace(str, orig, "/home/runner/workspace/src/github.com/SimonWaldherr/golibs/", 1)
+	}
+	wd, _ = os.Getwd()
+	wd = strings.Replace(wd+"--", "file--", "", 1)
+	return strings.Replace(str, orig, wd, 1)
+}
+
 func TestGetAbsolutePath(t *testing.T) {
 	var err error
 	var converted string
-
-	wd, _ := os.Getwd()
-	wd = strings.Replace(wd+"--", "file--", "", 1)
 
 	for i, te := range pathTests {
 		input := te.in
 		expected := te.out
 		if i > 1 {
-			expected = strings.Replace(expected, "/Users/simonwaldherr/git/golibs/", wd, 1)
+
+			expected = changeWD(expected)
+
 			if runtime.GOOS == "windows" {
 				expected = strings.Replace(expected, "/", "\\", -1)
 			}
