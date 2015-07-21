@@ -294,7 +294,7 @@ func changeWD(str string) string {
 		return strings.Replace(str, orig, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\", 1)
 	case strings.Contains(str, "/home/runner/workspace/"):
 		// https://semaphoreci.com/
-		return strings.Replace(str, orig, "/home/runner/workspace/src/github.com/SimonWaldherr/golibs/", 1)
+		return strings.Replace(str, orig, "/home/runner/golibs/", 1)
 	}
 	wd, _ = os.Getwd()
 	wd = strings.Replace(wd+"--", "file--", "", 1)
