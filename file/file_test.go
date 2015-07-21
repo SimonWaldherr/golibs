@@ -280,24 +280,25 @@ func TestHomeDir(t *testing.T) {
 
 func changeWD(str string) string {
 	var orig, wd string
+	wd, _ = os.Getwd()
+	wd = strings.Replace(wd+"--", "file--", "", 1)
 	orig = "/Users/simonwaldherr/git/golibs/"
 
 	switch {
-	case strings.Contains(str, "/home/travis/gopath/"):
+	case strings.Contains(wd, "/home/travis/gopath/"):
 		// https://travis-ci.org/
 		return strings.Replace(str, orig, "/home/travis/gopath/src/github.com/SimonWaldherr/golibs/", 1)
-	case strings.Contains(str, "/home/magnum/golibs/"):
+	case strings.Contains(wd, "/home/magnum/golibs/"):
 		// https://magnum-ci.com/
 		return strings.Replace(str, orig, "/home/magnum/golibs/", 1)
-	case strings.Contains(str, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\"):
+	case strings.Contains(wd, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\"):
 		// https://ci.appveyor.com/
 		return strings.Replace(str, orig, "c:\\gopath\\src\\github.com\\simonwaldherr\\golibs\\", 1)
-	case strings.Contains(str, "/home/runner/golibs/"):
+	case strings.Contains(wd, "/home/runner/workspace/"):
 		// https://semaphoreci.com/
 		return strings.Replace(str, orig, "/home/runner/golibs/", 1)
 	}
-	wd, _ = os.Getwd()
-	wd = strings.Replace(wd+"--", "file--", "", 1)
+
 	return strings.Replace(str, orig, wd, 1)
 }
 
