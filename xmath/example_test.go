@@ -76,6 +76,7 @@ func ExampleMean() {
 	fmt.Printf("Harmonic: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.HarmonicMean)))
 	fmt.Printf("Median: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.MedianMean)))
 	fmt.Printf("Rootmeansquare: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.RmsMean)))
+	fmt.Printf("Default: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.Default)))
 
 	// Output:
 	// Arithmetic: []int{10, 12, 14, 20} => 14
@@ -83,4 +84,5 @@ func ExampleMean() {
 	// Harmonic: []int{10, 12, 14, 20} => 13.13
 	// Median: []int{10, 12, 14, 20} => 13
 	// Rootmeansquare: []int{10, 12, 14, 20} => 14.49
+	// Default: []int{10, 12, 14, 20} => 14
 }

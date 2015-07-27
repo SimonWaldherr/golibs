@@ -85,3 +85,16 @@ func Test_ResizeNearestNeighbor(t *testing.T) {
 		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
 	}
 }
+
+func Test_ImageDecodeFail(t *testing.T) {
+	file, err := os.Open("../test.txt")
+	defer func() {
+		file.Close()
+	}()
+
+	_, err = ResizeNearestNeighbor(file, 200, 150)
+
+	if err == nil {
+		t.Fatalf("ImageDecodeFail Test failed: %v", err)
+	}
+}

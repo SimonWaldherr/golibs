@@ -354,3 +354,12 @@ func TestGetAbsolutePath(t *testing.T) {
 		}
 	}
 }
+
+func TestSetHomeDir(t *testing.T) {
+	FakeHomeDir("#")
+	SetHomeDir()
+	str := GetHomeDir()
+	if str == "" {
+		t.Errorf("file.[SG]etHomeDir test #3 failed: %v", str)
+	}
+}

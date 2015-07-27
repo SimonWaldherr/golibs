@@ -232,7 +232,7 @@ func Each(dirname string, recursive bool, fnc func(string, string, string, bool,
 var HomeDir string = ""
 
 func SetHomeDir() string {
-	if runtime.GOOS == "windows" {
+	if HomeDir == "#" || runtime.GOOS == "windows" {
 		home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
 		if home == "" {
 			home = os.Getenv("USERPROFILE")

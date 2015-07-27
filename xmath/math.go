@@ -152,6 +152,7 @@ const (
 	HarmonicMean
 	MedianMean
 	RmsMean
+	Default
 )
 
 func Mean(val interface{}, t Meantype) float64 {
@@ -166,8 +167,6 @@ func Mean(val interface{}, t Meantype) float64 {
 		return Median(val)
 	case RmsMean:
 		return Rootmeansquare(val)
-	default:
-		return Arithmetic(val)
 	}
 	return Arithmetic(val)
 }

@@ -4,10 +4,10 @@ arg coverage: 89.5% of statements
 as coverage: 98.6% of statements
 cache coverage: 95.4% of statements
 cachedfile coverage: 97.4% of statements
-file coverage: 93.4% of statements
-graphics coverage: 96.6% of statements
+file coverage: 96.1% of statements
+graphics coverage: 100.0% of statements
 re coverage: 100.0% of statements
 regex coverage: 100.0% of statements
 ssl coverage: 91.8% of statements
 stack coverage: 100.0% of statements
-xmath coverage: 87.2% of statements
+xmath 0% (could not build)

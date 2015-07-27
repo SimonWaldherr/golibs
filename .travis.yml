@@ -35,6 +35,9 @@ script:
     - go test -v -coverprofile=xmath.coverprofile ./xmath
     - $HOME/gopath/bin/gover
     - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -service=travis-ci
+    - go tool cover -html=gover.coverprofile -o coverage.html
+    - go tool cover -func=gover.coverprofile
+    - wget --post-file=coverage.html "https://simonwaldherr.de/gocover/?repo=golibs&mode=save"
 
 notifications:
   email:
