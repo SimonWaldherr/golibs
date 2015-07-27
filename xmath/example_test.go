@@ -6,9 +6,14 @@ import (
 )
 
 var float = []float64{.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 1.3e2}
+var ints = []int{10, 12, 14, 20}
 
 func round(v float64) int {
 	return xmath.Round(v)
+}
+
+func round2(v float64) float64 {
+	return float64(xmath.Round(v*100)) / 100
 }
 
 func ExampleCount() {
@@ -50,7 +55,7 @@ func ExampleArithmetic() {
 func ExampleMedian() {
 	fmt.Printf("%#v => %v", float, round(xmath.Median(float)))
 
-	// Output: []float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} => 13
+	// Output: []float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} => 9
 }
 
 func ExampleHarmonic() {
@@ -63,4 +68,19 @@ func ExampleGeometric() {
 	fmt.Printf("%#v => %v", float, round(xmath.Geometric(float)))
 
 	// Output: []float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} => 8
+}
+
+func ExampleMean() {
+	fmt.Printf("Arithmetic: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.ArithmeticMean)))
+	fmt.Printf("Geometric: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.GeometricMean)))
+	fmt.Printf("Harmonic: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.HarmonicMean)))
+	fmt.Printf("Median: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.MedianMean)))
+	fmt.Printf("Rootmeansquare: %#v => %v\n", ints, round2(xmath.Mean(ints, xmath.RmsMean)))
+
+	// Output:
+	// Arithmetic: []int{10, 12, 14, 20} => 14
+	// Geometric: []int{10, 12, 14, 20} => 13.54
+	// Harmonic: []int{10, 12, 14, 20} => 13.13
+	// Median: []int{10, 12, 14, 20} => 13
+	// Rootmeansquare: []int{10, 12, 14, 20} => 14.49
 }

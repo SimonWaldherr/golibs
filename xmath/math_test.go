@@ -116,7 +116,7 @@ func Test_Average(t *testing.T) {
 	if (float64(Median(i)) + float64(Arithmetic(i))) != 8 {
 		t.Fatalf("AverageInt Test failed")
 	}
-	if (float64(Median(x)) + float64(Arithmetic(x))) != 17.825 {
+	if (float64(Median(x)) + float64(Arithmetic(x))) != 16.975 {
 		t.Fatalf("AverageInterface Test failed")
 	}
 	if Harmonic(f) != 1.9887784588749662 {

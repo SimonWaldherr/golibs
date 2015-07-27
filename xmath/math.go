@@ -144,6 +144,34 @@ func Max(val interface{}) float64 {
 	return max
 }
 
+type Meantype int
+
+const (
+	ArithmeticMean Meantype = iota
+	GeometricMean
+	HarmonicMean
+	MedianMean
+	RmsMean
+)
+
+func Mean(val interface{}, t Meantype) float64 {
+	switch t {
+	case ArithmeticMean:
+		return Arithmetic(val)
+	case GeometricMean:
+		return Geometric(val)
+	case HarmonicMean:
+		return Harmonic(val)
+	case MedianMean:
+		return Median(val)
+	case RmsMean:
+		return Rootmeansquare(val)
+	default:
+		return Arithmetic(val)
+	}
+	return Arithmetic(val)
+}
+
 // Median returns the median from a slice of Values as float64.
 // The median is the numerical value separating the higher half
 // of a data sample from the lower half. The median of a list of
@@ -162,7 +190,7 @@ func Median(val interface{}) float64 {
 	if c%2 == 1 {
 		return out[c/2]
 	}
-	return (out[c/2] + out[c/2]) / 2
+	return (out[c/2] + out[c/2-1]) / 2
 }
 
 // Arithmetic returns the arithmetic mean from a slice of Values as float64.
@@ -179,6 +207,21 @@ func Arithmetic(val interface{}) float64 {
 		out[i] = as.Float(slice.Index(i).Interface())
 	}
 	return (Sum(out) / float64(len(out)))
+}
+
+// Rootmeansquare returns the root mean square from a slice of Values as float64.
+// The root mean square is the root value of the sum of the squared value of a
+// list of numbers divided by the number of numbers in the list.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Rootmeansquare(val interface{}) float64 {
+	slice := reflect.ValueOf(val)
+	c := slice.Len()
+	out := make([]float64, c)
+	for i := 0; i < c; i++ {
+		out[i] = math.Pow(as.Float(slice.Index(i).Interface()), 2)
+	}
+	return math.Sqrt(Sum(out) / float64(len(out)))
 }
 
 // Harmonic returns the harmonic mean from a slice of Values as float64.
