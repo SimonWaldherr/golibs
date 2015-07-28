@@ -39,6 +39,9 @@ script:
     - go tool cover -func=gover.coverprofile
     - wget --post-file=coverage.html "https://simonwaldherr.de/gocover/?repo=golibs&mode=save"
 
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   email:
     recipients:
