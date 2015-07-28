@@ -40,7 +40,9 @@ script:
     - wget --post-file=coverage.html "https://simonwaldherr.de/gocover/?repo=golibs&mode=save"
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+    - rm coverage.log
+    - cp gover.coverprofile coverage.log
+    - bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov)
 
 notifications:
   email:

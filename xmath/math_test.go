@@ -5,6 +5,11 @@ import "testing"
 var f = []float64{.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.000003}
 var i = []int64{3, 1, 4, 1, 5, 9, 2, 6, 5}
 var x = []interface{}{float64(3.3), int8(5), string("42"), int64(1)}
+var ints = []int{10, 12, 14, 20}
+
+func round2(v float64) float64 {
+	return float64(Round(v*100)) / 100
+}
 
 func Test_Sqrt(t *testing.T) {
 	if Sqrt(9) != 3 {
@@ -124,5 +129,26 @@ func Test_Average(t *testing.T) {
 	}
 	if Geometric(f) != 5.124640442022734 {
 		t.Fatalf("Geometric Test failed")
+	}
+}
+
+func Test_Mean(t *testing.T) {
+	if round2(Mean(ints, ArithmeticMean)) != 14 {
+		t.Fatalf("ArithmeticMean Test failed")
+	}
+	if round2(Mean(ints, GeometricMean)) != 13.54 {
+		t.Fatalf("GeometricMean Test failed")
+	}
+	if round2(Mean(ints, HarmonicMean)) != 13.13 {
+		t.Fatalf("HarmonicMean Test failed")
+	}
+	if round2(Mean(ints, MedianMean)) != 13 {
+		t.Fatalf("MedianMean Test failed")
+	}
+	if round2(Mean(ints, RmsMean)) != 14.49 {
+		t.Fatalf("RmsMean Test failed")
+	}
+	if round2(Mean(ints, Default)) != 14 {
+		t.Fatalf("Default Mean Test failed")
 	}
 }
