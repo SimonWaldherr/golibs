@@ -32,7 +32,7 @@ script:
 - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -service=travis-ci
 - go tool cover -html=gover.coverprofile -o coverage.html
 - go tool cover -func=gover.coverprofile
-- wget --post-file=coverage.html "https://simonwaldherr.de/gocover/?repo=golibs&mode=save&key=$UPLOADSECRET&pull=$TRAVIS_PULL_REQUEST"
+- wget --post-file=coverage.html -q -O- "https://simonwaldherr.de/gocover/?repo=golibs&mode=save&key=$UPLOADSECRET&pull=$TRAVIS_PULL_REQUEST"
 after_success:
 - rm coverage.log
 - cp gover.coverprofile coverage.log
@@ -45,5 +45,4 @@ notifications:
     on_failure: always
 env:
   matrix:
-  - secure: eR0TgDYNBJX3kJ3q1+ULgjXuSUNnVFsBkhWTqqW+eOKMc7zHK/zzlLvn/IeQjCH6KR5ExB8fxIw2W19/lQb/n301PAXU9fISB5W45+vcdzXO7BvT/HEvSnrC9HCxIRmAMfSDIwxRZASqTCm35297vaZg2eDw84D8HsyXssfK5fM=
-  - secure: ULV3wYASyFFJ9yPR9JnEqcITTjEfExMUJ/sYTd7fOuml0ApMIwDZ5lbztFhrMoTC9RGkO99uEP3cBO7ZP0+HChID7tDvVR7j8tl7KTE+2jvjU7nmzyCasEV/UvmzUOqTZSCatFf6b0FTbJRtvr5Tn2r3eokoAX9RTcnZG4FciY8=
+  - secure: DxpD5O3d+UiDqBO4y2qdORXj1EMwUBDEMCUmHg+VDh2LS8Je1SlASVwjeOozMsb1u0HviXcOZZIrEgwaISA7y64HPZzRXfXWtedxKdlElljWd1WqXCbuXkcLP9WKq7cMJ5PCy4zUzNWcMgDp+dCV17VBCul4cPoQrbzzAlq63uk=
