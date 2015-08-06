@@ -112,13 +112,18 @@ func Test_ReadBlocks(t *testing.T) {
 }
 
 func Test_Each(t *testing.T) {
+	var count int
 	err := Each("..", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {
 		if extension == "go" && !dir {
-			t.Logf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
+			//t.Logf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
+			count++
 		}
 	})
 	if err != nil {
 		t.Fatalf("file.Each Test failed")
+	}
+	if count < 10 {
+		t.Fatalf("file.Each Count Test failed")
 	}
 }
 

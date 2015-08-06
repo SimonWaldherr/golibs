@@ -10,8 +10,6 @@ func Test_Main(t *testing.T) {
 	Generate(options)
 
 	if err != nil {
-		t.Log("Couldn't find certs, trying to create new ones\n")
-
 		options["certPath"] = "x.cert"
 		options["keyPath"] = "x.key"
 		options["host"] = "*"
