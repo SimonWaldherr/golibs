@@ -297,6 +297,17 @@ func Test_Type(t *testing.T) {
 	println_type(t, "b8:c7:5d:c6:6c:c6", "mac", "string")
 	println_type(t, "#fefefe", "color", "string")
 	println_type(t, "THk4Z1JFSlVlWEJsSUhKbGRIVnlibk1nWVNCRVlYUmhZbUZ6WlNCVWVYQmxJRzltSUdFZ2MzUnlhVzVuTGcwS1puVnVZeUJFUWxSNWNHVW9jM1J5SUhOMGNtbHVaeWtnYzNSeWFXNW5JSHNOQ2dsMExDQmxjbklnT2owZ1ZIbHdaU2h6ZEhJcERRb0phV1lnWlhKeUlDRTlJRzVwYkNCN0RRb0pDWEpsZEhWeWJpQWljM1J5YVc1bklnMEtDWDBOQ2dsemQybDBZMmdnZENCN0RRb0pZMkZ6WlNBaVltOXZiQ0lzSUNKcGJuUWlMQ0FpYzNSeWFXNW5JaXdnSW1ac2IyRjBJam9OQ2drSmNtVjBkWEp1SUhRTkNnbGtaV1poZFd4ME9nMEtDUWx5WlhSMWNtNGdJbk4wY21sdVp5SU5DZ2w5RFFwOQ==", "base64", "string")
-	println_type(t, "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~ ", "ascii", "string")
+	println_type(t, "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~ ", "string", "string")
 	println_type(t, "😃", "", "string")
+}
+
+func Test_TypeMultiple(t *testing.T) {
+	str := DBTypeMultiple([]string{"int", "float", "bool"})
+	if str != "float" {
+		t.Fatalf("TypeMultiple Test failed with wrong value: %v", str)
+	}
+	str = DBTypeMultiple([]string{"int", "float", "bool", "string", "float", DBType("ascii")})
+	if str != "string" {
+		t.Fatalf("TypeMultiple Test failed with wrong value: %v", str)
+	}
 }

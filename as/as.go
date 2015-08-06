@@ -74,8 +74,11 @@ var regex = [...]ree{
 		typ: "base64",
 		re:  "(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=|[A-Za-z0-9+\\/]{4})",
 	}, {
+		typ: "string",
+		re:  "[[:print:]]+",
+	}, {
 		typ: "ascii",
-		re:  "[\\x00-\\x7F]+",
+		re:  "[[:ascii:]]+",
 	},
 }
 
@@ -413,4 +416,18 @@ func DBType(str string) string {
 	default:
 		return "string"
 	}
+}
+
+func DBTypeMultiple(val []string) string {
+	var typeint int
+	for _, typ := range val {
+		for i, b := range regex {
+			if b.typ == typ {
+				if typeint < i {
+					typeint = i
+				}
+			}
+		}
+	}
+	return regex[typeint].typ
 }
