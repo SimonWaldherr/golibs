@@ -1,6 +1,5 @@
 os:
 - linux
-- osx
 language: go
 sudo: false
 go:
@@ -18,7 +17,9 @@ install:
 - go get github.com/modocache/gover
 - go get golang.org/x/image/webp
 script:
+# test lib with all subfolders
 - go test ./...
+# test all listed subfolders in verbose mode and create a coverprofile for each
 - go test -v -coverprofile=ansi.coverprofile ./ansi
 - go test -v -coverprofile=arg.coverprofile ./arg
 - go test -v -coverprofile=as.coverprofile ./as
@@ -31,10 +32,15 @@ script:
 - go test -v -coverprofile=ssl.coverprofile ./ssl
 - go test -v -coverprofile=stack.coverprofile ./stack
 - go test -v -coverprofile=xmath.coverprofile ./xmath
+# combine all coverprofiles in one file
 - $HOME/gopath/bin/gover
+# send coverage details to Coveralls.io
 - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -service=travis-ci
+# generate a coverage detail HTML page
 - go tool cover -html=gover.coverprofile -o coverage.html
+# print the coverage percentage for each function to the log
 - go tool cover -func=gover.coverprofile
+# upload the previously generated HTML page to simonwaldherr.de (use $UPLOADSECRET as password)
 - wget --post-file=coverage.html -q -O- "https://simonwaldherr.de/gocover/?repo=golibs&mode=save&key=$UPLOADSECRET&pull=$TRAVIS_PULL_REQUEST"
 after_success:
 - rm coverage.log
