@@ -111,6 +111,13 @@ func Test_ReadBlocks(t *testing.T) {
 	}
 }
 
+func Test_ReadDir(t *testing.T) {
+	dir, err := ReadDir(".")
+	if err != nil || len(dir) < 2 {
+		t.Fatalf("file.ReadDir Test failed")
+	}
+}
+
 func Test_Each(t *testing.T) {
 	var count int
 	err := Each("..", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {

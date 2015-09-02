@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"bytes"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -198,6 +199,22 @@ func Delete(fn string) error {
 		return err
 	}
 	return nil
+}
+
+func ReadDir(dn string) ([]string, error) {
+	var flist []string
+	dn, err := GetAbsolutePath(dn)
+	if err != nil {
+		return []string{""}, err
+	}
+	files, err := ioutil.ReadDir("./")
+	if err != nil {
+		return []string{""}, err
+	}
+	for _, f := range files {
+		flist = append(flist, f.Name())
+	}
+	return flist, nil
 }
 
 func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
