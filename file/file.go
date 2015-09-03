@@ -207,7 +207,7 @@ func ReadDir(dn string) ([]string, error) {
 	if err != nil {
 		return []string{""}, err
 	}
-	files, err := ioutil.ReadDir("./")
+	files, err := ioutil.ReadDir(dn)
 	if err != nil {
 		return []string{""}, err
 	}
