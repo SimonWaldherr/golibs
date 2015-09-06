@@ -131,18 +131,20 @@ func Generate(options map[string]string) error {
 		log.Printf("failed to open "+certPath+" for writing: %s", err)
 		return err
 	}
+
 	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 	certOut.Close()
 
-	log.Print("written cert.pem\n")
+	log.Printf("written %v\n", certPath)
 
 	keyOut, err := os.OpenFile(keyPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		log.Print("failed to open "+keyPath+" for writing:", err)
 		return err
 	}
+
 	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 	keyOut.Close()
-	log.Print("written key.pem\n")
+	log.Printf("written %v\n", keyPath)
 	return nil
 }
