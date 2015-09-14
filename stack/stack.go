@@ -31,14 +31,27 @@ func Fifo() *Stack {
 	}
 }
 
+func (s *Stack) Unset() {
+	*s = Stack{
+		nodes: []interface{}{},
+		count: 0,
+		stype: NIL,
+	}
+}
+
 func (s *Stack) ToFifo() *Stack {
+	var x *Stack
 	array := Fifo()
 	if s.stype == FiFo {
+		x = Fifo()
+		*x = *s
 		for s.Len() > 0 {
 			array.Push(s.Pop())
 		}
 	}
 	if s.stype == LiFo {
+		x = Lifo()
+		*x = *s
 		helper := Lifo()
 		for s.Len() > 0 {
 			helper.Push(s.Pop())
@@ -47,17 +60,23 @@ func (s *Stack) ToFifo() *Stack {
 			array.Push(helper.Pop())
 		}
 	}
+	*s = *x
 	return array
 }
 
 func (s *Stack) ToLifo() *Stack {
+	var x *Stack
 	array := Lifo()
 	if s.stype == FiFo {
+		x = Fifo()
+		*x = *s
 		for s.Len() > 0 {
 			array.Push(s.Pop())
 		}
 	}
 	if s.stype == LiFo {
+		x = Lifo()
+		*x = *s
 		helper := Lifo()
 		for s.Len() > 0 {
 			helper.Push(s.Pop())
@@ -66,7 +85,25 @@ func (s *Stack) ToLifo() *Stack {
 			array.Push(helper.Pop())
 		}
 	}
+	*s = *x
 	return array
+}
+
+func (s *Stack) Val() []interface{} {
+	var a *Stack
+	var r []interface{}
+
+	if s.stype == FiFo {
+		a = s.ToFifo()
+	} else if s.stype == LiFo {
+		a = s.ToLifo()
+	}
+
+	for s.Len() > 0 {
+		r = append(r, s.Pop())
+	}
+	*s = *a
+	return r
 }
 
 // Push adds a value to the Stack

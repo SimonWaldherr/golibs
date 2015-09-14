@@ -74,6 +74,67 @@ func Test_LiFo_IsEmptyAgain(t *testing.T) {
 	}
 }
 
+func Test_Convert(t *testing.T) {
+	var str string
+	array := Fifo()
+	array.Push("1")
+	array.Push("2")
+	array.Push("3")
+
+	str = fmt.Sprintf("%v", array.Val())
+	if str != "[1 2 3]" {
+		t.Fatalf("Convert 1 failed: %v", str)
+	}
+
+	array = array.ToFifo()
+
+	str = fmt.Sprintf("%v", array.Val())
+	if str != "[1 2 3]" {
+		t.Fatalf("Convert 2 failed: %v", str)
+	}
+
+	array = array.ToLifo()
+
+	str = fmt.Sprintf("%v", array.Val())
+	if str != "[3 2 1]" {
+		t.Fatalf("Convert 3 failed: %v", str)
+	}
+
+	array = array.ToLifo()
+
+	str = fmt.Sprintf("%v", array.Val())
+	if str != "[3 2 1]" {
+		t.Fatalf("Convert 4 failed: %v", str)
+	}
+
+	array = array.ToFifo()
+
+	str = fmt.Sprintf("%v", array.Val())
+	if str != "[1 2 3]" {
+		t.Fatalf("Convert 5 failed: %v", str)
+	}
+}
+
+func Test_Stack_AddGet(t *testing.T) {
+	array := Fifo()
+	array.Add(1)
+	if array.Get() != 1 {
+		t.Fatalf("Stack Add/Get failed")
+	}
+}
+
+func Test_Stack_Unset(t *testing.T) {
+	array := Fifo()
+	array.Add(true)
+	array.Unset()
+	if array.Len() != -1 {
+		t.Fatalf("Stack Unset 1 failed")
+	}
+	if array.Pop() != "" {
+		t.Fatalf("Stack Unset 2 failed")
+	}
+}
+
 func Test_Ring(t *testing.T) {
 	var ret string
 	ring := Ring()
