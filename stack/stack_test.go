@@ -26,6 +26,54 @@ func Test_Stack(t *testing.T) {
 	}
 }
 
+func Test_FiFo_IsEmpty(t *testing.T) {
+	array := Fifo()
+	if array.IsEmpty() != true {
+		t.Fatalf("FiFo IsEmpty failed")
+	}
+}
+
+func Test_FiFo_IsNotEmpty(t *testing.T) {
+	array := Fifo()
+	array.Push(1)
+	if array.IsEmpty() == true {
+		t.Fatalf("FiFo IsNotEmpty failed")
+	}
+}
+
+func Test_FiFo_IsEmptyAgain(t *testing.T) {
+	array := Fifo()
+	array.Push(1)
+	array.Pop()
+	if array.IsEmpty() != true {
+		t.Fatalf("FiFo IsEmptyAgain failed")
+	}
+}
+
+func Test_LiFo_IsEmpty(t *testing.T) {
+	array := Lifo()
+	if array.IsEmpty() != true {
+		t.Fatalf("LiFo IsEmpty failed")
+	}
+}
+
+func Test_LiFo_IsNotEmpty(t *testing.T) {
+	array := Lifo()
+	array.Push(1)
+	if array.IsEmpty() == true {
+		t.Fatalf("LiFo IsNotEmpty failed")
+	}
+}
+
+func Test_LiFo_IsEmptyAgain(t *testing.T) {
+	array := Lifo()
+	array.Push(1)
+	array.Pop()
+	if array.IsEmpty() != true {
+		t.Fatalf("LiFo IsEmptyAgain failed")
+	}
+}
+
 func Test_Ring(t *testing.T) {
 	var ret string
 	ring := Ring()

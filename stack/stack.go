@@ -2,21 +2,95 @@
 // it also provides a ring memory type which overrides itself after n write ops.
 package stack
 
-// Lifo returns a pointer to a new stack.
-func Lifo() *Stack {
-	return &Stack{}
-}
+type Stype int
 
-// Ring returns a pointer to a new ring.
-func Ring() *Rings {
-	return &Rings{}
-}
+const (
+	NIL Stype = iota
+	LiFo
+	FiFo
+)
 
 // struct Stack contains nodes as slice of interfaces
 // and a counter for the current position.
 type Stack struct {
 	nodes []interface{}
 	count int
+	stype Stype
+}
+
+// Lifo returns a pointer to a new stack.
+func Lifo() *Stack {
+	return &Stack{
+		stype: LiFo,
+	}
+}
+
+func Fifo() *Stack {
+	return &Stack{
+		stype: FiFo,
+	}
+}
+
+// Push adds a value to the Stack
+func (s *Stack) Push(n interface{}) {
+	if s.stype == LiFo {
+		s.nodes = append(s.nodes[:s.count], n)
+		s.count++
+	} else if s.stype == FiFo {
+		s.nodes = append(s.nodes, n)
+	}
+}
+
+func (s *Stack) Add(n interface{}) {
+	s.Push(n)
+}
+
+// Pop returns the last added value and decrease the position counter.
+func (s *Stack) Pop() interface{} {
+	if s.stype == LiFo {
+		if s.count == 0 {
+			return ""
+		}
+		s.count--
+		return s.nodes[s.count]
+	}
+	if s.stype == FiFo {
+		s.count++
+		if s.count-1 == len(s.nodes) {
+			s.count--
+			return ""
+		}
+		
+		return s.nodes[s.count-1]
+	}
+	return ""
+}
+
+func (s *Stack) Get() interface{} {
+	return s.Pop()
+}
+
+// Len returns the current position in the Stack.
+func (s *Stack) Len() int {
+	if s.stype == LiFo {
+		return s.count
+	}
+	if s.stype == FiFo {
+		return len(s.nodes) - s.count
+	}
+	return -1
+}
+
+func (s *Stack) IsEmpty() bool {
+	if s.Len() == 0 {
+		return true
+	}
+	return false
+}
+
+// Ring returns a pointer to a new ring.
+func Ring() *Rings {
+	return &Rings{}
 }
 
 // struct Rings contains nodes as slice of strings,
@@ -28,26 +102,6 @@ type Rings struct {
 	count  int
 	xcount int
 	size   int
-}
-
-// Push adds a value to the Stack
-func (s *Stack) Push(n interface{}) {
-	s.nodes = append(s.nodes[:s.count], n)
-	s.count++
-}
-
-// Pop returns the last added value and decrease the position counter.
-func (s *Stack) Pop() interface{} {
-	if s.count == 0 {
-		return ""
-	}
-	s.count--
-	return s.nodes[s.count]
-}
-
-// Len returns the current position in the Stack.
-func (s *Stack) Len() int {
-	return s.count
 }
 
 // SetSize sets the maximum size of the Ring,
