@@ -57,7 +57,7 @@ const (
 )
 
 func Set(str interface{}, Attribute ...Col) string {
-	var rstr string = fmt.Sprint(str)
+	var rstr = fmt.Sprint(str)
 	for _, attr := range Attribute {
 		rstr = fmt.Sprintf("\033[%vm%v\033[0m", attr, rstr)
 	}

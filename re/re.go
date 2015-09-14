@@ -3,7 +3,6 @@
 package re
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -25,7 +24,7 @@ func Try(retrys int, fn func() (err error)) error {
 		}
 
 		if attempt >= MaxAttempts || attempt >= retrys {
-			return errors.New(fmt.Sprintf("Reached number of attempts (%v)\n%v", (attempt), err))
+			return fmt.Errorf("Reached number of attempts (%v)\n%v", (attempt), err)
 		}
 	}
 	return err

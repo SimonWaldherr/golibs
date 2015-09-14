@@ -90,7 +90,7 @@ func (r *Rings) Push(n string) int {
 // to the current position
 func (r *Rings) Get(from int) []string {
 	ret := make([]string, r.size)
-	var i int = 0
+	var i int
 	for from != r.count {
 		ret[i] = string(r.nodes[from])
 		from++

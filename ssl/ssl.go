@@ -30,6 +30,10 @@ func Check(certPath string, keyPath string) error {
 }
 
 func Generate(options map[string]string) error {
+	var err error
+	var certOut *os.File
+	var derBytes []byte
+
 	priv, err := rsa.GenerateKey(rand.Reader, 2048)
 
 	if err != nil {
@@ -120,20 +124,22 @@ func Generate(options map[string]string) error {
 		IsCA:                  true,
 	}
 
-	derBytes, err := x509.CreateCertificate(rand.Reader, &template, &template, &priv.PublicKey, priv)
-	if err != nil {
+	if derBytes, err = x509.CreateCertificate(rand.Reader, &template, &template, &priv.PublicKey, priv); err != nil {
 		log.Printf("Failed to create certificate: %s", err)
 		return err
 	}
 
-	certOut, err := os.Create(certPath)
-	if err != nil {
+	if certOut, err = os.Create(certPath); err != nil {
 		log.Printf("failed to open "+certPath+" for writing: %s", err)
 		return err
 	}
 
-	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
-	certOut.Close()
+	if err = pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes}); err != nil {
+		return err
+	}
+	if err = certOut.Close(); err != nil {
+		return err
+	}
 
 	log.Printf("written %v\n", certPath)
 
@@ -143,8 +149,13 @@ func Generate(options map[string]string) error {
 		return err
 	}
 
-	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
-	keyOut.Close()
+	if err = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)}); err != nil {
+		return err
+	}
+
+	if err = keyOut.Close(); err != nil {
+		return err
+	}
 	log.Printf("written %v\n", keyPath)
 	return nil
 }

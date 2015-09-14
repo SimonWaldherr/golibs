@@ -97,7 +97,7 @@ func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})
 }
 
 func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) {
-	for k, _ := range cache.items {
+	for k := range cache.items {
 		fn(k, cache.items[k].Object)
 		cache.Delete(k)
 	}

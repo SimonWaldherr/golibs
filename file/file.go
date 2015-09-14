@@ -63,15 +63,21 @@ func IsSymlink(fn string) bool {
 }
 
 func Read(fn string) (string, error) {
-	buf := bytes.NewBuffer(nil)
-	file, err := os.Open(fn)
+	var file *os.File
+	var err error
 
-	defer file.Close()
+	buf := bytes.NewBuffer(nil)
+
+	file, err = os.Open(fn)
 
 	if err != nil {
 		return "", err
 	}
-	io.Copy(buf, file)
+	defer file.Close()
+
+	if _, err = io.Copy(buf, file); err != nil {
+		return "", err
+	}
 
 	s := string(buf.Bytes())
 	return s, nil
@@ -136,28 +142,27 @@ func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (st
 }
 
 func Write(fn, str string, append bool) error {
-	var (
-		file *os.File
-		err  error
-	)
+	var file *os.File
+	var err error
+
 	if append {
 		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
 	} else {
 		file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
 	}
 
+	if err != nil {
+		return err
+	}
 	defer file.Close()
 
-	if err != nil {
+	if _, err = file.WriteString(str); err != nil {
 		return err
 	}
 
-	_, err = file.WriteString(str)
-	if err != nil {
+	if err = file.Sync(); err != nil {
 		return err
 	}
-
-	file.Sync()
 	return nil
 }
 
@@ -246,7 +251,7 @@ func Each(dirname string, recursive bool, fnc func(string, string, string, bool,
 	return nil
 }
 
-var HomeDir string = ""
+var HomeDir string
 
 func SetHomeDir() string {
 	if HomeDir == "#" || runtime.GOOS == "windows" {

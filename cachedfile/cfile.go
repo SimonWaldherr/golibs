@@ -9,7 +9,7 @@ import (
 )
 
 var fileCache *cache.Cache
-var cacheInit bool = false
+var cacheInit bool
 
 func cacheWorker(key string, value interface{}) {
 	file.Write(key, fmt.Sprint(value), false)
