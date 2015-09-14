@@ -88,6 +88,74 @@ func ExampleStack2() {
 	// 
 }
 
+func ExampleToFifo() {
+	array1 := stack.Lifo()
+	array1.Push(1)
+	array1.Push(2)
+	array1.Push(3)
+	array1.Push(4)
+	array2 := array1.ToFifo()
+	for array2.Len() > 0 {
+		fmt.Println(as.String(array2.Pop()))
+	}
+
+	// 1
+	// 2
+	// 3
+	// 4
+}
+
+func ExampleToFifoFromFifo() {
+	array1 := stack.Fifo()
+	array1.Push(1)
+	array1.Push(2)
+	array1.Push(3)
+	array1.Push(4)
+	array2 := array1.ToFifo()
+	for array2.Len() > 0 {
+		fmt.Println(as.String(array2.Pop()))
+	}
+
+	// 1
+	// 2
+	// 3
+	// 4
+}
+
+func ExampleToLifo() {
+	array1 := stack.Fifo()
+	array1.Push(1)
+	array1.Push(2)
+	array1.Push(3)
+	array1.Push(4)
+	array2 := array1.ToLifo()
+	for array2.Len() > 0 {
+		fmt.Println(as.String(array2.Pop()))
+	}
+
+	// 4
+	// 3
+	// 2
+	// 1
+}
+
+func ExampleToLifoFromLifo() {
+	array1 := stack.Lifo()
+	array1.Push(1)
+	array1.Push(2)
+	array1.Push(3)
+	array1.Push(4)
+	array2 := array1.ToLifo()
+	for array2.Len() > 0 {
+		fmt.Println(as.String(array2.Pop()))
+	}
+
+	// 4
+	// 3
+	// 2
+	// 1
+}
+
 func ExampleRings() {
 	ring := stack.Ring()
 	ring.Init(4)

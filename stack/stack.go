@@ -31,6 +31,44 @@ func Fifo() *Stack {
 	}
 }
 
+func (s *Stack) ToFifo() *Stack {
+	array := Fifo()
+	if s.stype == FiFo {
+		for s.Len() > 0 {
+			array.Push(s.Pop())
+		}
+	}
+	if s.stype == LiFo {
+		helper := Lifo()
+		for s.Len() > 0 {
+			helper.Push(s.Pop())
+		}
+		for helper.Len() > 0 {
+			array.Push(helper.Pop())
+		}
+	}
+	return array
+}
+
+func (s *Stack) ToLifo() *Stack {
+	array := Lifo()
+	if s.stype == FiFo {
+		for s.Len() > 0 {
+			array.Push(s.Pop())
+		}
+	}
+	if s.stype == LiFo {
+		helper := Lifo()
+		for s.Len() > 0 {
+			helper.Push(s.Pop())
+		}
+		for helper.Len() > 0 {
+			array.Push(helper.Pop())
+		}
+	}
+	return array
+}
+
 // Push adds a value to the Stack
 func (s *Stack) Push(n interface{}) {
 	if s.stype == LiFo {
@@ -55,12 +93,10 @@ func (s *Stack) Pop() interface{} {
 		return s.nodes[s.count]
 	}
 	if s.stype == FiFo {
-		s.count++
-		if s.count-1 == len(s.nodes) {
-			s.count--
+		if s.count == len(s.nodes) {
 			return ""
 		}
-		
+		s.count++
 		return s.nodes[s.count-1]
 	}
 	return ""
