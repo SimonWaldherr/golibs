@@ -27,7 +27,7 @@ func ExampleStack() {
 func ExampleStack2() {
 	var array *stack.Stack
 	var x interface{}
-	
+
 	for i := 0; i < 2; i++ {
 		if i == 0 {
 			fmt.Println("Create Last In First Out Stack")
@@ -72,7 +72,7 @@ func ExampleStack2() {
 	// Lorem Ipsum Dolor sit Amet
 	// false
 	// 3
-	// 
+	//
 	// Create First In First Out Stack
 	// Len: 0, Empty: true
 	// Len: 1, Empty: false
@@ -85,7 +85,7 @@ func ExampleStack2() {
 	// 3
 	// false
 	// Lorem Ipsum Dolor sit Amet
-	// 
+	//
 }
 
 func ExampleToFifo() {

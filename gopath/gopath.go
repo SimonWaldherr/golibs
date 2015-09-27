@@ -1,10 +1,10 @@
 package gopath
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -61,27 +61,25 @@ func WD() string {
 	return dir
 }
 
+func Compiled() bool {
+	if strings.HasPrefix(os.Args[0], "/var/folders/") ||
+		strings.HasPrefix(os.Args[0], "/tmp/go-build") ||
+		strings.Contains(os.Args[0], "\\AppData\\Local\\Temp\\") {
+		return false
+	}
+	return true
+}
+
 func Name() string {
-	_, dir, _, _ := runtime.Caller(1)
-	return dir
+  var filename string
+  if Compiled() == false {
+    _, filename, _, _ = runtime.Caller(1)
+  } else {
+    filename, _ = filepath.Abs(filepath.Join(WD(), os.Args[0]))
+  }
+  return filename
 }
 
-func Ga() string {
-	var x string
-	x += fmt.Sprintln("")
-	x += fmt.Sprintln("os.Args[0]:", os.Args[0])
-	x += fmt.Sprintln("filepath.Dir(os.Args[0]):", filepath.Dir(os.Args[0]))
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	x += fmt.Sprintln("filepath.Abs:", dir)
-	dir, _ = os.Getwd()
-	x += fmt.Sprintln("Getwd:", dir)
-	_, dir, _, _ = runtime.Caller(0)
-	x += fmt.Sprintln("runtime.Caller:", dir)
-	x += fmt.Sprintln("os.Args FileType:", GetFileType(os.Args[0]))
-	x += fmt.Sprintln("Name FileType:", GetFileType(Name()))
-	return x
-}
-
-func Type() string {
-	return os.Getenv("GOPATH")
+func Path() string {
+  return filepath.Dir(Name())
 }

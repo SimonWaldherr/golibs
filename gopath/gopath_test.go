@@ -24,10 +24,14 @@ func Test_GOPATH(t *testing.T) {
 	t.Log(GOPATH())
 }
 
+func Test_Compiled(t *testing.T) {
+  t.Log(Compiled())
+}
+
 func Test_Name(t *testing.T) {
 	t.Log(Name())
 }
 
-func Test_X(t *testing.T) {
-	t.Log(Ga())
+func Test_Path(t *testing.T) {
+  t.Log(Path())
 }
