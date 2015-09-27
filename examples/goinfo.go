@@ -18,5 +18,5 @@ func main() {
   fmt.Println("Path:        ", gopath.Path())
   fmt.Println("Name:        ", gopath.Name())
   fmt.Println("Dir:         ", gopath.Dir())
-  fmt.Println("GetFileType: ", gopath.GetFileType(gopath.Name()))
+  fmt.Println("GetFileType: ", gopath.GetFileType(gopath.Path()))
 }

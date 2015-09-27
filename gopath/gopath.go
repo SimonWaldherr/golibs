@@ -71,21 +71,25 @@ func Compiled() bool {
 	return true
 }
 
-func Path() string {
+func gpath(i int) string {
 	var filename string
 	if Compiled() == false {
-		_, filename, _, _ = runtime.Caller(1)
+		_, filename, _, _ = runtime.Caller(i)
 	} else {
 		filename, _ = filepath.Abs(filepath.Join(WD(), os.Args[0]))
 	}
 	return filename
 }
 
+func Path() string {
+	return gpath(2)
+}
+
 func Name() string {
-	_, f := path.Split(Path())
+	_, f := path.Split(gpath(2))
 	return f
 }
 
 func Dir() string {
-	return filepath.Dir(Path())
+	return filepath.Dir(gpath(2))
 }
