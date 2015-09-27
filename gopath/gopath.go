@@ -2,6 +2,7 @@ package gopath
 
 import (
 	"os"
+	"path"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -70,16 +71,21 @@ func Compiled() bool {
 	return true
 }
 
-func Name() string {
-  var filename string
-  if Compiled() == false {
-    _, filename, _, _ = runtime.Caller(1)
-  } else {
-    filename, _ = filepath.Abs(filepath.Join(WD(), os.Args[0]))
-  }
-  return filename
+func Path() string {
+	var filename string
+	if Compiled() == false {
+		_, filename, _, _ = runtime.Caller(1)
+	} else {
+		filename, _ = filepath.Abs(filepath.Join(WD(), os.Args[0]))
+	}
+	return filename
 }
 
-func Path() string {
-  return filepath.Dir(Name())
+func Name() string {
+	_, f := path.Split(Path())
+	return f
+}
+
+func Dir() string {
+	return filepath.Dir(Path())
 }

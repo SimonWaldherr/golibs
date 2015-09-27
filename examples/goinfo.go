@@ -15,7 +15,8 @@ func main() {
   fmt.Println("GOPATH:      ", gopath.GOPATH())
   fmt.Println("WD:          ", gopath.WD())
   fmt.Println("Compiled:    ", gopath.Compiled())
-  fmt.Println("Name:        ", gopath.Name())
   fmt.Println("Path:        ", gopath.Path())
+  fmt.Println("Name:        ", gopath.Name())
+  fmt.Println("Dir:         ", gopath.Dir())
   fmt.Println("GetFileType: ", gopath.GetFileType(gopath.Name()))
 }
