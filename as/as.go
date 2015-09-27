@@ -341,6 +341,13 @@ func Time(valuea ...interface{}) time.Time {
 	return time.Time{}
 }
 
+// Trimmed takes the first given value, converts it to
+// a string, trims the whitespace an returns it.
+func Trimmed(valuea ...interface{}) string {
+	value := valuea[0]
+	return strings.TrimSpace(String(value))
+}
+
 // Uint returns an uint64 of the input value.
 // Float values and float values in strings will be rounded via
 // "round half towards positive infinity".

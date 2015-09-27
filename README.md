@@ -146,6 +146,33 @@ err := file.Each("..", true, func(filename, extension, filepath string, dir bool
 
 If you need the absolute path to a file, but only have a relative path, you can use ```file.GetAbsolutePath("~/path/to/file.txt")```.  
 
+### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-74%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/gopath"
+```
+
+**gopath** provides an easy way to get system information
+
+to read a config file in which is in the same file as the executable, you can do something like this:
+
+```go
+package main
+
+import (
+  "fmt"
+  "path/filepath"
+  "simonwaldherr.de/go/golibs/file"
+  "simonwaldherr.de/go/golibs/gopath"
+)
+
+func main() {
+  dir := gopath.Dir()
+  config := file.Read(filepath.Join(dir, "config.yaml"))
+  
+  ...
+```
+
 ### graphics - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go

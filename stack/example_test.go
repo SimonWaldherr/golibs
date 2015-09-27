@@ -60,6 +60,7 @@ func ExampleStack2() {
 		fmt.Println()
 	}
 
+	// Output:
 	// Create Last In First Out Stack
 	// Len: 0, Empty: true
 	// Len: 1, Empty: false
@@ -99,6 +100,7 @@ func ExampleToFifo() {
 		fmt.Println(as.String(array2.Pop()))
 	}
 
+	// Output:
 	// 1
 	// 2
 	// 3
@@ -116,6 +118,7 @@ func ExampleToFifoFromFifo() {
 		fmt.Println(as.String(array2.Pop()))
 	}
 
+	// Output:
 	// 1
 	// 2
 	// 3
@@ -133,6 +136,7 @@ func ExampleToLifo() {
 		fmt.Println(as.String(array2.Pop()))
 	}
 
+	// Output:
 	// 4
 	// 3
 	// 2
@@ -150,6 +154,7 @@ func ExampleToLifoFromLifo() {
 		fmt.Println(as.String(array2.Pop()))
 	}
 
+	// Output:
 	// 4
 	// 3
 	// 2

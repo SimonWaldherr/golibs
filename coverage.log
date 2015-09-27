@@ -5,6 +5,7 @@ as coverage: 98.7% of statements
 cache coverage: 95.4% of statements
 cachedfile coverage: 97.4% of statements
 file coverage: 94.4% of statements
+gopath coverage: 74.2% of statements
 graphics coverage: 100.0% of statements
 re coverage: 100.0% of statements
 regex coverage: 100.0% of statements

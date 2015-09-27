@@ -311,3 +311,12 @@ func Test_TypeMultiple(t *testing.T) {
 		t.Fatalf("TypeMultiple Test failed with wrong value: %v", str)
 	}
 }
+
+func Test_Trimmed(t *testing.T) {
+	if Trimmed([]byte{' ', ' ', 'i', 'p', 's', 'u', 'm', ' '}) != "ipsum" {
+		t.Fatalf("Trimmed Test 1 failed")
+	}
+	if Trimmed("\n\n  ipsum \t ", nil) != "ipsum" {
+		t.Fatalf("Trimmed Test 2 failed")
+	}
+}

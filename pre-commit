@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export GO15VENDOREXPERIMENT=1
-declare -a libs=(ansi arg as cache cachedfile file graphics re regex ssl stack xmath)
+declare -a libs=(ansi arg as cache cachedfile file gopath graphics re regex ssl stack xmath)
 
 echo "COVERAGE TEST" > coverage.log
 
