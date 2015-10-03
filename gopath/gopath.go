@@ -29,9 +29,6 @@ func GetFileType(name string) FileType {
 		} else if err == nil {
 			data := make([]byte, 100)
 			_, err := file.Read(data)
-			if err != nil {
-				return DontExist
-			}
 			if utf8.Valid(data) {
 				return ASCII
 			}
