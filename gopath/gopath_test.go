@@ -1,6 +1,7 @@
 package gopath
 
 import (
+	"os"
 	"simonwaldherr.de/go/golibs/file"
 	"strings"
 	"testing"
@@ -75,7 +76,22 @@ func Test_Dir(t *testing.T) {
 }
 
 func Test_GetFileType(t *testing.T) {
+	if v := GetFileType(Dir() + "404"); v != 0 {
+		t.Fatalf("GetFileType should be \"0\" but is: %v", v)
+	}
+	if v := GetFileType(Dir()); v != 1 {
+		t.Fatalf("GetFileType should be \"1\" but is: %v", v)
+	}
 	if v := GetFileType(Name()); v != 2 {
 		t.Fatalf("GetFileType should be \"2\" but is: %v", v)
+	}
+	if v := GetFileType(os.Args[0]); v != 3 {
+		t.Fatalf("GetFileType should be \"3\" but is: %v", v)
+	}
+}
+
+func Test_WD(t *testing.T) {
+	if v := WD(); !file.IsDir(v) {
+		t.Fatalf("WD should be a directory but is: %v", v)
 	}
 }

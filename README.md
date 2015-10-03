@@ -154,7 +154,7 @@ import "simonwaldherr.de/go/golibs/foreach"
 
 **foreach** calls a given function for each element of a [ JSON-string ]
 
-### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-74%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-90%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/gopath"
