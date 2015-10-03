@@ -152,3 +152,18 @@ func Test_Mean(t *testing.T) {
 		t.Fatalf("Default Mean Test failed")
 	}
 }
+
+func Test_Odd_Even(t *testing.T) {
+	if Odd(3) != true {
+		t.Fatalf("Odd Test 1 failed")
+	}
+	if Odd(4) != false {
+		t.Fatalf("Odd Test 2 failed")
+	}
+	if Even(3) != false {
+		t.Fatalf("Even Test 1 failed")
+	}
+	if Even(4) != true {
+		t.Fatalf("Even Test 2 failed")
+	}
+}
