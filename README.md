@@ -146,6 +146,14 @@ err := file.Each("..", true, func(filename, extension, filepath string, dir bool
 
 If you need the absolute path to a file, but only have a relative path, you can use ```file.GetAbsolutePath("~/path/to/file.txt")```.  
 
+### foreach - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/foreach) [![Coverage Status](https://img.shields.io/badge/coverage-89%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/foreach"
+```
+
+**foreach** calls a given function for each element of a [ JSON-string ]
+
 ### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-74%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
@@ -247,7 +255,7 @@ for array.Len() > 0 {
 }
 ```
 
-### xmath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### xmath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath) [![Coverage Status](https://img.shields.io/badge/coverage-98%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/xmath"

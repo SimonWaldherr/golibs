@@ -56,6 +56,45 @@ func Test_Duration(t *testing.T) {
 	}
 }
 
+func Test_FixedLengthAfter(t *testing.T) {
+	if FixedLengthAfter("13.37", " ", 7) != "13.37  " {
+		t.Fatalf("FixedLengthAfter Test 1 failed")
+	}
+	if FixedLengthAfter("13.37", " ", 5) != "13.37" {
+		t.Fatalf("FixedLengthAfter Test 2 failed")
+	}
+	if FixedLengthAfter("13.37", " ", 4) != "13.3" {
+		t.Fatalf("FixedLengthAfter Test 3 failed")
+	}
+}
+
+func Test_FixedLengthBefore(t *testing.T) {
+	if FixedLengthBefore("13.37", " ", 7) != "  13.37" {
+		t.Fatalf("FixedLengthBefore Test 1 failed")
+	}
+	if FixedLengthBefore("13.37", " ", 5) != "13.37" {
+		t.Fatalf("FixedLengthBefore Test 2 failed")
+	}
+	if FixedLengthBefore("13.37", " ", 4) != "13.3" {
+		t.Fatalf("FixedLengthBefore Test 3 failed")
+	}
+}
+
+func Test_FixedLengthCenter(t *testing.T) {
+	if FixedLengthCenter("13.37", " ", 7) != " 13.37 " {
+		t.Fatalf("FixedLengthCenter Test 1 failed")
+	}
+	if FixedLengthCenter("13.37", " ", 8) != "  13.37 " {
+		t.Fatalf("FixedLengthCenter Test 2 failed")
+	}
+	if FixedLengthCenter("13.37", " ", 5) != "13.37" {
+		t.Fatalf("FixedLengthCenter Test 3 failed")
+	}
+	if FixedLengthCenter("13.37", " ", 4) != "13.3" {
+		t.Fatalf("FixedLengthCenter Test 4 failed")
+	}
+}
+
 func Test_Float(t *testing.T) {
 	if Float("13.37") != float64(13.37) {
 		t.Fatalf("Float Test failed")

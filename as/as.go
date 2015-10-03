@@ -169,6 +169,50 @@ func Duration(valuea ...interface{}) time.Duration {
 	}
 }
 
+// FixedLengthAfter appends spacer chars after a string
+func FixedLengthAfter(str string, spacer string, length int) string {
+	spacer = spacer[:1]
+	l := length - len(str)
+	if l > 0 {
+		return str + strings.Repeat(spacer, l)
+	}
+	if l == 0 {
+		return str
+	}
+	return str[:length]
+}
+
+// FixedLengthBefore prepends spacer chars before a string
+func FixedLengthBefore(str string, spacer string, length int) string {
+	spacer = spacer[:1]
+	l := length - len(str)
+	if l > 0 {
+		return strings.Repeat(spacer, l) + str
+	}
+	if l == 0 {
+		return str
+	}
+	return str[:length]
+}
+
+// FixedLengthCenter adds spacer chars after and before a string
+func FixedLengthCenter(str string, spacer string, length int) string {
+	spacer = spacer[:1]
+	l := length - len(str)
+	if l > 0 {
+		if l%2 == 0 {
+			l = l / 2
+			return strings.Repeat(spacer, l) + str + strings.Repeat(spacer, l)
+		}
+		l = (l + 1) / 2
+		return strings.Repeat(spacer, l) + str + strings.Repeat(spacer, l-1)
+	}
+	if l == length {
+		return str
+	}
+	return str[:length]
+}
+
 // Float converts it's input to type float64.
 // int, uint and float gets converted as expected,
 // time is transformed to a float of the corresponding timestamp.

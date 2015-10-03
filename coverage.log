@@ -1,7 +1,7 @@
 COVERAGE TEST
 ansi coverage: 100.0% of statements
 arg coverage: 89.5% of statements
-as coverage: 98.7% of statements
+as coverage: 98.4% of statements
 cache coverage: 95.4% of statements
 cachedfile coverage: 97.4% of statements
 file coverage: 94.4% of statements
@@ -11,4 +11,4 @@ re coverage: 100.0% of statements
 regex coverage: 100.0% of statements
 ssl coverage: 87.2% of statements
 stack coverage: 99.0% of statements
-xmath coverage: 100.0% of statements
+xmath coverage: 98.2% of statements

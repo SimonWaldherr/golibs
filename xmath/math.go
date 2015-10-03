@@ -255,3 +255,13 @@ func Geometric(val interface{}) float64 {
 	}
 	return float64(math.Pow(float64(m), 1/float64(c)))
 }
+
+// Even tells if a number is even
+func Even(number int) bool {
+	return number%2 == 0
+}
+
+// Odd tells if a number is odd
+func Odd(number int) bool {
+	return !Even(number)
+}
