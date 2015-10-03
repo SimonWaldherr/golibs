@@ -207,7 +207,7 @@ func FixedLengthCenter(str string, spacer string, length int) string {
 		l = (l + 1) / 2
 		return strings.Repeat(spacer, l) + str + strings.Repeat(spacer, l-1)
 	}
-	if l == length {
+	if l == 0 {
 		return str
 	}
 	return str[:length]
