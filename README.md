@@ -15,7 +15,7 @@ go test ./...
 
  . | . | service | info
 ---|---|---------|------
- ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square) |  | go test ./...  
+ ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Build Status](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
  ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Build status](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Build status](https://magnum-ci.com/status/e9ccc5689f4135e4021475bfdf0cf527.png)](https://magnum-ci.com/public/c4dba43a1c41dbff557e/builds) | magnum-ci.com | just another ci service  
@@ -154,7 +154,7 @@ import "simonwaldherr.de/go/golibs/foreach"
 
 **foreach** calls a given function for each element of a [ JSON-string ]
 
-### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-%25-red.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-failing-red.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/gopath"
