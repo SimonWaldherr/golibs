@@ -189,9 +189,29 @@ func Clean(fn string) error {
 	return Write(fn, "", false)
 }
 
-func Rename(fn, fn2 string) error {
-	err := os.Rename(fn, fn2)
+func Rename(from, to string) error {
+	err := os.Rename(from, to)
 
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func Copy(from, to string) error {
+	r, err := os.Open(from)
+	if err != nil {
+		return err
+	}
+	defer r.Close()
+
+	w, err := os.Create(to)
+	if err != nil {
+		return err
+	}
+	defer w.Close()
+
+	_, err = io.Copy(w, r)
 	if err != nil {
 		return err
 	}

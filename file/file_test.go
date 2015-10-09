@@ -192,8 +192,19 @@ func Test_X(t *testing.T) {
 	}
 }
 
+func Test_Copy(t *testing.T) {
+	err := Copy("writetest2.log", "writetest.log")
+	if err != nil {
+		t.Fatalf("file.X Test failed")
+	}
+}
+
 func Test_Delete(t *testing.T) {
-	err := Delete("writetest2.log")
+	err := Delete("writetest.log")
+	if err != nil {
+		t.Fatalf("file.Delete Test failed")
+	}
+	err = Delete("writetest2.log")
 	if err != nil {
 		t.Fatalf("file.Delete Test failed")
 	}
