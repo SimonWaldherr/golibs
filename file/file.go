@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"simonwaldherr.de/go/golibs/gopath"
 	"strings"
 )
 
@@ -293,17 +294,30 @@ func nextComponent(path []byte, start int) []byte {
 	return path[0 : start+v]
 }
 
+// GetAbsolutePath returns the absolute path to a file or dir
+// if it is a relative path it is relative to the current working directory
 func GetAbsolutePath(fn string) (string, error) {
+	pwd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+	return getAbsolutePathHelper(fn, pwd)
+}
+
+// GetAbsolutePathByApp returns the absolute path to a file or dir
+// if it is a relative path it is relative to the Go Application source or binary
+func GetAbsolutePathByApp(fn string) (string, error) {
+	pwd := gopath.Dir()
+	return getAbsolutePathHelper(fn, pwd)
+}
+
+func getAbsolutePathHelper(fn string, pwd string) (string, error) {
 	if len(fn) == 0 {
 		return "", os.ErrInvalid
 	}
 
 	if fn[0] != os.PathSeparator {
 		if fn[0] == '.' {
-			pwd, err := os.Getwd()
-			if err != nil {
-				return "", err
-			}
 			fn = filepath.Join(pwd, fn)
 		} else {
 			fn = strings.Replace(fn, "~", GetHomeDir(), 1)

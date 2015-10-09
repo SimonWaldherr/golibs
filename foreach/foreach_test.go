@@ -1,6 +1,7 @@
 package foreach
 
 import (
+	"os"
 	"testing"
 )
 
@@ -56,6 +57,21 @@ const xmlString = `
   </group>
 </root>
 `*/
+
+func Test_File(t *testing.T) {
+	var count int
+	err := File("..", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {
+		if extension == "go" && !dir {
+			count++
+		}
+	})
+	if err != nil {
+		t.Fatalf("file.Each Test failed")
+	}
+	if count < 10 {
+		t.Fatalf("file.Each Count Test failed")
+	}
+}
 
 func Test_JSON(t *testing.T) {
 	i := 0

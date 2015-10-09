@@ -2,8 +2,14 @@ package foreach
 
 import (
 	"encoding/json"
+	"os"
+	"simonwaldherr.de/go/golibs/file"
 	//"encoding/xml"
 )
+
+func File(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
+	return file.Each(dirname, recursive, fnc)
+}
 
 func JSON(str string, handler func(*string, *int, *interface{}, int)) error {
 	var j interface{}
