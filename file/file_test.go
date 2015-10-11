@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"simonwaldherr.de/go/golibs/as"
 	"strings"
 	"testing"
 )
@@ -146,6 +147,18 @@ func Test_Size(t *testing.T) {
 	size, err := Size("writetest.log")
 	if err != nil || size != 193 {
 		t.Fatalf("file.Size Test failed")
+	}
+}
+
+func Test_Time(t *testing.T) {
+	atime, mtime, ctime, err := Time("writetest.log")
+	now := as.Time("12.10.2015")
+	a := as.Int(atime)
+	m := as.Int(mtime)
+	c := as.Int(ctime)
+	n := as.Int(now)
+	if err != nil || a > n || m > n || c > n {
+		t.Fatalf("file.Time Test failed: \natime:\t%v\nctime:\t%v\natime:\t%v\nnow:\t%v\n", a, m, c, n)
 	}
 }
 

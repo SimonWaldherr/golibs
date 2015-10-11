@@ -12,6 +12,7 @@ import (
 
 type Item struct {
 	Object     interface{}
+	Creation   time.Time
 	Expiration time.Time
 }
 
@@ -45,7 +46,16 @@ func (cache *Cache) String() string {
 func (cache *Cache) Set(key string, value interface{}) {
 	cache.items[key] = &Item{
 		Object:     value,
+		Creation:   time.Now(),
 		Expiration: time.Now().Add(cache.Expiration),
+	}
+}
+
+func (cache *Cache) SetWithDuration(key string, value interface{}, duration time.Duration) {
+	cache.items[key] = &Item{
+		Object:     value,
+		Creation:   time.Now(),
+		Expiration: time.Now().Add(duration),
 	}
 }
 

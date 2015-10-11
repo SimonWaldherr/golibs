@@ -103,6 +103,9 @@ func Test_Cache_Overwrite(t *testing.T) {
 	key, value = "foo", "bar"
 	c.Add(key, value)
 
+	duration, _ := time.ParseDuration("2h30m")
+	c.SetWithDuration(key, value, duration)
+
 	value = "ipsum"
 	c.Add(key, value)
 
