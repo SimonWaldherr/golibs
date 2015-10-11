@@ -43,6 +43,9 @@ func Read(filename string) (string, error) {
 			return "", err
 		}
 		_, mtime, _, err := file.Time(filename)
+		if err != nil {
+			mtime = time.Now()
+		}
 		duration, _ := time.ParseDuration("2h30m")
 		fileCache.SetWithDuration(filename, data, mtime, duration)
 	} else {
