@@ -59,6 +59,10 @@ func (cache *Cache) SetWithDuration(key string, value interface{}, duration time
 	}
 }
 
+func (cache *Cache) Time(key string) time.Time {
+	return cache.items[key].Creation
+}
+
 func (cache *Cache) Get(key string) interface{} {
 	item, ok := cache.items[key]
 	if !ok || item.isExpired() {

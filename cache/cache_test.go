@@ -105,6 +105,10 @@ func Test_Cache_Overwrite(t *testing.T) {
 
 	duration, _ := time.ParseDuration("2h30m")
 	c.SetWithDuration(key, value, duration)
+	ti := c.Time(key).Unix()
+	if time.Now().Unix() != ti {
+		t.Fatalf("Cache_Time Test failed")
+	}
 
 	value = "ipsum"
 	c.Add(key, value)

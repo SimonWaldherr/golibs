@@ -11,57 +11,61 @@ import (
 var fileCache *cache.Cache
 var cacheInit bool
 
-func cacheWorker(key string, value interface{}) {
-	file.Write(key, fmt.Sprint(value), false)
+func cacheWorker(filename string, value interface{}) {
+	_, mtime, _, err := file.Time(filename)
+	modify := mtime.UnixNano()
+	if err == nil && modify < fileCache.Time(filename).UnixNano() {
+		file.Write(filename, fmt.Sprint(value), false)
+	}
 }
 
-func Read(fn string) (string, error) {
+func Read(filename string) (string, error) {
 	if cacheInit == false {
 		cacheInit = true
 		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
 	}
 	var err error
 	var data string
-	fn, err = file.GetAbsolutePath(fn)
+	filename, err = file.GetAbsolutePath(filename)
 	if err != nil {
 		return "", err
 	}
-	if xdata := fileCache.Get(fn); xdata == nil {
-		if data, err = file.Read(fn); err != nil {
+	if xdata := fileCache.Get(filename); xdata == nil {
+		if data, err = file.Read(filename); err != nil {
 			return "", err
 		}
-		fileCache.Set(fn, data)
+		fileCache.Set(filename, data)
 	} else {
 		data = fmt.Sprint(xdata)
 	}
 	return data, nil
 }
 
-func Write(fn, str string, append bool) error {
+func Write(filename, str string, append bool) error {
 	if cacheInit == false {
 		cacheInit = true
 		fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
 	}
 	var err error
 	var data string
-	fn, err = file.GetAbsolutePath(fn)
+	filename, err = file.GetAbsolutePath(filename)
 	if err != nil {
 		return err
 	}
 	if append {
-		data, err = Read(fn)
+		data, err = Read(filename)
 		if err != nil {
 			return err
 		}
-		fileCache.Set(fn, data+str)
+		fileCache.Set(filename, data+str)
 	} else {
-		fileCache.Set(fn, str)
+		fileCache.Set(filename, str)
 	}
 	return nil
 }
 
-func Size(fn string) (int64, error) {
-	str, err := Read(fn)
+func Size(filename string) (int64, error) {
+	str, err := Read(filename)
 
 	if err != nil {
 		return -1, err
@@ -70,8 +74,8 @@ func Size(fn string) (int64, error) {
 	return int64(len(str)), nil
 }
 
-func Clean(fn string) error {
-	return Write(fn, "", false)
+func Clean(filename string) error {
+	return Write(filename, "", false)
 }
 
 func Stop() {
