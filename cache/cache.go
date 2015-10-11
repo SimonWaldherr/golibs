@@ -51,10 +51,10 @@ func (cache *Cache) Set(key string, value interface{}) {
 	}
 }
 
-func (cache *Cache) SetWithDuration(key string, value interface{}, duration time.Duration) {
+func (cache *Cache) SetWithDuration(key string, value interface{}, creation time.Time, duration time.Duration) {
 	cache.items[key] = &Item{
 		Object:     value,
-		Creation:   time.Now(),
+		Creation:   creation,
 		Expiration: time.Now().Add(duration),
 	}
 }

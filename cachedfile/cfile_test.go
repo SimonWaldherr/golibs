@@ -3,7 +3,12 @@ package cachedfile
 import (
 	"simonwaldherr.de/go/golibs/file"
 	"testing"
+	"time"
 )
+
+func Test_Init(t *testing.T) {
+	Init(15*time.Minute, 1*time.Minute)
+}
 
 func Test_Cache1(t *testing.T) {
 	var fn, fs, ca, original string

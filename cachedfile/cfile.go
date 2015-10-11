@@ -19,6 +19,14 @@ func cacheWorker(filename string, value interface{}) {
 	}
 }
 
+func Init(expirationTime, cleanupInterval time.Duration) {
+	if cacheInit == true {
+		fileCache.DeleteAllWithFunc(cacheWorker)
+	}
+	cacheInit = true
+	fileCache = cache.New2(expirationTime, cleanupInterval, cacheWorker)
+}
+
 func Read(filename string) (string, error) {
 	if cacheInit == false {
 		cacheInit = true
@@ -34,7 +42,9 @@ func Read(filename string) (string, error) {
 		if data, err = file.Read(filename); err != nil {
 			return "", err
 		}
-		fileCache.Set(filename, data)
+		_, mtime, _, err := file.Time(filename)
+		duration, _ := time.ParseDuration("2h30m")
+		fileCache.SetWithDuration(filename, data, mtime, duration)
 	} else {
 		data = fmt.Sprint(xdata)
 	}
