@@ -8,6 +8,7 @@ import (
 
 func Test_Init(t *testing.T) {
 	Init(15*time.Minute, 1*time.Minute)
+	Init(15*time.Minute, 1*time.Minute)
 }
 
 func Test_Cache1(t *testing.T) {
@@ -15,6 +16,8 @@ func Test_Cache1(t *testing.T) {
 
 	fn = "./test.txt"
 
+	Write(fn, "\nFoobar\n", true)
+	Reset()
 	Write(fn, "\nFoobar\n", true)
 	Write(fn, "\nFoobar\n", true)
 

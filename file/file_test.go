@@ -160,6 +160,10 @@ func Test_Time(t *testing.T) {
 	if err != nil || a > n || m > n || c > n {
 		t.Fatalf("file.Time Test failed: \natime:\t%v\nctime:\t%v\natime:\t%v\nnow:\t%v\n", a, m, c, n)
 	}
+	_, _, _, err = Time("foobar")
+	if err == nil {
+		t.Fatalf("file.Time Test 2 failed")
+	}
 }
 
 func Test_Write2(t *testing.T) {
