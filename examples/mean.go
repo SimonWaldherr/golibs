@@ -15,10 +15,10 @@ func asString(number float64, decimalplaces int) string {
 	number = xmath.FloatRound(number, decimalplaces)
 	str := strings.Split(as.String(number), ".")
 	if len(str) == 1 {
-  	r = str[0] + ".000"
+		r = str[0] + ".000"
 	}
 	if len(str) == 2 {
-  	r = str[0] + "." + as.FixedLengthAfter(str[1], "0", 3)
+		r = str[0] + "." + as.FixedLengthAfter(str[1], "0", 3)
 	}
 	return as.FixedLengthBefore(r, " ", 12)
 }
