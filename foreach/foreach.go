@@ -1,3 +1,4 @@
+// run a function for each ...
 package foreach
 
 import (
