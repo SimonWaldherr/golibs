@@ -32,6 +32,7 @@ script:
 - go test -v -coverprofile=gopath.coverprofile ./gopath
 - go test -v -coverprofile=graphics.coverprofile ./graphics
 - go test -v -coverprofile=log.coverprofile ./log
+- go test -v -coverprofile=node.coverprofile ./node
 - go test -v -coverprofile=re.coverprofile ./re
 - go test -v -coverprofile=regex.coverprofile ./regex
 - go test -v -coverprofile=ssl.coverprofile ./ssl
