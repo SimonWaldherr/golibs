@@ -121,12 +121,21 @@ func Test_ReadDir(t *testing.T) {
 
 func Test_Each(t *testing.T) {
 	var count int
+	var fsize int64
 	err := Each("..", true, func(filename, extension, filepath string, dir bool, fileinfo os.FileInfo) {
 		if extension == "go" && !dir {
+			size, sizeErr := Size(filepath)
+			fsize = fsize + size
 			//t.Logf("%v, %v, %v, %v\n", filename, filepath, dir, fileinfo)
 			count++
+			if sizeErr != nil {
+				t.Fatalf("file.Each Test failed")
+			}
 		}
 	})
+	if fsize < 100000 {
+		t.Fatalf("file.Each Size Test failed, measured size is: %v", fsize)
+	}
 	if err != nil {
 		t.Fatalf("file.Each Test failed")
 	}
