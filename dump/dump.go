@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"simonwaldherr.de/go/golibs/node"
 	"simonwaldherr.de/go/golibs/stack"
-//	"reflect"
 )
 
 func nodeWalker(obj *interface{}) string {
 	var str string
 	var ldepth int
+	var ltype string
 
 	array := stack.Lifo()
 
@@ -23,34 +23,33 @@ func nodeWalker(obj *interface{}) string {
 			}
 		} else if depth > ldepth {
 			if key != nil {
-				str += fmt.Sprintf("%q {\n", *key)
+				if ltype == "[" {
+					str += fmt.Sprintf("%q {\n", *key)
+				} else {
+					str += fmt.Sprintf("{\n")
+				}
 				array.Push("}")
 			} else if index != nil {
-				str += fmt.Sprintf("%d [\n", *index)
+				str += fmt.Sprintf("[\n")
 			}
 		}
 		for i := 0; i <= depth; i++ {
 			str += fmt.Sprint("  ")
 		}
-		//for array.Len() > 0 {
-		//  for i := 0; i < array.Len(); i++ {
-		//    str += "  "
-		//  }
-		//  str += array.Pop().(string)
-		//}
 
 		v := *value
 		switch v.(type) {
 		case map[string]interface{}:
-			array.Push("]")
+			ltype = "{"
 		case []interface{}:
 			if key != nil {
-				str += fmt.Sprintf("%v => ", *key)
+				str += fmt.Sprintf("%q => ", *key)
 				array.Push("]")
 			} else {
 				str += fmt.Sprintf("%v => ", *index)
 				array.Push("]")
 			}
+			ltype = "["
 		case string:
 			if key != nil {
 				str += fmt.Sprintf("%q => %#v\n", *key, *value)
@@ -68,17 +67,14 @@ func nodeWalker(obj *interface{}) string {
 	})
 
 	for array.Len() > 0 {
-  	for i := 0; i < array.Len(); i++ {
-    	str += "  "
-  	}
-	  str += array.Pop().(string) + "\n"
+		for i := 0; i < array.Len(); i++ {
+			str += "  "
+		}
+		str += array.Pop().(string) + "\n"
 	}
-	//str += "  " + array.Pop().(string)
 
 	o := *obj
 
-  //str += fmt.Sprint(reflect.TypeOf(*obj))
-  //str += fmt.Sprintf("%#v\n", *obj)
 	switch o.(type) {
 	case []interface{}:
 		str = "[\n" + str + "]\n"

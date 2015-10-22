@@ -18,11 +18,9 @@ const jsonString = `
       ]
     },
     {
-      "type": "value",
       "value": "Hello World"
     },
     {
-      "type": "value",
       "value": "foobar"
     }
   ]
@@ -31,10 +29,11 @@ const jsonString = `
 func Test_Sprint_JSON(t *testing.T) {
 	var obj interface{}
 	json.Unmarshal([]byte(jsonString), &obj)
+	t.Logf("%#v \n%#v", obj, &obj)
 	if Sprint(obj) != `[
   {
     "type" => "group"
-    value => [
+    "value" => [
       0 => "Lorem"
       1 => "Ipsum"
       2 => "dolor"
@@ -55,15 +54,13 @@ func Test_Sprint_JSON(t *testing.T) {
     ]
   }
   {
-    "type" => "value"
     "value" => "Hello World"
   }
   {
-    "type" => "value"
     "value" => "foobar"
   }
 ]
 ` {
-		t.Fatalf("Dump_Sprint JSON Test failed")
+		t.Fatalf("Dump_Sprint JSON Test failed: %v", Sprint(obj))
 	}
 }
