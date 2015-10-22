@@ -2,8 +2,6 @@ package dump
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"testing"
 )
 
@@ -16,7 +14,7 @@ const jsonString = `
         "Ipsum",
         "dolor",
         "sit",
-        ["A", "m", "e", "t", [["golibs"]]]
+        ["A", "m", "e", "t", [[5,23,42]]]
       ]
     },
     {
@@ -30,9 +28,42 @@ const jsonString = `
   ]
 `
 
-func Test_Sprint(t *testing.T) {
+func Test_Sprint_JSON(t *testing.T) {
 	var obj interface{}
 	json.Unmarshal([]byte(jsonString), &obj)
-	fmt.Println(Sprint(obj))
-	spew.Dump(obj)
+	if Sprint(obj) != `[
+  {
+    "type" => "group"
+    value => [
+      0 => "Lorem"
+      1 => "Ipsum"
+      2 => "dolor"
+      3 => "sit"
+      4 => [
+        0 => "A"
+        1 => "m"
+        2 => "e"
+        3 => "t"
+        4 => [
+          0 => [
+            0 => 5
+            1 => 23
+            2 => 42
+          ]
+        ]
+      ]
+    ]
+  }
+  {
+    "type" => "value"
+    "value" => "Hello World"
+  }
+  {
+    "type" => "value"
+    "value" => "foobar"
+  }
+]
+` {
+		t.Fatalf("Dump_Sprint JSON Test failed")
+	}
 }
