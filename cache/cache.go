@@ -1,4 +1,4 @@
-// simple caching with GC
+// Package cache simplifies caching with GC
 package cache
 
 import (
@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Item as a single object with an interface as value and two time.Time values for creation and expiration dates
 type Item struct {
 	Object     interface{}
 	Creation   time.Time
@@ -23,6 +24,7 @@ func (item *Item) isExpired() bool {
 	return item.Expiration.Before(time.Now())
 }
 
+// Cache is a storage for all Item items
 type Cache struct {
 	Expiration time.Duration
 	items      map[string]*Item
@@ -43,6 +45,7 @@ func (cache *Cache) String() string {
 	return str
 }
 
+// Set creates an Item in the cache, if there is already an item with that name it get overwritten
 func (cache *Cache) Set(key string, value interface{}) {
 	cache.items[key] = &Item{
 		Object:     value,
@@ -51,6 +54,7 @@ func (cache *Cache) Set(key string, value interface{}) {
 	}
 }
 
+// SetWithDuration does the same as Set but with an specific expiration date
 func (cache *Cache) SetWithDuration(key string, value interface{}, creation time.Time, duration time.Duration) {
 	cache.items[key] = &Item{
 		Object:     value,
@@ -59,10 +63,12 @@ func (cache *Cache) SetWithDuration(key string, value interface{}, creation time
 	}
 }
 
+// Time returns the creation date of a cached item
 func (cache *Cache) Time(key string) time.Time {
 	return cache.items[key].Creation
 }
 
+// Get returns the value of a cached item or nil if expired
 func (cache *Cache) Get(key string) interface{} {
 	item, ok := cache.items[key]
 	if !ok || item.isExpired() {
@@ -71,10 +77,12 @@ func (cache *Cache) Get(key string) interface{} {
 	return item.Object
 }
 
+// Delete deletes a cached item
 func (cache *Cache) Delete(key string) {
 	delete(cache.items, key)
 }
 
+// Add creates an cached item
 func (cache *Cache) Add(key string, value interface{}) bool {
 	item := cache.Get(key)
 	if item != nil {

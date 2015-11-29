@@ -305,7 +305,7 @@ func Test_Uint(t *testing.T) {
 	}
 }
 
-func println_type(t *testing.T, str, type1, type2 string) {
+func printlnType(t *testing.T, str, type1, type2 string) {
 	t1, err := Type(str)
 
 	if err != nil {
@@ -323,24 +323,24 @@ func println_type(t *testing.T, str, type1, type2 string) {
 }
 
 func Test_Type(t *testing.T) {
-	println_type(t, "true", "bool", "bool")
-	println_type(t, "1000", "int", "int")
-	println_type(t, "2^16", "int", "int")
-	println_type(t, "10E24", "int", "int")
-	println_type(t, "10 EUR", "price", "string")
-	println_type(t, "10.23 £", "price", "string")
-	println_type(t, "01.01.1970", "date", "string")
-	println_type(t, "06.06.1989", "date", "string")
-	println_type(t, "2015-05-04T13:37:42", "date", "string")
-	println_type(t, "mail@example.tld", "email", "string")
-	println_type(t, "978-3499626005", "isbn", "string")
-	println_type(t, "127.0.0.1", "ipv4", "string")
-	println_type(t, "2a01:4f8:192:34aa::10", "ipv6", "string")
-	println_type(t, "b8:c7:5d:c6:6c:c6", "mac", "string")
-	println_type(t, "#fefefe", "color", "string")
-	println_type(t, "THk4Z1JFSlVlWEJsSUhKbGRIVnlibk1nWVNCRVlYUmhZbUZ6WlNCVWVYQmxJRzltSUdFZ2MzUnlhVzVuTGcwS1puVnVZeUJFUWxSNWNHVW9jM1J5SUhOMGNtbHVaeWtnYzNSeWFXNW5JSHNOQ2dsMExDQmxjbklnT2owZ1ZIbHdaU2h6ZEhJcERRb0phV1lnWlhKeUlDRTlJRzVwYkNCN0RRb0pDWEpsZEhWeWJpQWljM1J5YVc1bklnMEtDWDBOQ2dsemQybDBZMmdnZENCN0RRb0pZMkZ6WlNBaVltOXZiQ0lzSUNKcGJuUWlMQ0FpYzNSeWFXNW5JaXdnSW1ac2IyRjBJam9OQ2drSmNtVjBkWEp1SUhRTkNnbGtaV1poZFd4ME9nMEtDUWx5WlhSMWNtNGdJbk4wY21sdVp5SU5DZ2w5RFFwOQ==", "base64", "string")
-	println_type(t, "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~ ", "string", "string")
-	println_type(t, "😃", "", "string")
+	printlnType(t, "true", "bool", "bool")
+	printlnType(t, "1000", "int", "int")
+	printlnType(t, "2^16", "int", "int")
+	printlnType(t, "10E24", "int", "int")
+	printlnType(t, "10 EUR", "price", "string")
+	printlnType(t, "10.23 £", "price", "string")
+	printlnType(t, "01.01.1970", "date", "string")
+	printlnType(t, "06.06.1989", "date", "string")
+	printlnType(t, "2015-05-04T13:37:42", "date", "string")
+	printlnType(t, "mail@example.tld", "email", "string")
+	printlnType(t, "978-3499626005", "isbn", "string")
+	printlnType(t, "127.0.0.1", "ipv4", "string")
+	printlnType(t, "2a01:4f8:192:34aa::10", "ipv6", "string")
+	printlnType(t, "b8:c7:5d:c6:6c:c6", "mac", "string")
+	printlnType(t, "#fefefe", "color", "string")
+	printlnType(t, "THk4Z1JFSlVlWEJsSUhKbGRIVnlibk1nWVNCRVlYUmhZbUZ6WlNCVWVYQmxJRzltSUdFZ2MzUnlhVzVuTGcwS1puVnVZeUJFUWxSNWNHVW9jM1J5SUhOMGNtbHVaeWtnYzNSeWFXNW5JSHNOQ2dsMExDQmxjbklnT2owZ1ZIbHdaU2h6ZEhJcERRb0phV1lnWlhKeUlDRTlJRzVwYkNCN0RRb0pDWEpsZEhWeWJpQWljM1J5YVc1bklnMEtDWDBOQ2dsemQybDBZMmdnZENCN0RRb0pZMkZ6WlNBaVltOXZiQ0lzSUNKcGJuUWlMQ0FpYzNSeWFXNW5JaXdnSW1ac2IyRjBJam9OQ2drSmNtVjBkWEp1SUhRTkNnbGtaV1poZFd4ME9nMEtDUWx5WlhSMWNtNGdJbk4wY21sdVp5SU5DZ2w5RFFwOQ==", "base64", "string")
+	printlnType(t, "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~ ", "string", "string")
+	printlnType(t, "😃", "", "string")
 }
 
 func Test_TypeMultiple(t *testing.T) {

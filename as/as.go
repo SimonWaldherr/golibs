@@ -1,4 +1,4 @@
-// The "as" package helps by converting various data types to various other types
+// Package as helps by converting various data types to various other types
 package as
 
 import (
@@ -469,6 +469,7 @@ func DBType(str string) string {
 	}
 }
 
+// DBTypeMultiple returns the lowest common denominator of a type for all inserted DBTypes
 func DBTypeMultiple(val []string) string {
 	var typeint int
 	for _, typ := range val {

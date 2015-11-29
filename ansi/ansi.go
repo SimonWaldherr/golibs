@@ -1,4 +1,4 @@
-// with this package you can print colored and styled text to your terminal.
+// Package ansi can print colored and styled text to your terminal.
 package ansi
 
 import (
@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// Col defines supported colors
 type Col int
 
 // defines supported colors
@@ -19,6 +20,8 @@ const (
 	Cyan
 	White
 )
+
+// defines text styling options
 const (
 	TReset = Col(iota)
 	TBold
@@ -56,6 +59,7 @@ const (
 	BgWhite
 )
 
+// Set sets styling options on strings and stringable interfaces
 func Set(str interface{}, Attribute ...Col) string {
 	var rstr = fmt.Sprint(str)
 	for _, attr := range Attribute {
@@ -69,7 +73,7 @@ func Color(str interface{}, col Col) string {
 	return fmt.Sprintf("\033[3%vm%v\033[0m", col, str)
 }
 
-// Color adds the color code of col as background color to str and returns as string
+// BgColor adds the color code of col as background color to str and returns as string
 func BgColor(str interface{}, col Col) string {
 	return fmt.Sprintf("\033[4%vm%v\033[0m", col, str)
 }
@@ -84,6 +88,7 @@ func Underline(str interface{}) string {
 	return fmt.Sprintf("\033[4m%v\033[0m", str)
 }
 
+// Log prints red text via log package
 func Log(valuea ...interface{}) interface{} {
 	if valuea[1] != nil {
 		log.Println(Color(valuea[1], Red))

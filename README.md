@@ -20,6 +20,7 @@ go test ./...
  ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Build status](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Build status](https://magnum-ci.com/status/e9ccc5689f4135e4021475bfdf0cf527.png)](https://magnum-ci.com/public/c4dba43a1c41dbff557e/builds) | magnum-ci.com | just another ci service  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![Build Status](https://semaphoreci.com/api/v1/projects/fe1a7a53-a2c0-4bc0-a539-4af4ef13d49f/487313/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | yet another ci service  
+   | [![Go Report Card](http://goreportcard.com/badge/simonwaldherr/golibs)](http://goreportcard.com/report/simonwaldherr/golibs) | goreportcard.com | report card  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
    | [![codecov.io](http://codecov.io/github/SimonWaldherr/golibs/coverage.svg?branch=master)](http://codecov.io/github/SimonWaldherr/golibs?branch=master) | codecov.io | test coverage  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.de/gocover/golibs/) |  | go tool cover  
