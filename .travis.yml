@@ -35,6 +35,7 @@ script:
 - go test -v -coverprofile=node.coverprofile ./node
 - go test -v -coverprofile=re.coverprofile ./re
 - go test -v -coverprofile=regex.coverprofile ./regex
+- go test -v -coverprofile=rss.coverprofile ./rss
 - go test -v -coverprofile=ssl.coverprofile ./ssl
 - go test -v -coverprofile=stack.coverprofile ./stack
 - go test -v -coverprofile=xmath.coverprofile ./xmath

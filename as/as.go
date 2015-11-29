@@ -100,6 +100,7 @@ var timeformats = []string{
 	time.StampMilli,
 	time.StampMicro,
 	time.StampNano,
+	"Mon, 02 Jan 2006 15:04:05 -0700",
 	"02.01.06",
 	"01/02/06",
 	"2006-01-02",

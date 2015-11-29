@@ -40,6 +40,8 @@ each new build gets tested in multiple steps:
 	* **magnum-ci**, another ci service build the lib and tests on a linux (ubuntu) machine
 	* **semaphoreci**, yet another (linux (ubuntu) based) ci service
 
+![codecov.io](https://codecov.io/github/SimonWaldherr/golibs/branch.svg?branch=master)
+
 ## sublibs
 
 ### ansi - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
@@ -236,6 +238,24 @@ import "simonwaldherr.de/go/golibs/regex"
 
 ```go
 str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
+```
+
+
+### rss - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/rss) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/rss"
+```
+
+**rss** is a rss feed parser based on Golangs std xml package  
+
+```go
+podcast, err := rss.Read(url)
+if err == nil {
+  for _, episode := range podcast.Items {
+    fmt.Println(episode.Title)
+  }
+}
 ```
 
 
