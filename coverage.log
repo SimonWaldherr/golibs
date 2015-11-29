@@ -11,6 +11,7 @@ graphics coverage: 100.0% of statements
 log coverage: 100.0% of statements
 re coverage: 100.0% of statements
 regex coverage: 100.0% of statements
+rss coverage: 78.6% of statements
 ssl coverage: 87.2% of statements
 stack coverage: 99.0% of statements
 xmath coverage: 100.0% of statements
