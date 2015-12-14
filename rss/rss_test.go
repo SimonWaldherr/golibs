@@ -6,13 +6,27 @@ import (
 
 var feeds = []string{
 	"http://cre.fm/feed/m4a",
-	"http://konscience.de/feed/aac/",
+	"http://www.konscience.de/feed/",
+	"http://minkorrekt.de/feed/m4a/",
+	"http://modellansatz.de/rss/?psb",
+	"http://forschergeist.de/feed/m4a/",
+	"http://www.radiomono.net/feed/m4a/",
+	"http://www.zeitsprung.fm/feed/mp4/",
 	"http://podcast.firtz.org/firtz/mp3",
+	"http://www.psycho-talk.de/feed/mp3/",
+	"http://www.exponiert.berlin/feed/m4a/",
+	"http://resonator-podcast.de/feed/m4a/",
+	"http://feeds.metaebene.me/raumzeit/m4a",
+	"http://www.openscienceradio.de/feed/mp4/",
+	"http://www.hoaxilla.de/podcast/hoaxilla.xml",
+	"http://omegataupodcast.net/category/podcast/feed/",
+	"http://www.uibk.ac.at/downloads/c115/zeit/zeit_mp4.xml",
 }
 
 func Test_Read(t *testing.T) {
 	for _, url := range feeds {
 		feedContent, err := Read(url)
+		t.Logf("URL: %v\tTitle: %v\n", url, feedContent.Title)
 		if err != nil {
 			t.Fatalf("rss.Read Test failed: %v\nFeed: %v\n\n", err, url)
 		}
@@ -24,8 +38,9 @@ func Test_Read(t *testing.T) {
 		}
 
 		for _, item := range feedContent.Items {
+			t.Logf("Title: %v\tTime: %v\n", item.Title, item.Time())
 			if item.Time().Unix() < 921456000 {
-				t.Fatalf("rss.Read Test failed: The episode publication date is before the release date of the first RSS draft\nFeed: %v | %v\n\n", url, feedContent.Title)
+				t.Fatalf("rss.Read Test failed: The episode publication date is before the release date of the first RSS draft\nFeed: %v | %v \nTime: %v\nTitle: %v\n\n", url, feedContent.Title, item.Time(), item.Title)
 			}
 		}
 	}
