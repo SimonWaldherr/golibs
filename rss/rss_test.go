@@ -8,7 +8,7 @@ var feeds = []string{
 	"http://cre.fm/feed/m4a",
 	"http://www.konscience.de/feed/",
 	"http://minkorrekt.de/feed/m4a/",
-	"http://modellansatz.de/rss/?psb",
+	//"http://modellansatz.de/rss/?psb",
 	"http://forschergeist.de/feed/m4a/",
 	"http://www.radiomono.net/feed/m4a/",
 	"http://www.zeitsprung.fm/feed/mp4/",
