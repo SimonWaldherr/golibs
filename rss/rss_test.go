@@ -1,7 +1,9 @@
 package rss
 
 import (
+	"sync"
 	"testing"
+	"time"
 )
 
 var feeds = []string{
@@ -18,18 +20,42 @@ var feeds = []string{
 	"http://resonator-podcast.de/feed/m4a/",
 	"http://feeds.metaebene.me/raumzeit/m4a",
 	"http://www.openscienceradio.de/feed/mp4/",
-	"http://www.hoaxilla.de/podcast/hoaxilla.xml",
+	//"http://www.hoaxilla.de/podcast/hoaxilla.xml",
 	"http://omegataupodcast.net/category/podcast/feed/",
 	"http://www.uibk.ac.at/downloads/c115/zeit/zeit_mp4.xml",
 }
 
+func initTimeSeq() func() int {
+	t := time.Now().Unix()
+	return func() int {
+		return int(time.Now().Unix() - t)
+	}
+}
+
 func Test_Read(t *testing.T) {
+	var feedsContent = make(map[string]*Main)
+	var wg sync.WaitGroup
+
+	timeSince := initTimeSeq()
+
 	for _, url := range feeds {
-		feedContent, err := Read(url)
+		wg.Add(1)
+		go func(url string) {
+			defer wg.Done()
+			feedContent, err := Read(url)
+			t.Logf("%v is ready (%v) ... \n", url, timeSince())
+			if err == nil {
+				feedsContent[url] = feedContent
+			} else {
+				t.Fatalf("rss.Read Test failed: %v\nFeed: %v\n\n", err, url)
+			}
+		}(url)
+	}
+
+	wg.Wait()
+
+	for url, feedContent := range feedsContent {
 		t.Logf("URL: %v\tTitle: %v\n", url, feedContent.Title)
-		if err != nil {
-			t.Fatalf("rss.Read Test failed: %v\nFeed: %v\n\n", err, url)
-		}
 		if feedContent.Title == "" {
 			t.Fatalf("rss.Read Test failed: No Title detected\nFeed: %v\n\n", url)
 		}
