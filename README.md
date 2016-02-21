@@ -44,6 +44,26 @@ each new build gets tested in multiple steps:
 
 ![codecov.io](https://codecov.io/github/SimonWaldherr/golibs/branch.svg?branch=master)
 
+## ToC
+
+* [ansi](https://github.com/SimonWaldherr/golibs#ansi-----) can print colored and styled text to your terminal
+* [arg](https://github.com/SimonWaldherr/golibs#arg-----) simplifies cli flags (arguments)
+* [as](https://github.com/SimonWaldherr/golibs#as-----) can convert most standard data types to most other data types
+* [cache](https://github.com/SimonWaldherr/golibs#cache-----) is an easy and small caching package
+* [cachedfile](https://github.com/SimonWaldherr/golibs#cachedfile-----) simplifies reading and writing from and to disk and adds caching
+* [channel](https://github.com/SimonWaldherr/golibs#channel-----) simplifies channel operations, e.g. sending the same data to multiple receivers
+* [file](https://github.com/SimonWaldherr/golibs#file-----) wraps around the standard functions to simplify reading and writing on disk
+* [foreach](https://github.com/SimonWaldherr/golibs#foreach-----) calls a given function for each element of a [ JSON-string ]
+* [gopath](https://github.com/SimonWaldherr/golibs#gopath-----) provides an easy way to get system information
+* [graphics](https://github.com/SimonWaldherr/golibs#graphics-----) can manipulate images
+* [log](https://github.com/SimonWaldherr/golibs#log-----) helps on logging your applications status
+* [re](https://github.com/SimonWaldherr/golibs#re-----) helps you whenever you have to do something multiple times
+* [regex](https://github.com/SimonWaldherr/golibs#regex-----) is a layer to speed up your regular expression development
+* [rss](https://github.com/SimonWaldherr/golibs#rss-----) is a rss feed parser based on Golangs std xml package
+* [ssl](https://github.com/SimonWaldherr/golibs#ssl-----) generates ssl certificates for https
+* [stack](https://github.com/SimonWaldherr/golibs#stack-----) can store your values in stacks and rings
+* [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, ...
+
 ## sublibs
 
 ### ansi - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
@@ -132,6 +152,39 @@ str, _ := cachedfile.Read("filename.txt")
 and there will be no file access to disk.
 If you kill the App, wait 15 min or call ```cachedfile.Stop()``` the cached content will be exported to disk.
 
+### channel - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/channel) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/channel"
+```
+
+**channel** simplifies channel operations, e.g. sending the same data to multiple receivers
+
+do
+
+```go
+con := channel.Init()
+
+receiver01 := con.AddReceiver()
+receiver02 := con.AddReceiver()
+receiver03 := con.AddReceiver()
+
+go func() {
+  fmt.Println(<-receiver01)
+}()
+
+go func() {
+  fmt.Println(<-receiver02)
+}()
+
+go func() {
+  fmt.Println(<-receiver03)
+}()
+
+transmitter01 := con.AddTransmitter()
+
+transmitter01 <- "Hello World"
+```
 
 ### file - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/file) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
