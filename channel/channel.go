@@ -1,32 +1,32 @@
 package channel
 
-type Connections struct {
-	clients      map[chan string]bool
-	addClient    chan chan string
-	removeClient chan chan string
-	messages     chan string
+type Communication struct {
+	receiver    map[chan interface{}]bool
+	addReceiver chan chan interface{}
+	rmReceiver  chan chan interface{}
+	messages    chan interface{}
 }
 
-func Init() *Connections {
-	var hub = &Connections{
-		clients:      make(map[chan string]bool),
-		addClient:    make(chan (chan string)),
-		removeClient: make(chan (chan string)),
-		messages:     make(chan string),
+func Init() *Communication {
+	var hub = &Communication{
+		receiver:    make(map[chan interface{}]bool),
+		addReceiver: make(chan (chan interface{})),
+		rmReceiver:  make(chan (chan interface{})),
+		messages:    make(chan interface{}),
 	}
 
 	go func() {
 		for {
 			select {
-			case s := <-hub.addClient:
-				hub.clients[s] = true
-			case s := <-hub.removeClient:
-				delete(hub.clients, s)
-				if len(hub.clients) == 0 {
+			case s := <-hub.addReceiver:
+				hub.receiver[s] = true
+			case s := <-hub.rmReceiver:
+				delete(hub.receiver, s)
+				if len(hub.receiver) == 0 {
 					return
 				}
 			case msg := <-hub.messages:
-				for s, _ := range hub.clients {
+				for s, _ := range hub.receiver {
 					s <- msg
 				}
 			}
@@ -36,16 +36,21 @@ func Init() *Connections {
 	return hub
 }
 
-func (hub *Connections) AddReceiver() chan string {
-	messageChannel := make(chan string)
-	hub.addClient <- messageChannel
+func (hub *Communication) AddReceiver() chan interface{} {
+	messageChannel := make(chan interface{})
+	hub.addReceiver <- messageChannel
 	return messageChannel
 }
 
-func (hub *Connections) CloseReceiver(ch chan string) {
-	hub.removeClient <- ch
+func (hub *Communication) CloseReceiver(ch chan interface{}) int {
+	hub.rmReceiver <- ch
+	return hub.CountReceiver()
 }
 
-func (hub *Connections) AddTransmitter() chan<- string {
+func (hub *Communication) CountReceiver() int {
+	return len(hub.receiver)
+}
+
+func (hub *Communication) AddTransmitter() chan<- interface{} {
 	return hub.messages
 }

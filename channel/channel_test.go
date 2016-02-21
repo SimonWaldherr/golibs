@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"sync"
 	"testing"
+	"time"
 )
 
 func Test_Init(t *testing.T) {
@@ -40,7 +41,11 @@ func Test_Init(t *testing.T) {
 
 	w.Wait()
 
-	con.CloseReceiver(receiver01)
-	con.CloseReceiver(receiver02)
-	con.CloseReceiver(receiver03)
+	//closer count is not synchronous
+	fmt.Println("receiver remaining:", con.CloseReceiver(receiver01))
+	fmt.Println("receiver remaining:", con.CloseReceiver(receiver02))
+	fmt.Println("receiver remaining:", con.CloseReceiver(receiver03))
+	time.Sleep(5 * time.Millisecond)
+
+	fmt.Println("receiver:", con.CountReceiver())
 }

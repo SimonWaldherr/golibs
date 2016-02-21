@@ -27,6 +27,7 @@ script:
 - go test -v -coverprofile=as.coverprofile ./as
 - go test -v -coverprofile=cache.coverprofile ./cache
 - go test -v -coverprofile=cachedfile.coverprofile ./cachedfile
+- go test -v -coverprofile=channel.coverprofile ./channel
 - go test -v -coverprofile=file.coverprofile ./file
 - go test -v -coverprofile=foreach.coverprofile ./foreach
 - go test -v -coverprofile=gopath.coverprofile ./gopath
