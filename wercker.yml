@@ -1,0 +1,12 @@
+box: golang
+build:
+  steps:
+    - setup-go-workspace
+    - script:
+        name: go get
+        code: |
+          go get -u -t simonwaldherr.de/go/golibs/...
+    - script:
+        name: go test
+        code: |
+          go test ./...
