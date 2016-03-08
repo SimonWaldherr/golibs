@@ -6,6 +6,7 @@ import (
 )
 
 func Test_ReplaceAllString(t *testing.T) {
+	ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", "")
 	if str, _ := ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", ""); str != "FBR LRM ISM" {
 		t.Fatalf("ReplaceAllString failed")
 	}
@@ -32,9 +33,18 @@ func Test_ReplaceAllStringFunc(t *testing.T) {
 	}); str != "abc 123" {
 		t.Fatalf("ReplaceAllStringFunc failed")
 	}
+	if str, _ := ReplaceAllStringFunc("abc def", "([^ ]+)", func(str string) string {
+		if str == "def" {
+			return "123"
+		}
+		return str
+	}); str != "abc 123" {
+		t.Fatalf("ReplaceAllStringFunc failed")
+	}
 }
 
 func Test_FindAllString(t *testing.T) {
+	FindAllString("a short text", "[a-z]+")
 	ret, _ := FindAllString("a short text", "[a-z]+")
 	if fmt.Sprintf("%v", ret) != "[a short text]" {
 		t.Fatalf("FindAllString failed")
@@ -81,9 +91,15 @@ func Test_CacheRegex(t *testing.T) {
 	if CacheRegex(".+\\d?") != nil {
 		t.Fatalf("CacheRegex Test failed")
 	}
+	if CacheRegex(".+\\d?") != nil {
+		t.Fatalf("CacheRegex Test failed")
+	}
 }
 
 func Test_MatchString(t *testing.T) {
+	if match, _ := MatchString("Fooobar", "o{3}"); match != true {
+		t.Fatalf("MatchString Test failed")
+	}
 	if match, _ := MatchString("Fooobar", "o{3}"); match != true {
 		t.Fatalf("MatchString Test failed")
 	}

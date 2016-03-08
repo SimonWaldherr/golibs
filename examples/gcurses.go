@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/gopath"
+	"simonwaldherr.de/go/golibs/gcurses"
 	"strings"
 	"time"
 )

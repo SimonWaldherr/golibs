@@ -245,7 +245,7 @@ package main
 
 import (
   "fmt"
-  "simonwaldherr.de/go/golibs/gopath"
+  "simonwaldherr.de/go/golibs/gcurses"
   "time"
 )
 
@@ -329,7 +329,7 @@ data, stop := re.Do(time.Second * 5, func(data chan<- interface{}) {
 ```
 
 
-### regex - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex) [![Coverage Status](https://img.shields.io/badge/coverage-77%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### regex - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex) [![Coverage Status](https://img.shields.io/badge/coverage-88%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/regex"
@@ -338,7 +338,7 @@ import "simonwaldherr.de/go/golibs/regex"
 **regex** is a layer to speed up your regular expression development  
 
 ```go
-str := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
+str, err := regex.ReplaceAllString("Ipsum Lorem", "([^ ]+) ([^ ]+)", "$2 $1")
 ```
 
 
