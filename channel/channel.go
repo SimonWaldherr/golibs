@@ -12,7 +12,7 @@ func Init() *Communication {
 		receiver:    make(map[chan interface{}]bool),
 		addReceiver: make(chan (chan interface{})),
 		rmReceiver:  make(chan (chan interface{})),
-		messages:    make(chan interface{}),
+		messages:    make(chan interface{}, 31),
 	}
 
 	go func() {
@@ -26,8 +26,10 @@ func Init() *Communication {
 					return
 				}
 			case msg := <-hub.messages:
-				for s, _ := range hub.receiver {
-					s <- msg
+				for rec, _ := range hub.receiver {
+					go func(message interface{}, receiver chan interface{}) {
+						receiver <- message
+					}(msg, rec)
 				}
 			}
 		}

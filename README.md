@@ -16,11 +16,11 @@ go test ./...
  . | . | service | info
 ---|---|---------|------
  ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Build Status](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
- ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Build status](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Build status](https://magnum-ci.com/status/e9ccc5689f4135e4021475bfdf0cf527.png)](https://magnum-ci.com/public/c4dba43a1c41dbff557e/builds) | magnum-ci.com | just another ci service  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![Build Status](https://semaphoreci.com/api/v1/projects/fe1a7a53-a2c0-4bc0-a539-4af4ef13d49f/487313/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | yet another ci service  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![wercker status](https://app.wercker.com/status/c08af8170c3ee4955ca683dd8bf96f07/s/master "wercker status")](https://app.wercker.com/project/bykey/c08af8170c3ee4955ca683dd8bf96f07) | wercker.com | the wercker ci service  
+ ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
+ ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Appveyor CI](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
+ ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Magnum CI](https://img.shields.io/magnumci/ci/e9ccc5689f4135e4021475bfdf0cf527.svg?style=flat-square)](https://magnum-ci.com/public/c4dba43a1c41dbff557e/builds) | magnum-ci.com | just another ci service  
+ ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![Semaphore CI](https://semaphoreci.com/api/v1/projects/fe1a7a53-a2c0-4bc0-a539-4af4ef13d49f/487313/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | yet another ci service  
+ ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Wercker CI](https://app.wercker.com/status/c08af8170c3ee4955ca683dd8bf96f07/s/master "wercker status")](https://app.wercker.com/project/bykey/c08af8170c3ee4955ca683dd8bf96f07) | wercker.com | the wercker ci service  
    | [![Go Report Card](http://goreportcard.com/badge/simonwaldherr/golibs)](http://goreportcard.com/report/simonwaldherr/golibs) | goreportcard.com | report card  
    | [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
@@ -54,6 +54,7 @@ each new build gets tested in multiple steps:
 * [channel](https://github.com/SimonWaldherr/golibs#channel-----) simplifies channel operations, e.g. sending the same data to multiple receivers
 * [file](https://github.com/SimonWaldherr/golibs#file-----) wraps around the standard functions to simplify reading and writing on disk
 * [foreach](https://github.com/SimonWaldherr/golibs#foreach-----) calls a given function for each element of a [ JSON-string ]
+* [gcurses](https://github.com/SimonWaldherr/golibs#gcurses-----) enabling the development of text user interface applications
 * [gopath](https://github.com/SimonWaldherr/golibs#gopath-----) provides an easy way to get system information
 * [graphics](https://github.com/SimonWaldherr/golibs#graphics-----) can manipulate images
 * [log](https://github.com/SimonWaldherr/golibs#log-----) helps on logging your applications status
@@ -62,7 +63,17 @@ each new build gets tested in multiple steps:
 * [rss](https://github.com/SimonWaldherr/golibs#rss-----) is a rss feed parser based on Golangs std xml package
 * [ssl](https://github.com/SimonWaldherr/golibs#ssl-----) generates ssl certificates for https
 * [stack](https://github.com/SimonWaldherr/golibs#stack-----) can store your values in stacks and rings
-* [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, ...
+* [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, …
+
+## WARNING
+
+some functions in this repo enables you to write really bad code - I wrote it anyway because:  
+
+* sometimes you need a quick and dirty solution
+* it shows you possible ways, feel free to fork and customize
+* mostly bad go code is better than good php code - every aspect in golang is designed to prevent from bad code
+
+BUT: please remember that you can do things more performantly e.g. converting a string to a float is much faster done with strconv.ParseFloat than with as.Float.  
 
 ## sublibs
 
@@ -160,8 +171,6 @@ import "simonwaldherr.de/go/golibs/channel"
 
 **channel** simplifies channel operations, e.g. sending the same data to multiple receivers
 
-do
-
 ```go
 con := channel.Init()
 
@@ -219,6 +228,43 @@ import "simonwaldherr.de/go/golibs/foreach"
 ```
 
 **foreach** calls a given function for each element of a [ JSON-string ]
+
+### gcurses - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gcurses) [![Coverage Status](https://img.shields.io/badge/coverage-90%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/gcurses"
+```
+
+**gcurses** is a terminal control library for Unixoide systems, enabling the development of text user interface applications.  
+
+Named after the "GUI-like" terminal application toolkit [ncurses](https://en.wikipedia.org/wiki/Ncurses) (new curses) which is named after the original [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)). 
+This library is in a very early stage.  
+
+```go
+package main
+
+import (
+  "fmt"
+  "simonwaldherr.de/go/golibs/gopath"
+  "time"
+)
+
+func main() {
+  writer := gcurses.New()
+
+  writer.Start()
+
+  for i := 0; i < 100; i++ {
+    fmt.Fprintf(writer, "Count till one hundred: %d\nStill counting ...\n", i)
+    time.Sleep(time.Millisecond * 10)
+  }
+
+  time.Sleep(time.Millisecond * 500)
+  fmt.Fprintln(writer, "Finished counting")
+
+  writer.Stop()
+}
+```
 
 ### gopath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gopath) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
@@ -283,7 +329,7 @@ data, stop := re.Do(time.Second * 5, func(data chan<- interface{}) {
 ```
 
 
-### regex - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### regex - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/regex) [![Coverage Status](https://img.shields.io/badge/coverage-77%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/regex"

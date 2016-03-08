@@ -6,7 +6,8 @@ import (
 )
 
 func ExampleReplaceAllString() {
-	fmt.Print(regex.ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", ""))
+	str, _ := regex.ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", "")
+	fmt.Print(str)
 
 	// Output: FBR LRM ISM
 }

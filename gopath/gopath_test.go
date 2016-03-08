@@ -2,7 +2,6 @@ package gopath
 
 import (
 	"os"
-	"simonwaldherr.de/go/golibs/file"
 	"strings"
 	"testing"
 )
@@ -17,6 +16,17 @@ var oslist = map[string]bool{
 	"darwin":  true,
 	"linux":   true,
 	"windows": true,
+}
+
+func isDir(fn string) bool {
+	file, err := os.Stat(fn)
+	if err != nil {
+		return false
+	}
+	if file.IsDir() {
+		return true
+	}
+	return false
 }
 
 func Test_Compiler(t *testing.T) {
@@ -40,13 +50,13 @@ func Test_GOOS(t *testing.T) {
 }
 
 func Test_GOROOT(t *testing.T) {
-	if v := GOROOT(); !file.IsDir(v) {
+	if v := GOROOT(); !isDir(v) {
 		t.Fatalf("GOROOT should be a directory but is: %v", v)
 	}
 }
 
 func Test_GOPATH(t *testing.T) {
-	if v := GOPATH(); !file.IsDir(v) {
+	if v := GOPATH(); !isDir(v) {
 		t.Fatalf("GOPATH should be a directory but is: %v", v)
 	}
 }
@@ -70,7 +80,7 @@ func Test_Name(t *testing.T) {
 }
 
 func Test_Dir(t *testing.T) {
-	if v := Dir(); !file.IsDir(v) {
+	if v := Dir(); !isDir(v) {
 		t.Fatalf("Dir should be a directory but is: %v", v)
 	}
 }
@@ -91,7 +101,7 @@ func Test_GetFileType(t *testing.T) {
 }
 
 func Test_WD(t *testing.T) {
-	if v := WD(); !file.IsDir(v) {
+	if v := WD(); !isDir(v) {
 		t.Fatalf("WD should be a directory but is: %v", v)
 	}
 }
