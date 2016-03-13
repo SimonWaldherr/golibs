@@ -14,6 +14,18 @@ func Test_Fmt(t *testing.T) {
 	}
 }
 
+func Test_FmtNow(t *testing.T) {
+	if FmtNow("%Y%m%d") != time.Now().Format("20060102") {
+		t.Fatalf("FmtNow(\"%%Y%%m%%d\") returns %s", FmtNow("%Y%m%d"))
+	}
+}
+
+func Test_Fmt2(t *testing.T) {
+	if FmtNow("%&") != "%&" {
+		t.Fatalf("FmtNow(\"%&\") returns %s", FmtNow("%&"))
+	}
+}
+
 func Benchmark_Fmt(b *testing.B) {
 	t := time.Unix(1333333333, 0)
 	cet, _ := time.LoadLocation("CET")

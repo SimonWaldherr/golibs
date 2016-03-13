@@ -64,6 +64,7 @@ each new build gets tested in multiple steps:
 * [ssl](https://github.com/SimonWaldherr/golibs#ssl-----) generates ssl certificates for https
 * [stack](https://github.com/SimonWaldherr/golibs#stack-----) can store your values in stacks and rings
 * [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, …
+* [xtime](https://github.com/SimonWaldherr/golibs#xtime-----) xtime implements a subset of strftime
 
 ## WARNING
 
@@ -412,7 +413,7 @@ fmt.Printf("Harmonic:   %v\n", xmath.Harmonic(f))
 fmt.Printf("Geometric:  %v\n", xmath.Geometric(f))
 ```
 
-### xtime - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xtime) [![Coverage Status](https://img.shields.io/badge/coverage-75%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### xtime - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xtime) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/xtime"
