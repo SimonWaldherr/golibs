@@ -229,7 +229,7 @@ import "simonwaldherr.de/go/golibs/foreach"
 
 **foreach** calls a given function for each element of a [ JSON-string ]
 
-### gcurses - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gcurses) [![Coverage Status](https://img.shields.io/badge/coverage-90%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### gcurses - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/gcurses) [![Coverage Status](https://img.shields.io/badge/coverage-97%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/gcurses"
@@ -410,4 +410,18 @@ fmt.Printf("Median:     %v\n", xmath.Median(f))
 fmt.Printf("Arithmetic: %v\n", xmath.Arithmetic(f))
 fmt.Printf("Harmonic:   %v\n", xmath.Harmonic(f))
 fmt.Printf("Geometric:  %v\n", xmath.Geometric(f))
+```
+
+### xtime - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xtime) [![Coverage Status](https://img.shields.io/badge/coverage-75%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/xtime"
+```
+
+**xmath** implements a subset of [strftime](http://man7.org/linux/man-pages/man3/strftime.3.html)
+
+```go
+t, _ := time.Now()
+fmt.Println(xtime.Fmt("%Y-%m-%d %H:%M:%S", t))
+}
 ```

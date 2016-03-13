@@ -17,6 +17,12 @@ func Test_Sqrt(t *testing.T) {
 	}
 }
 
+func Benchmark_Sqrt(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Sqrt(int64(i))
+	}
+}
+
 func Test_Prime(t *testing.T) {
 	if Prime(99) != 523 {
 		t.Fatalf("Prime Test failed")
@@ -150,6 +156,38 @@ func Test_Mean(t *testing.T) {
 	}
 	if round2(Mean(ints, Default)) != 14 {
 		t.Fatalf("Default Mean Test failed")
+	}
+}
+
+func Benchmark_Median(b *testing.B) {
+	var prev int64 = 0
+	for i := 0; i < b.N; i++ {
+		Median([]int64{int64(i), prev})
+		prev = int64(i)
+	}
+}
+
+func Benchmark_Arithmetic(b *testing.B) {
+	var prev int64 = 0
+	for i := 0; i < b.N; i++ {
+		Arithmetic([]int64{int64(i), prev})
+		prev = int64(i)
+	}
+}
+
+func Benchmark_Harmonic(b *testing.B) {
+	var prev int64 = 0
+	for i := 0; i < b.N; i++ {
+		Harmonic([]int64{int64(i), prev})
+		prev = int64(i)
+	}
+}
+
+func Benchmark_Geometric(b *testing.B) {
+	var prev int64 = 0
+	for i := 0; i < b.N; i++ {
+		Geometric([]int64{int64(i), prev})
+		prev = int64(i)
 	}
 }
 

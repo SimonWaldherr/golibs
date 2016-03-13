@@ -23,6 +23,12 @@ func Test_Bool(t *testing.T) {
 	}
 }
 
+func Benchmark_Bool(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Bool(i)
+	}
+}
+
 func Test_Bytes(t *testing.T) {
 	if String(Bytes([]byte{'l', 'o', 'r', 'e', 'm'})) != String(Bytes("lorem")) {
 		t.Fatalf("Bytes Test failed")
@@ -41,6 +47,12 @@ func Test_Bytes(t *testing.T) {
 	}
 }
 
+func Benchmark_Bytes(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Bytes(i)
+	}
+}
+
 func Test_Duration(t *testing.T) {
 	if String(Duration(42)) != "42ns" {
 		t.Fatalf("Duration Test failed")
@@ -56,6 +68,12 @@ func Test_Duration(t *testing.T) {
 	}
 }
 
+func Benchmark_Duration(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Duration(i)
+	}
+}
+
 func Test_FixedLengthAfter(t *testing.T) {
 	if FixedLengthAfter("13.37", " ", 7) != "13.37  " {
 		t.Fatalf("FixedLengthAfter Test 1 failed")
@@ -65,6 +83,12 @@ func Test_FixedLengthAfter(t *testing.T) {
 	}
 	if FixedLengthAfter("13.37", " ", 4) != "13.3" {
 		t.Fatalf("FixedLengthAfter Test 3 failed")
+	}
+}
+
+func Benchmark_FixedLengthAfter(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FixedLengthAfter(string(i), " ", 8)
 	}
 }
 
@@ -80,6 +104,12 @@ func Test_FixedLengthBefore(t *testing.T) {
 	}
 }
 
+func Benchmark_FixedLengthBefore(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FixedLengthBefore(string(i), " ", 8)
+	}
+}
+
 func Test_FixedLengthCenter(t *testing.T) {
 	if FixedLengthCenter("13.37", " ", 7) != " 13.37 " {
 		t.Fatalf("FixedLengthCenter Test 1 failed")
@@ -92,6 +122,12 @@ func Test_FixedLengthCenter(t *testing.T) {
 	}
 	if FixedLengthCenter("13.37", " ", 4) != "13.3" {
 		t.Fatalf("FixedLengthCenter Test 4 failed")
+	}
+}
+
+func Benchmark_FixedLengthCenter(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FixedLengthCenter(string(i), " ", 15)
 	}
 }
 
@@ -146,6 +182,12 @@ func Test_Float(t *testing.T) {
 	}
 }
 
+func Benchmark_Float(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Float(i)
+	}
+}
+
 func Test_FloatFromXString(t *testing.T) {
 	if FloatFromXString("13.000.000,00") != float64(13000000) {
 		t.Fatalf("FloatFromXString Test failed")
@@ -170,6 +212,12 @@ func Test_FloatFromXString(t *testing.T) {
 	}
 	if FloatFromXString("13,0.0,0.00") != float64(0) {
 		t.Fatalf("FloatFromXString Test failed")
+	}
+}
+
+func Benchmark_FloatFromXString(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FloatFromXString(string(i))
 	}
 }
 
@@ -221,6 +269,12 @@ func Test_Int(t *testing.T) {
 	}
 }
 
+func Benchmark_Int(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Int(i)
+	}
+}
+
 func Test_String(t *testing.T) {
 	if String(nil) != "" {
 		t.Fatalf("String Test failed")
@@ -245,12 +299,24 @@ func Test_String(t *testing.T) {
 	}
 }
 
+func Benchmark_String(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		String(i)
+	}
+}
+
 func Test_Time(t *testing.T) {
 	if String(Time("11.01.2015")) != "2015-01-11T00:00:00Z" {
 		t.Fatalf("Time Test failed")
 	}
 	if String(Time("foobar")) != "0001-01-01T00:00:00Z" {
 		t.Fatalf("Time Test failed")
+	}
+}
+
+func Benchmark_Time(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Time(i)
 	}
 }
 
@@ -302,6 +368,12 @@ func Test_Uint(t *testing.T) {
 	}
 	if Uint(Time("01.01.1970")) != uint64(0) {
 		t.Fatalf("Uint Test failed")
+	}
+}
+
+func Benchmark_Uint(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Uint(i)
 	}
 }
 
