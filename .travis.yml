@@ -40,6 +40,7 @@ script:
 - go test -v -coverprofile=ssl.coverprofile ./ssl
 - go test -v -coverprofile=stack.coverprofile ./stack
 - go test -v -coverprofile=xmath.coverprofile ./xmath
+- go test -v -coverprofile=xtime.coverprofile ./xtime
 # combine all coverprofiles in one file
 - $HOME/gopath/bin/gover
 # send coverage details to Coveralls.io

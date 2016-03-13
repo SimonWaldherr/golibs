@@ -1,10 +1,9 @@
 package xtime_test
 
 import (
-	xtime "../xtime/"
 	"fmt"
+	"simonwaldherr.de/go/golibs/xtime"
 	"time"
-	//"simonwaldherr.de/go/golibs/xtime"
 )
 
 func ExampleFmt() {

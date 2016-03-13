@@ -26,7 +26,7 @@ go test ./...
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
    | [![codecov.io](http://codecov.io/github/SimonWaldherr/golibs/coverage.svg?branch=master)](http://codecov.io/github/SimonWaldherr/golibs?branch=master) | codecov.io | test coverage  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.de/gocover/golibs/) |  | go tool cover  
-   | [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) |  | free + open source license  
+   | [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
    | [![Flattr donate button](https://img.shields.io/badge/flattr-donate-orange.svg?style=flat-square)](https://flattr.com/submit/auto?user_id=SimonWaldherr&url=http%3A%2F%2Fgithub.com%2FSimonWaldherr%2Fgolibs "Donate monthly to this project using Flattr") | flattr.com | micro donation  
    | [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
    
@@ -418,7 +418,7 @@ fmt.Printf("Geometric:  %v\n", xmath.Geometric(f))
 import "simonwaldherr.de/go/golibs/xtime"
 ```
 
-**xmath** implements a subset of [strftime](http://man7.org/linux/man-pages/man3/strftime.3.html)
+**xtime** implements a subset of [strftime](http://man7.org/linux/man-pages/man3/strftime.3.html)
 
 ```go
 t, _ := time.Now()
