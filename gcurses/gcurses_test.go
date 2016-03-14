@@ -16,7 +16,7 @@ func Test_New(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		fmt.Fprintf(writer, "%d\n", i)
-		time.Sleep(time.Millisecond * 5)
+		time.Sleep(time.Millisecond * 10)
 	}
 
 	writer.Stop()

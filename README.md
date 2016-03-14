@@ -424,5 +424,4 @@ import "simonwaldherr.de/go/golibs/xtime"
 ```go
 t, _ := time.Now()
 fmt.Println(xtime.Fmt("%Y-%m-%d %H:%M:%S", t))
-}
 ```
