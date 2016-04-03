@@ -2,7 +2,6 @@
 package graphics
 
 import (
-	_ "golang.org/x/image/webp"
 	"image"
 	"image/color"
 	"image/draw"
