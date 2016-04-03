@@ -16,7 +16,6 @@ install:
 - go get -t ./...
 - go get -t simonwaldherr.de/go/golibs/...
 - go get github.com/modocache/gover
-- go get golang.org/x/image/webp
 script:
 - export GO15VENDOREXPERIMENT=1
 # test lib with all subfolders
