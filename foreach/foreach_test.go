@@ -1,6 +1,7 @@
 package foreach
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -87,6 +88,35 @@ func Test_JSON(t *testing.T) {
 	if i != 2 || err != nil {
 		t.Fatalf("JSON Test failed: %v", err)
 	}
+}
+
+type Foobar struct {
+	X int
+	Y int
+}
+type Foo struct {
+	Id    int
+	Name  string
+	Lorem Foobar
+	Ipsum interface{}
+	Query func()
+}
+
+func Test_Struct(t *testing.T) {
+	Struct(Foo{
+		Id:   5,
+		Name: "Foobar",
+		Lorem: Foobar{
+			X: 42,
+			Y: 23,
+		},
+		Ipsum: float64(2),
+		Query: func() {
+			fmt.Println("---")
+		},
+	}, func(key string, index string, value interface{}, depth int) {
+		fmt.Printf("name: %v, type: %v, value: %v, depth: %v\n", key, index, value, depth)
+	})
 }
 
 /*

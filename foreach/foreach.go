@@ -4,8 +4,10 @@ package foreach
 import (
 	"encoding/json"
 	"os"
+	"reflect"
 	"simonwaldherr.de/go/golibs/file"
 	"simonwaldherr.de/go/golibs/node"
+	"simonwaldherr.de/go/golibs/structs"
 	//"encoding/xml"
 )
 
@@ -21,6 +23,13 @@ func JSON(str string, handler func(*string, *int, *interface{}, int)) error {
 		return nil
 	}
 	return err
+}
+
+func Struct(sstruct interface{}, handler func(string, string, interface{}, int)) {
+	v := reflect.ValueOf(sstruct)
+	t := reflect.TypeOf(sstruct)
+
+	structs.ReflectHelper(v, t, 0, handler)
 }
 
 /*

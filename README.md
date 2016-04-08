@@ -64,6 +64,7 @@ each new build gets tested in multiple steps:
 * [rss](https://github.com/SimonWaldherr/golibs#rss-----) is a rss feed parser based on Golangs std xml package
 * [ssl](https://github.com/SimonWaldherr/golibs#ssl-----) generates ssl certificates for https
 * [stack](https://github.com/SimonWaldherr/golibs#stack-----) can store your values in stacks and rings
+* [structs](https://github.com/SimonWaldherr/golibs#structs-----) use structs like maps
 * [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, …
 * [xtime](https://github.com/SimonWaldherr/golibs#xtime-----) xtime implements a subset of strftime
 
@@ -391,6 +392,12 @@ array.Push(as.String(23.0))
 for array.Len() > 0 {
 	log.Println(array.Pop())
 }
+```
+
+### structs - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/structs) [![Coverage Status](https://img.shields.io/badge/coverage-99%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/structs"
 ```
 
 ### xmath - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xmath) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
