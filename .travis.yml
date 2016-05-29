@@ -38,6 +38,7 @@ script:
 - go test -v -coverprofile=rss.coverprofile ./rss
 - go test -v -coverprofile=ssl.coverprofile ./ssl
 - go test -v -coverprofile=stack.coverprofile ./stack
+- go test -v -coverprofile=structs.coverprofile ./structs
 - go test -v -coverprofile=xmath.coverprofile ./xmath
 - go test -v -coverprofile=xtime.coverprofile ./xtime
 # combine all coverprofiles in one file
