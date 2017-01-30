@@ -134,24 +134,22 @@ func (cache *Cache) DeleteExpired() {
 }
 
 func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})) {
-	cache.lock.Lock()
-	defer cache.lock.Unlock()
-
 	for k, v := range cache.items {
 		if v.isExpired() {
 			fn(k, cache.items[k].Object)
+			cache.lock.Lock()
 			delete(cache.items, k)
+			cache.lock.Unlock()
 		}
 	}
 }
 
 func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) {
-	cache.lock.Lock()
-	defer cache.lock.Unlock()
-
 	for k := range cache.items {
 		fn(k, cache.items[k].Object)
+		cache.lock.Lock()
 		delete(cache.items, k)
+		cache.lock.Unlock()
 	}
 }
 
