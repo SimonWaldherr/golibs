@@ -2,6 +2,8 @@ package cache
 
 import (
 	"fmt"
+	"math/rand"
+	"sync"
 	"testing"
 	"time"
 )
@@ -204,4 +206,78 @@ func Test_Cache_String(t *testing.T) {
 	if c.String() != "0\t23\n1\t1s\n2\tfoobar\n3\tfalse\n4\t[116 101 115 116]\n" {
 		t.Fatalf("Cache_String Test failed")
 	}
+}
+
+func Test_Concurrent(t *testing.T) {
+	var wg sync.WaitGroup
+	var count int
+
+	rand.Seed(time.Now().UnixNano())
+
+	wg.Add(3100)
+
+	c := New2(10*time.Second, 1*time.Second, func(key string, value interface{}) {
+		count++
+	})
+
+	go func() {
+		for i := 0; i < 100; i++ {
+			c.Add(fmt.Sprintf("i%v", i), fmt.Sprintf("v%v", i*10))
+			wg.Done()
+		}
+	}()
+	go func() {
+		for i := 0; i < 1000; i++ {
+			r := rand.Intn(63)
+			c.Set(fmt.Sprintf("i%v", r), fmt.Sprintf("v%v", i*10))
+			wg.Done()
+		}
+	}()
+	go func() {
+		for i := 0; i < 2000; i++ {
+			r := rand.Intn(63)
+			c.Get(fmt.Sprintf("i%v", r))
+			wg.Done()
+		}
+	}()
+	wg.Wait()
+	c.Clear()
+}
+
+func BenchmarkAdd(b *testing.B) {
+	var count int
+	c := New2(0, 1*time.Second, func(key string, value interface{}) {
+		count++
+	})
+	for i := 0; i < b.N; i++ {
+		c.Add(fmt.Sprintf("i%v", i), fmt.Sprintf("v%v", i*10))
+	}
+
+	c.Clear()
+}
+
+func BenchmarkAddGet(b *testing.B) {
+	var count int
+	c := New2(0, 1*time.Second, func(key string, value interface{}) {
+		count++
+	})
+	for i := 0; i < b.N; i++ {
+		c.Add(fmt.Sprintf("i%v", i), fmt.Sprintf("v%v", i*10))
+		c.Get(fmt.Sprintf("i%v", i))
+	}
+
+	c.Clear()
+}
+
+func BenchmarkGet(b *testing.B) {
+	var count int
+	c := New2(0, 1*time.Second, func(key string, value interface{}) {
+		count++
+	})
+	c.Add("foo", "bar")
+	for i := 0; i < b.N; i++ {
+		c.Get("foo")
+	}
+
+	c.Clear()
 }

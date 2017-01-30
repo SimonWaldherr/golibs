@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"sort"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -28,11 +29,16 @@ func (item *Item) isExpired() bool {
 type Cache struct {
 	Expiration time.Duration
 	items      map[string]*Item
+	lock       sync.RWMutex
 }
 
 func (cache *Cache) String() string {
 	var str string
 	var keys []string
+
+	cache.lock.RLock()
+	defer cache.lock.RUnlock()
+
 	for k := range cache.items {
 		keys = append(keys, k)
 	}
@@ -47,6 +53,9 @@ func (cache *Cache) String() string {
 
 // Set creates an Item in the cache, if there is already an item with that name it get overwritten
 func (cache *Cache) Set(key string, value interface{}) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	cache.items[key] = &Item{
 		Object:     value,
 		Creation:   time.Now(),
@@ -56,6 +65,9 @@ func (cache *Cache) Set(key string, value interface{}) {
 
 // SetWithDuration does the same as Set but with an specific expiration date
 func (cache *Cache) SetWithDuration(key string, value interface{}, creation time.Time, duration time.Duration) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	cache.items[key] = &Item{
 		Object:     value,
 		Creation:   creation,
@@ -65,11 +77,17 @@ func (cache *Cache) SetWithDuration(key string, value interface{}, creation time
 
 // Time returns the creation date of a cached item
 func (cache *Cache) Time(key string) time.Time {
+	cache.lock.RLock()
+	defer cache.lock.RUnlock()
+
 	return cache.items[key].Creation
 }
 
 // Get returns the value of a cached item or nil if expired
 func (cache *Cache) Get(key string) interface{} {
+	cache.lock.RLock()
+	defer cache.lock.RUnlock()
+
 	item, ok := cache.items[key]
 	if !ok || item.isExpired() {
 		return nil
@@ -79,6 +97,9 @@ func (cache *Cache) Get(key string) interface{} {
 
 // Delete deletes a cached item
 func (cache *Cache) Delete(key string) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	delete(cache.items, key)
 }
 
@@ -102,26 +123,35 @@ func (cache *Cache) Update(key string, value interface{}) bool {
 }
 
 func (cache *Cache) DeleteExpired() {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	for k, v := range cache.items {
 		if v.isExpired() {
-			cache.Delete(k)
+			delete(cache.items, k)
 		}
 	}
 }
 
 func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	for k, v := range cache.items {
 		if v.isExpired() {
 			fn(k, cache.items[k].Object)
-			cache.Delete(k)
+			delete(cache.items, k)
 		}
 	}
 }
 
 func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	for k := range cache.items {
 		fn(k, cache.items[k].Object)
-		cache.Delete(k)
+		delete(cache.items, k)
 	}
 }
 
@@ -131,6 +161,9 @@ func (cache *Cache) Size() int {
 }
 
 func (cache *Cache) Clear() {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	cache.items = map[string]*Item{}
 }
 
