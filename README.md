@@ -16,7 +16,6 @@ go test ./...
  . | . | service | info
 ---|---|---------|------
  ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de8a4f17bb7546f7b191f47f1b223b8b)](https://www.codacy.com/app/SimonWaldherr/golibs?utm_source=github.com&utm_medium=referral&utm_content=SimonWaldherr/golibs&utm_campaign=badger)
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
  ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Appveyor CI](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Magnum CI](https://img.shields.io/magnumci/ci/e9ccc5689f4135e4021475bfdf0cf527.svg?style=flat-square)](https://magnum-ci.com/public/c4dba43a1c41dbff557e/builds) | magnum-ci.com | just another ci service  
@@ -25,6 +24,8 @@ go test ./...
  ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![Build Status](https://drone.io/bitbucket.org/SimonWaldherr/golibs/status.png)](https://drone.io/bitbucket.org/SimonWaldherr/golibs/latest) | drone.io | the drone.io ci service  
    | [![Go Report Card](http://goreportcard.com/badge/simonwaldherr/golibs)](http://goreportcard.com/report/simonwaldherr/golibs) | goreportcard.com | report card  
    | [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
+   | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/de8a4f17bb7546f7b191f47f1b223b8b)](https://www.codacy.com/app/SimonWaldherr/golibs?utm_source=github.com&utm_medium=referral&utm_content=SimonWaldherr/golibs&utm_campaign=badger) | codacy.com | code quality  
+   | [![BCH compliance](https://bettercodehub.com/edge/badge/SimonWaldherr/golibs?branch=master)](https://bettercodehub.com/) | bettercodehub.com | code quality  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
    | [![codecov.io](http://codecov.io/github/SimonWaldherr/golibs/coverage.svg?branch=master)](http://codecov.io/github/SimonWaldherr/golibs?branch=master) | codecov.io | test coverage  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.de/gocover/golibs/) |  | go tool cover  
