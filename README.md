@@ -47,6 +47,9 @@ each new build gets tested in multiple steps:
 
 ![codecov.io](https://codecov.io/github/SimonWaldherr/golibs/branch.svg?branch=master)
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_large)
+
 ## ToC
 
 * [ansi](https://github.com/SimonWaldherr/golibs#ansi-----) can print colored and styled text to your terminal
@@ -83,6 +86,7 @@ BUT: please remember that you can do things more performantly e.g. converting a 
 ## sublibs
 
 ### ansi - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/ansi) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield)
 
 ```go
 import "simonwaldherr.de/go/golibs/ansi"
