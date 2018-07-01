@@ -32,6 +32,7 @@ type Cache struct {
 	lock       sync.RWMutex
 }
 
+// String returns all cached values as string (for debugging)
 func (cache *Cache) String() string {
 	var str string
 	var keys []string
@@ -113,6 +114,7 @@ func (cache *Cache) Add(key string, value interface{}) bool {
 	return true
 }
 
+// Update changes the value of an key. If the key doesn't exist, it returns false
 func (cache *Cache) Update(key string, value interface{}) bool {
 	item := cache.Get(key)
 	if item == nil {
@@ -122,6 +124,7 @@ func (cache *Cache) Update(key string, value interface{}) bool {
 	return true
 }
 
+// DeleteExpired checks all cache items and deletes the expired items
 func (cache *Cache) DeleteExpired() {
 	cache.lock.Lock()
 	defer cache.lock.Unlock()
@@ -133,31 +136,40 @@ func (cache *Cache) DeleteExpired() {
 	}
 }
 
+// DeleteExpiredWithFunc does the same like DeleteExpired
+// but also calls a function for each deleted item
 func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	for k, v := range cache.items {
 		if v.isExpired() {
 			fn(k, cache.items[k].Object)
-			cache.lock.Lock()
 			delete(cache.items, k)
-			cache.lock.Unlock()
 		}
 	}
 }
 
+// DeleteAllWithFunc does the same like DeleteExpiredWithFunc
+// but not just for the expired items, also the non expired
 func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) {
+	cache.lock.Lock()
+	defer cache.lock.Unlock()
+
 	for k := range cache.items {
 		fn(k, cache.items[k].Object)
-		cache.lock.Lock()
 		delete(cache.items, k)
-		cache.lock.Unlock()
 	}
 }
 
+// Size returns the number of cached items
+// it does not check for expired items, so run DeleteExpired before
 func (cache *Cache) Size() int {
 	n := len(cache.items)
 	return n
 }
 
+// Clear removes all items in the cache
 func (cache *Cache) Clear() {
 	cache.lock.Lock()
 	defer cache.lock.Unlock()
@@ -192,6 +204,7 @@ func cleanerWithFunc(cache *Cache, interval time.Duration, fn func(key string, v
 	}
 }
 
+// New creates a new Cache
 func New(expirationTime, cleanupInterval time.Duration) *Cache {
 	items := make(map[string]*Item)
 	if expirationTime == 0 {
@@ -206,6 +219,7 @@ func New(expirationTime, cleanupInterval time.Duration) *Cache {
 	return cache
 }
 
+// New2 creates a new Cache with a cleaner function
 func New2(expirationTime, cleanupInterval time.Duration, fn func(key string, value interface{})) *Cache {
 	items := make(map[string]*Item)
 	if expirationTime == 0 {
