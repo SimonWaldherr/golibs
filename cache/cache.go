@@ -78,9 +78,6 @@ func (cache *Cache) SetWithDuration(key string, value interface{}, creation time
 
 // Time returns the creation date of a cached item
 func (cache *Cache) Time(key string) time.Time {
-	cache.lock.RLock()
-	defer cache.lock.RUnlock()
-
 	return cache.items[key].Creation
 }
 

@@ -22,7 +22,7 @@ func Test_FmtNow(t *testing.T) {
 
 func Test_Fmt2(t *testing.T) {
 	if FmtNow("%&") != "%&" {
-		t.Fatalf("FmtNow(\"%&\") returns %s", FmtNow("%&"))
+		t.Fatalf("FmtNow(\"%%&\") returns %s", FmtNow("%&"))
 	}
 }
 

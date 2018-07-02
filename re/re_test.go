@@ -16,6 +16,7 @@ func Test_Try(t *testing.T) {
 	err := Try(5, func() error {
 		var err error
 		value, err = SomeFunction()
+		_ = value
 		return err
 	})
 	if err != nil {
