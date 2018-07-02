@@ -91,7 +91,7 @@ func Test_Cache_DeleteAllWithFunc2(t *testing.T) {
 	}
 
 	size1 := c.Size()
-	time.Sleep(130 * time.Millisecond)
+	time.Sleep(330 * time.Millisecond)
 	size2 := c.Size()
 
 	if size1 != 100 || size2 != 0 {
