@@ -12,7 +12,7 @@ var feeds = []string{
 	//"http://minkorrekt.de/feed/m4a/",
 	"http://modellansatz.de/rss/?psb",
 	"http://forschergeist.de/feed/m4a/",
-	"http://www.radiomono.net/feed/m4a/",
+	//"http://www.radiomono.net/feed/m4a/",
 	"http://www.zeitsprung.fm/feed/mp4/",
 	//"http://podcast.firtz.org/firtz/mp3",
 	"http://www.psycho-talk.de/feed/mp3/",
