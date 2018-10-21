@@ -26,7 +26,7 @@ func Init() *Communication {
 					return
 				}
 			case msg := <-hub.messages:
-				for rec, _ := range hub.receiver {
+				for rec := range hub.receiver {
 					go func(message interface{}, receiver chan interface{}) {
 						receiver <- message
 					}(msg, rec)

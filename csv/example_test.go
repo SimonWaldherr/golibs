@@ -33,7 +33,7 @@ func sorting(m map[int][]string) []kv {
 func Example() {
 	csvmap, _ := csv.LoadCSVfromString(userdata)
 	sortedmap := sorting(csvmap)
-	
+
 	for _, user := range sortedmap {
 		fmt.Println(string(user.Value[1]))
 	}
@@ -46,7 +46,7 @@ func Example() {
 func Example_second() {
 	csvmap, _ := csv.LoadCSVfromFile("./test.csv")
 	sortedmap := sorting(csvmap)
-	
+
 	for _, user := range sortedmap {
 		fmt.Println(string(user.Value[1]))
 	}

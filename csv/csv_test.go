@@ -1,8 +1,8 @@
 package csv
 
 import (
-	"testing"
 	"sort"
+	"testing"
 )
 
 var userdata string = `id;name;email
@@ -31,9 +31,28 @@ func Test_LoadCSVfromString(t *testing.T) {
 	var should string = "Max Mustermann, John Doe, Jane Doe"
 
 	csvmap, _ := LoadCSVfromString(userdata)
-	
+
 	sortedmap := sorting(csvmap)
-	
+
+	for _, user := range sortedmap {
+		if str != "" {
+			str += ", "
+		}
+		str += string(user.Value[1])
+	}
+	if str != should {
+		t.Fatalf("user is \"%s\", should be \"%s\"\n", str, should)
+	}
+}
+
+func Test_LoadCSVfromFile(t *testing.T) {
+	var str string
+	var should string = "Max Mustermann, John Doe, Jane Doe"
+
+	csvmap, _ := LoadCSVfromFile("./test.csv")
+
+	sortedmap := sorting(csvmap)
+
 	for _, user := range sortedmap {
 		if str != "" {
 			str += ", "
