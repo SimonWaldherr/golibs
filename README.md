@@ -53,6 +53,7 @@ each new build gets tested in multiple steps:
 * [cache](https://github.com/SimonWaldherr/golibs#cache-----) is an easy and small caching package
 * [cachedfile](https://github.com/SimonWaldherr/golibs#cachedfile-----) simplifies reading and writing from and to disk and adds caching
 * [channel](https://github.com/SimonWaldherr/golibs#channel-----) simplifies channel operations, e.g. sending the same data to multiple receivers
+* [csv](https://github.com/SimonWaldherr/golibs#csv-----) load and parse CSV file
 * [file](https://github.com/SimonWaldherr/golibs#file-----) wraps around the standard functions to simplify reading and writing on disk
 * [foreach](https://github.com/SimonWaldherr/golibs#foreach-----) calls a given function for each element of a [ JSON-string ]
 * [gcurses](https://github.com/SimonWaldherr/golibs#gcurses-----) enabling the development of text user interface applications
@@ -196,6 +197,12 @@ go func() {
 transmitter01 := con.AddTransmitter()
 
 transmitter01 <- "Hello World"
+```
+
+### csv - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/csv) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/csv"
 ```
 
 ### file - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/file) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)

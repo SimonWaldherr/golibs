@@ -79,7 +79,7 @@ func (w *Writer) Listen() {
 }
 
 func (w *Writer) Wait() {
-	time.Sleep(time.Millisecond)
+	time.Sleep(time.Millisecond * 20)
 	w.Flush()
 }
 
