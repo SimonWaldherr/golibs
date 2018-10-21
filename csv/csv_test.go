@@ -2,6 +2,7 @@ package csv
 
 import (
 	"testing"
+	"sort"
 )
 
 var userdata string = `id;name;email
@@ -9,16 +10,35 @@ var userdata string = `id;name;email
 1;Jane Doe;jane.doe@example.com
 2;Max Mustermann;m.mustermann@alpha.tld`
 
+type kv struct {
+	Key   int
+	Value []string
+}
+
+func sorting(m map[int][]string) []kv {
+	var ss []kv
+	for k, v := range m {
+		ss = append(ss, kv{k, v})
+	}
+	sort.Slice(ss, func(i, j int) bool {
+		return ss[i].Value[1] > ss[j].Value[1]
+	})
+	return ss
+}
+
 func Test_LoadCSVfromString(t *testing.T) {
 	var str string
-	var should string = "John Doe, Jane Doe, Max Mustermann"
+	var should string = "Max Mustermann, John Doe, Jane Doe"
 
-	csvmap, k := LoadCSVfromString(userdata)
-	for _, user := range csvmap {
+	csvmap, _ := LoadCSVfromString(userdata)
+	
+	sortedmap := sorting(csvmap)
+	
+	for _, user := range sortedmap {
 		if str != "" {
 			str += ", "
 		}
-		str += user[k["name"]]
+		str += string(user.Value[1])
 	}
 	if str != should {
 		t.Fatalf("user is \"%s\", should be \"%s\"\n", str, should)
