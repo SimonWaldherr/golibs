@@ -1,50 +1,50 @@
 package csv
 
 import (
-    "bufio"
-    "encoding/csv"
-    "io"
-    "os"
-    "strings"
+	"bufio"
+	"encoding/csv"
+	"io"
+	"os"
+	"strings"
 )
 
 func LoadCSVfromFile(filename string) (map[int][]string, map[string]int) {
-    fp, _ := os.Open(filename)
-    return loadCSV(bufio.NewReader(fp))
+	fp, _ := os.Open(filename)
+	return loadCSV(bufio.NewReader(fp))
 }
 
 func LoadCSVfromString(csv string) (map[int][]string, map[string]int) {
-    fp := strings.NewReader(csv)
-    return loadCSV(fp)
+	fp := strings.NewReader(csv)
+	return loadCSV(fp)
 }
 
 func loadCSV(reader io.Reader) (map[int][]string, map[string]int) {
-    var row int
-    var head = map[int][]string{}
-    var data = map[int][]string{}
+	var row int
+	var head = map[int][]string{}
+	var data = map[int][]string{}
 
-    csvReader := csv.NewReader(reader)
-    csvReader.Comma = ';'
-    for {
-        record, err := csvReader.Read()
-        if err == io.EOF {
-            break
-        }
+	csvReader := csv.NewReader(reader)
+	csvReader.Comma = ';'
+	for {
+		record, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
 
-        if row == 0 {
-            head[row] = record
-        } else {
-            data[row] = record
-        }
-        row++
-    }
-    return data, GetHead(head)
+		if row == 0 {
+			head[row] = record
+		} else {
+			data[row] = record
+		}
+		row++
+	}
+	return data, GetHead(head)
 }
 
 func GetHead(data map[int][]string) map[string]int {
-    head := make(map[string]int, len(data[0]))
-    for pos, name := range data[0] {
-        head[name] = pos
-    }
-    return head
+	head := make(map[string]int, len(data[0]))
+	for pos, name := range data[0] {
+		head[name] = pos
+	}
+	return head
 }
