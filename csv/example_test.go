@@ -54,3 +54,12 @@ func Example_third() {
 
 	// Output: jDoe@example.org
 }
+
+func Example_fourth() {
+	csvmap, k := csv.LoadCSVfromFile("./test.csv")
+	for _, user := range csvmap {
+		fmt.Println(user[k["email"]])
+	}
+
+	// Output: jDoe@example.org
+}

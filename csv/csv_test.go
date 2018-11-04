@@ -6,9 +6,7 @@ import (
 )
 
 var userdata string = `id;name;email
-0;John Doe;jDoe@example.org
-1;Jane Doe;jane.doe@example.com
-2;Max Mustermann;m.mustermann@alpha.tld`
+0;John Doe;jDoe@example.org`
 
 type kv struct {
 	Key   int
@@ -28,17 +26,15 @@ func sorting(m map[int][]string) []kv {
 
 func Test_LoadCSVfromString(t *testing.T) {
 	var str string
-	var should string = "Max Mustermann, John Doe, Jane Doe"
+	var should string = "John Doe"
 
-	csvmap, _ := LoadCSVfromString(userdata)
+	csvmap, k := LoadCSVfromString(userdata)
 
-	sortedmap := sorting(csvmap)
-
-	for _, user := range sortedmap {
+	for _, user := range csvmap {
 		if str != "" {
 			str += ", "
 		}
-		str += string(user.Value[1])
+		str += user[k["name"]]
 	}
 	if str != should {
 		t.Fatalf("user is \"%s\", should be \"%s\"\n", str, should)
@@ -47,17 +43,15 @@ func Test_LoadCSVfromString(t *testing.T) {
 
 func Test_LoadCSVfromFile(t *testing.T) {
 	var str string
-	var should string = "Max Mustermann, John Doe, Jane Doe"
+	var should string = "John Doe"
 
-	csvmap, _ := LoadCSVfromFile("./test.csv")
+	csvmap, k := LoadCSVfromFile("./test.csv")
 
-	sortedmap := sorting(csvmap)
-
-	for _, user := range sortedmap {
+	for _, user := range csvmap {
 		if str != "" {
 			str += ", "
 		}
-		str += string(user.Value[1])
+		str += user[k["name"]]
 	}
 	if str != should {
 		t.Fatalf("user is \"%s\", should be \"%s\"\n", str, should)
