@@ -31,29 +31,19 @@ func sorting(m map[int][]string) []kv {
 }
 
 func Example() {
-	csvmap, _ := csv.LoadCSVfromString(userdata)
-	sortedmap := sorting(csvmap)
+	csvmap, k := csv.LoadCSVfromString(userdata)
 
-	for _, user := range sortedmap {
-		fmt.Println(string(user.Value[1]))
+	for _, user := range csvmap {
+		fmt.Println(user[k["email"]])
 	}
-
-	// Output: Max Mustermann
-	// John Doe
-	// Jane Doe
 }
 
 func Example_second() {
-	csvmap, _ := csv.LoadCSVfromFile("./test.csv")
-	sortedmap := sorting(csvmap)
+	csvmap, k := csv.LoadCSVfromFile("./test.csv")
 
-	for _, user := range sortedmap {
-		fmt.Println(string(user.Value[1]))
+	for _, user := range csvmap {
+		fmt.Println(user[k["email"]])
 	}
-
-	// Output: Max Mustermann
-	// John Doe
-	// Jane Doe
 }
 
 func Example_third() {
