@@ -25,7 +25,6 @@ go test ./...
    | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/de8a4f17bb7546f7b191f47f1b223b8b)](https://www.codacy.com/app/SimonWaldherr/golibs?utm_source=github.com&utm_medium=referral&utm_content=SimonWaldherr/golibs&utm_campaign=badger) | codacy.com | code quality  
    | [![BCH compliance](https://bettercodehub.com/edge/badge/SimonWaldherr/golibs?branch=master)](https://bettercodehub.com/) | bettercodehub.com | code quality  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
-   | [![codecov.io](http://codecov.io/github/SimonWaldherr/golibs/coverage.svg?branch=master)](http://codecov.io/github/SimonWaldherr/golibs?branch=master) | codecov.io | test coverage  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.de/gocover/golibs/) |  | go tool cover  
    | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield) | fossa.io | license report  
    | [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
