@@ -1,10 +1,9 @@
 package as_test
 
 import (
-	"fmt"
-	//"simonwaldherr.de/go/golibs/as"
-	as "../as"
 	"encoding/json"
+	"fmt"
+	"simonwaldherr.de/go/golibs/as"
 	"time"
 )
 
