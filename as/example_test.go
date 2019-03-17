@@ -2,7 +2,9 @@ package as_test
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/as"
+	//"simonwaldherr.de/go/golibs/as"
+	as "../as"
+	"encoding/json"
 	"time"
 )
 
@@ -120,4 +122,34 @@ func ExampleType() {
 	// 2010/07/29 => date
 	// 2006-01-02 => date
 	// ¢«∑€®†Ω¨⁄øπ•±‘æœ@∆ºª©ƒ∂‚å≤¥≈ç√∫~µ∞…–¡“≠¿'¬”ﬁ =>
+}
+
+type dynStruct struct {
+	First  as.Dynamic `json:"first"`
+	Second as.Dynamic `json:"second"`
+	Third  as.Dynamic `json:"third"`
+}
+
+func ExampleType_json() {
+	jsonStr := `
+{
+	"first": "2019-01-04 00:00:00",
+	"second": "foobar@example.tld",
+	"third": "15€"
+}`
+
+	x := dynStruct{}
+
+	if err := json.Unmarshal([]byte(jsonStr), &x); err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Printf("%v: %v\n", x.First.Type, x.First.Data)
+	fmt.Printf("%v: %v\n", x.Second.Type, x.Second.Data)
+	fmt.Printf("%v: %v\n", x.Third.Type, x.Third.Data)
+
+	// Output:
+	// date: 2019-01-04 00:00:00 +0000 UTC
+	// email: foobar@example.tld
+	// price: 15€
 }

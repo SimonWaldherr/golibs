@@ -14,6 +14,11 @@ type ree struct {
 	re  string
 }
 
+type Dynamic struct {
+	Type string
+	Data interface{}
+}
+
 // regex (regular expression) in a slice of ree struct
 var regex = [...]ree{
 	{
@@ -117,6 +122,7 @@ var timeformats = []string{
 	"2006-01-02 15:04:05",
 	"2006-01-02T15:04:05",
 	"02.01.2006 15:04:05",
+	"2006-01-02 15:04:05 -0700 MST",
 }
 
 // Bool returns a boolean value.
