@@ -2,7 +2,9 @@
 package cache
 
 import (
+	"encoding/gob"
 	"fmt"
+	"io"
 	"os"
 	"os/signal"
 	"sort"
@@ -30,6 +32,39 @@ type Cache struct {
 	Expiration time.Duration
 	items      map[string]*Item
 	lock       sync.RWMutex
+}
+
+// Export all items to a gob buffer
+func (cache *Cache) Export(w io.Writer) error {
+	enc := gob.NewEncoder(w)
+
+	cache.lock.RLock()
+	defer cache.lock.RUnlock()
+
+	X := make(map[string]interface{})
+
+	for k := range cache.items {
+		X[k] = cache.items[k].Object
+	}
+	if err := enc.Encode(X); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Import all items from a gob buffer
+func (cache *Cache) Import(r io.Reader) error {
+	dec := gob.NewDecoder(r)
+	X := make(map[string]interface{})
+
+	if err := dec.Decode(&X); err != nil {
+		return err
+	}
+	
+	for k, v := range X {
+		cache.Set(k, v)
+	}
+	return nil
 }
 
 // String returns all cached values as string (for debugging)

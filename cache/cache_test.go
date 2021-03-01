@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"bytes"
 	"fmt"
 	"math/rand"
 	"sync"
@@ -41,12 +42,12 @@ func Test_Cache_DeleteExpiredWithFunc(t *testing.T) {
 	var count int
 
 	for i := 0; i < 100; i++ {
-		key, value = string(i), "test"
+		key, value = fmt.Sprint(i), "test"
 		c.Set(key, value)
 	}
 
 	for i := 0; i < 50; i++ {
-		key = string(i)
+		key = fmt.Sprint(i)
 		c.Get(key)
 		time.Sleep(10 * time.Millisecond)
 	}
@@ -65,7 +66,7 @@ func Test_Cache_DeleteAllWithFunc(t *testing.T) {
 	var count int
 
 	for i := 0; i < 100; i++ {
-		key, value = string(i), "test"
+		key, value = fmt.Sprint(i), "test"
 		c.Set(key, value)
 	}
 
@@ -86,7 +87,7 @@ func Test_Cache_DeleteAllWithFunc2(t *testing.T) {
 	})
 
 	for i := 0; i < 100; i++ {
-		key, value = string(i), "test"
+		key, value = fmt.Sprint(i), "test"
 		c.Set(key, value)
 	}
 
@@ -242,6 +243,32 @@ func Test_Concurrent(t *testing.T) {
 	}()
 	wg.Wait()
 	c.Clear()
+}
+
+func Test_Export(t *testing.T) {
+	c := New(5*time.Second, 1*time.Second)
+
+	c.Add("0", 23)
+	c.Add("1", 1*time.Second)
+	c.Add("2", "foobar")
+	c.Add("3", false)
+	c.Add("4", []byte("test"))
+
+	var buf bytes.Buffer
+
+	fmt.Println(buf.Len())
+
+	//fmt.Printf("Pre-Exported: %#v\n", buf)
+	fmt.Printf("Buffer-Len: %v\n", buf.Len())
+	c.Export(&buf)
+	fmt.Printf("Buffer-Len: %v\n", buf.Len())
+	//fmt.Printf("Exported: %#v\n", buf)
+
+	c2 := New(15*time.Second, 1*time.Second)
+	c2.Import(&buf)
+	fmt.Printf("Buffer-Len: %v\n", buf.Len())
+	//fmt.Println(&buf)
+	fmt.Println(c2.String())
 }
 
 func BenchmarkAdd(b *testing.B) {
