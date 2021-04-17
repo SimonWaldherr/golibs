@@ -224,9 +224,6 @@ func Rootmeansquare(val interface{}) float64 {
 }
 
 // Harmonic returns the harmonic mean from a slice of Values as float64.
-// The arithmetic mean or simply the mean or average when the context is clear,
-// is the sum of a list of numbers divided by the number of numbers
-// in the list.
 // It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Harmonic(val interface{}) float64 {

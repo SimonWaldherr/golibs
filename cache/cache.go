@@ -60,7 +60,7 @@ func (cache *Cache) Import(r io.Reader) error {
 	if err := dec.Decode(&X); err != nil {
 		return err
 	}
-	
+
 	for k, v := range X {
 		cache.Set(k, v)
 	}

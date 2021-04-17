@@ -1,10 +1,10 @@
 package cache_test
 
 import (
+	"bytes"
 	"fmt"
 	"simonwaldherr.de/go/golibs/cache"
 	"time"
-	"bytes"
 )
 
 func ExampleCache() {
@@ -44,7 +44,7 @@ func ExampleExport() {
 	c2.Import(&buf)
 
 	fmt.Println(c2.String())
-	
+
 	// Output:
 	//0	23
 	//2	foobar
