@@ -17,12 +17,8 @@ go test ./...
 ---|---|---------|------
  ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
  ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
- ![Windows Build Status](https://simonwaldherr.de/icon/win.png) | [![Appveyor CI](https://img.shields.io/appveyor/ci/SimonWaldherr/golibs.svg?style=flat-square)](https://ci.appveyor.com/project/SimonWaldherr/golibs/branch/master) | appveyor.com | test under windows  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Semaphore CI](https://semaphoreci.com/api/v1/projects/fe1a7a53-a2c0-4bc0-a539-4af4ef13d49f/487313/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | yet another ci service  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux1.png) | [![Wercker CI](https://app.wercker.com/status/c08af8170c3ee4955ca683dd8bf96f07/s/master "wercker status")](https://app.wercker.com/project/bykey/c08af8170c3ee4955ca683dd8bf96f07) | wercker.com | the wercker ci service  
-   | [![Go Report Card](http://goreportcard.com/badge/simonwaldherr/golibs)](http://goreportcard.com/report/simonwaldherr/golibs) | goreportcard.com | report card  
+   | [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
    | [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
-   | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/de8a4f17bb7546f7b191f47f1b223b8b)](https://www.codacy.com/app/SimonWaldherr/golibs?utm_source=github.com&utm_medium=referral&utm_content=SimonWaldherr/golibs&utm_campaign=badger) | codacy.com | code quality  
    | [![BCH compliance](https://bettercodehub.com/edge/badge/SimonWaldherr/golibs?branch=master)](https://bettercodehub.com/) | bettercodehub.com | code quality  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
    | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.de/gocover/golibs/) |  | go tool cover  
@@ -42,7 +38,6 @@ each new build gets tested in multiple steps:
 	* **magnum-ci**, another ci service build the lib and tests on a linux (ubuntu) machine
 	* **semaphoreci**, yet another (linux (ubuntu) based) ci service
 
-![codecov.io](https://codecov.io/github/SimonWaldherr/golibs/branch.svg?branch=master)
 
 ## ToC
 
