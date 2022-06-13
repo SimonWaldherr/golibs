@@ -3,8 +3,9 @@ package as_test
 import (
 	"encoding/json"
 	"fmt"
-	"simonwaldherr.de/go/golibs/as"
 	"time"
+
+	"simonwaldherr.de/go/golibs/as"
 )
 
 func ExampleBool() {

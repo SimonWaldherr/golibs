@@ -4,9 +4,10 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/gcurses"
 	"strings"
 	"time"
+	
+	"simonwaldherr.de/go/golibs/gcurses"
 )
 
 func ConcatMultiline(str ...string) string {

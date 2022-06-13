@@ -2,8 +2,9 @@ package channel_test
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/channel"
 	"sync"
+
+	"simonwaldherr.de/go/golibs/channel"
 )
 
 func ExampleInit() {

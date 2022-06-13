@@ -69,7 +69,7 @@ func Parse() {
 			case <-time.After(flagVar[v].timeout):
 				value = flagVar[v].defaultValue
 			}
-		} else if (flagVar[v].argNr >= 1 && flagVar[v].argNr < len(os.Args)) {
+		} else if flagVar[v].argNr >= 1 && flagVar[v].argNr < len(os.Args) {
 			value = os.Args[flagVar[v].argNr]
 		} else {
 			value = flagVar[v].defaultValue

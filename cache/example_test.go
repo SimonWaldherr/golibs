@@ -3,8 +3,9 @@ package cache_test
 import (
 	"bytes"
 	"fmt"
-	"simonwaldherr.de/go/golibs/cache"
 	"time"
+
+	"simonwaldherr.de/go/golibs/cache"
 )
 
 func ExampleCache() {

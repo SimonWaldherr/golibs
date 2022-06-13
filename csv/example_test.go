@@ -2,8 +2,9 @@ package csv_test
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/csv"
 	"sort"
+
+	"simonwaldherr.de/go/golibs/csv"
 )
 
 var userdata string = `id;name;email

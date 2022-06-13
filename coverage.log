@@ -1,41 +1,42 @@
 COVERAGE TEST
 ansi coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/ansi	0.069s	coverage: 100.0% of statements
-arg coverage: 89.5% of statements
-ok  	_/Users/simonwaldherr/git/golibs/arg	0.073s	coverage: 89.5% of statements
+ok  	_/Users/simonwaldherr/git/golibs/ansi	0.166s	coverage: 100.0% of statements
+arg coverage: 72.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/arg	0.239s	coverage: 72.0% of statements
 as 0% (could not build)
-cache coverage: 96.9% of statements
-ok  	_/Users/simonwaldherr/git/golibs/cache	2.269s	coverage: 96.9% of statements
+cache coverage: 93.1% of statements
+ok  	_/Users/simonwaldherr/git/golibs/cache	2.278s	coverage: 93.1% of statements
 cachedfile coverage: 96.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/cachedfile	0.102s	coverage: 96.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/cachedfile	0.198s	coverage: 96.0% of statements
 channel coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/channel	0.088s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/channel	0.182s	coverage: 100.0% of statements
 csv coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/csv	0.083s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/csv	0.165s	coverage: 100.0% of statements
 file coverage: 92.7% of statements
-ok  	_/Users/simonwaldherr/git/golibs/file	0.174s	coverage: 92.7% of statements
+ok  	_/Users/simonwaldherr/git/golibs/file	0.385s	coverage: 92.7% of statements
 foreach coverage: 90.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/foreach	0.096s	coverage: 90.0% of statements
-gcurses coverage: 97.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/foreach	0.321s	coverage: 90.0% of statements
+gcurses coverage: 90.9% of statements
 gopath coverage: 93.1% of statements
-ok  	_/Users/simonwaldherr/git/golibs/gopath	0.069s	coverage: 93.1% of statements
+ok  	_/Users/simonwaldherr/git/golibs/gopath	0.187s	coverage: 93.1% of statements
 graphics coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/graphics	0.424s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/graphics	0.418s	coverage: 100.0% of statements
+http 0% (could not build)
 log coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/log	0.068s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/log	0.171s	coverage: 100.0% of statements
 re coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/re	0.598s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/re	0.702s	coverage: 100.0% of statements
 regex coverage: 88.9% of statements
-ok  	_/Users/simonwaldherr/git/golibs/regex	0.073s	coverage: 88.9% of statements
+ok  	_/Users/simonwaldherr/git/golibs/regex	0.269s	coverage: 88.9% of statements
 rss coverage: 92.9% of statements
-ok  	_/Users/simonwaldherr/git/golibs/rss	1.247s	coverage: 92.9% of statements
+ok  	_/Users/simonwaldherr/git/golibs/rss	5.199s	coverage: 92.9% of statements
 ssl coverage: 87.2% of statements
-ok  	_/Users/simonwaldherr/git/golibs/ssl	0.866s	coverage: 87.2% of statements
+ok  	_/Users/simonwaldherr/git/golibs/ssl	1.381s	coverage: 87.2% of statements
 stack coverage: 99.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/stack	0.068s	coverage: 99.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/stack	0.281s	coverage: 99.0% of statements
 structs coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/structs	0.069s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/structs	0.187s	coverage: 100.0% of statements
 xmath coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/xmath	0.079s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/xmath	0.241s	coverage: 100.0% of statements
 xtime coverage: 100.0% of statements
-ok  	_/Users/simonwaldherr/git/golibs/xtime	0.069s	coverage: 100.0% of statements
+ok  	_/Users/simonwaldherr/git/golibs/xtime	0.356s	coverage: 100.0% of statements

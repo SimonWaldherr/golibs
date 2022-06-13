@@ -5,12 +5,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
+	
 	"simonwaldherr.de/go/golibs/ansi"
 	"simonwaldherr.de/go/golibs/as"
 	"simonwaldherr.de/go/golibs/regex"
 	"simonwaldherr.de/go/golibs/stack"
 	"simonwaldherr.de/go/golibs/xmath"
-	"strconv"
 )
 
 func main() {

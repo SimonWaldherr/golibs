@@ -58,6 +58,7 @@ each new build gets tested in multiple steps:
 * [gcurses](https://github.com/SimonWaldherr/golibs#gcurses-----) enabling the development of text user interface applications
 * [gopath](https://github.com/SimonWaldherr/golibs#gopath-----) provides an easy way to get system information
 * [graphics](https://github.com/SimonWaldherr/golibs#graphics-----) can manipulate images
+* [http](https://github.com/SimonWaldherr/golibs#http-----) make easy and fast HTTP(S) requests
 * [log](https://github.com/SimonWaldherr/golibs#log-----) helps on logging your applications status
 * [re](https://github.com/SimonWaldherr/golibs#re-----) helps you whenever you have to do something multiple times
 * [regex](https://github.com/SimonWaldherr/golibs#regex-----) is a layer to speed up your regular expression development
@@ -314,6 +315,12 @@ with **graphics** you can manipulate images
 img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
 	return g, b, r, a
 })
+```
+
+### http - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/http) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/http"
 ```
 
 ### log - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/log) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)

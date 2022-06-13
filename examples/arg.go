@@ -4,8 +4,9 @@ package main
 
 import (
 	"fmt"
-	"simonwaldherr.de/go/golibs/arg"
 	"time"
+	
+	"simonwaldherr.de/go/golibs/arg"
 )
 
 func main() {

@@ -7,10 +7,11 @@ import (
 	"log"
 	"math/rand"
 	"runtime"
+	"time"
+	
 	"simonwaldherr.de/go/golibs/ansi"
 	"simonwaldherr.de/go/golibs/as"
 	"simonwaldherr.de/go/golibs/cache"
-	"time"
 )
 
 func runt() {

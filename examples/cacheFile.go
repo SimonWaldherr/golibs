@@ -4,9 +4,10 @@ package main
 
 import (
 	"log"
+	"time"
+	
 	"simonwaldherr.de/go/golibs/cachedfile"
 	"simonwaldherr.de/go/golibs/file"
-	"time"
 )
 
 func main() {
