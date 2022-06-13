@@ -3,7 +3,7 @@
 package main
 
 import (
-	"../log"
+	"simonwaldherr.de/go/golibs/log"
 )
 
 func main() {
