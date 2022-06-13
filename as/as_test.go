@@ -1,6 +1,7 @@
 package as
 
 import (
+	"fmt"
 	"strconv"
 	"testing"
 )
@@ -88,7 +89,7 @@ func Test_FixedLengthAfter(t *testing.T) {
 
 func Benchmark_FixedLengthAfter(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FixedLengthAfter(string(i), " ", 8)
+		FixedLengthAfter(fmt.Sprint(i), " ", 8)
 	}
 }
 
@@ -106,7 +107,7 @@ func Test_FixedLengthBefore(t *testing.T) {
 
 func Benchmark_FixedLengthBefore(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FixedLengthBefore(string(i), " ", 8)
+		FixedLengthBefore(fmt.Sprint(i), " ", 8)
 	}
 }
 
@@ -127,7 +128,7 @@ func Test_FixedLengthCenter(t *testing.T) {
 
 func Benchmark_FixedLengthCenter(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FixedLengthCenter(string(i), " ", 15)
+		FixedLengthCenter(fmt.Sprint(i), " ", 15)
 	}
 }
 
@@ -217,7 +218,7 @@ func Test_FloatFromXString(t *testing.T) {
 
 func Benchmark_FloatFromXString(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FloatFromXString(string(i))
+		FloatFromXString(fmt.Sprint(i))
 	}
 }
 

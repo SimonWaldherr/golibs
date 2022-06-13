@@ -51,11 +51,11 @@ do
 	 fi
 
 	 if [ "x$CHEADER" != "x" ]; then
-		 cat README.md | replace "$CHEADER" "$NHEADER" > README.$i.md; mv README.$i.md README.md
+		 rpl "$CHEADER" "$NHEADER" README.md 
 	 fi
 done
 
-cat README.md | replace "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" > README.x.md; mv README.x.md README.md
+rpl "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" README.md 
 
 cp ./file/test.txt ./cachedfile/test.txt
 cp ./file/test.txt ./examples/test.txt
