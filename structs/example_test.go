@@ -25,7 +25,7 @@ func ExampleReflect() {
 	x := structs.Reflect(lips)
 
 	keys := []string{}
-	for k, _ := range x {
+	for k := range x {
 		keys = append(keys, k)
 	}
 

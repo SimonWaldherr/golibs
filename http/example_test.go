@@ -20,7 +20,7 @@ func ExampleClient() {
 		}
 	}))
 	defer ts.Close()
-	
+
 	client := http.Client(time.Second * 15)
 	resp, err := client.Get(ts.URL)
 
@@ -51,7 +51,7 @@ func ExampleGetString() {
 		}
 	}))
 	defer ts.Close()
-	
+
 	resp, err := http.GetString(ts.URL)
 
 	if err != nil {
@@ -73,7 +73,7 @@ func ExampleUserAgent() {
 		}
 	}))
 	defer ts.Close()
-	
+
 	client := http.Client(time.Second * 15)
 
 	req, _ := http.NewRequest("GET", ts.URL, nil)
