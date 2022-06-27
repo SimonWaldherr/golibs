@@ -1,10 +1,11 @@
+//go:build local
 // +build local
 
 package main
 
 import (
 	"fmt"
-	
+
 	"simonwaldherr.de/go/golibs/gopath"
 )
 

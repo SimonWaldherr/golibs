@@ -1,3 +1,4 @@
+//go:build local
 // +build local
 
 package main
@@ -7,7 +8,7 @@ import (
 	"image/jpeg"
 	"log"
 	"os"
-	
+
 	"simonwaldherr.de/go/golibs/ansi"
 	"simonwaldherr.de/go/golibs/graphics"
 )

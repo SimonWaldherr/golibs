@@ -1,3 +1,4 @@
+//go:build local
 // +build local
 
 package main
@@ -5,7 +6,7 @@ package main
 import (
 	"log"
 	"time"
-	
+
 	"simonwaldherr.de/go/golibs/cachedfile"
 	"simonwaldherr.de/go/golibs/file"
 )

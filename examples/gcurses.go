@@ -1,3 +1,4 @@
+//go:build local
 // +build local
 
 package main
@@ -6,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
-	
+
 	"simonwaldherr.de/go/golibs/gcurses"
 )
 

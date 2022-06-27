@@ -1,3 +1,4 @@
+//go:build local
 // +build local
 
 package main
@@ -6,7 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	
+
 	"simonwaldherr.de/go/golibs/ansi"
 	"simonwaldherr.de/go/golibs/as"
 	"simonwaldherr.de/go/golibs/regex"

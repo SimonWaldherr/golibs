@@ -1,3 +1,4 @@
+//go:build local
 // +build local
 
 package main
@@ -8,7 +9,7 @@ import (
 	"math/rand"
 	"runtime"
 	"time"
-	
+
 	"simonwaldherr.de/go/golibs/ansi"
 	"simonwaldherr.de/go/golibs/as"
 	"simonwaldherr.de/go/golibs/cache"

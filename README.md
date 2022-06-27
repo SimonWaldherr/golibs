@@ -16,7 +16,7 @@ go test ./...
  . | . | service | info
 ---|---|---------|------
  ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://img.shields.io/travis/SimonWaldherr/golibs.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
+ ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.org | test on various go versions  
    | [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
    | [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
    | [![BCH compliance](https://bettercodehub.com/edge/badge/SimonWaldherr/golibs?branch=master)](https://bettercodehub.com/) | bettercodehub.com | code quality  
