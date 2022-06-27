@@ -1,11 +1,11 @@
 package http
 
 import (
-	"context"
+	//"context"
 	"io"
-	"net"
+	//"net"
 	"net/http"
-	"strings"
+	//"strings"
 	"time"
 
 	//"github.com/rs/dnscache"
@@ -16,7 +16,7 @@ var client http.Client
 var clientReady bool = false
 
 func init() {
-	dnsResolver := &dnscache.Resolver{}
+	//dnsResolver := &dnscache.Resolver{}
 	Transporter = &http.Transport{
 		/*
 		DialContext: func(ctx context.Context, network string, addr string) (conn net.Conn, err error) {
