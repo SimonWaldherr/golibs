@@ -3,27 +3,26 @@ package http_test
 import (
 	"fmt"
 	"io/ioutil"
-	webserver "net/http"
+	ohttp "net/http"
+	"net/http/httptest"
 	"time"
 
 	"simonwaldherr.de/go/golibs/http"
 )
 
-func init() {
-	webserver.HandleFunc("/hello", func(rw webserver.ResponseWriter, req *webserver.Request) {
+func ExampleClient() {
+	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
 		userAgent := req.UserAgent()
 		if userAgent == "Golang_Bot/1.0" {
 			fmt.Fprintf(rw, "hello gopher\n")
 		} else {
 			fmt.Fprintf(rw, "hello world\n")
 		}
-	})
-	go webserver.ListenAndServe(":8081", nil)
-}
-
-func ExampleClient() {
+	}))
+	defer ts.Close()
+	
 	client := http.Client(time.Second * 15)
-	resp, err := client.Get("http://localhost:8081/hello")
+	resp, err := client.Get(ts.URL)
 
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +42,17 @@ func ExampleClient() {
 }
 
 func ExampleGetString() {
-	resp, err := http.GetString("http://localhost:8081/hello")
+	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
+		userAgent := req.UserAgent()
+		if userAgent == "Golang_Bot/1.0" {
+			fmt.Fprintf(rw, "hello gopher\n")
+		} else {
+			fmt.Fprintf(rw, "hello world\n")
+		}
+	}))
+	defer ts.Close()
+	
+	resp, err := http.GetString(ts.URL)
 
 	if err != nil {
 		fmt.Println(err)
@@ -55,9 +64,19 @@ func ExampleGetString() {
 }
 
 func ExampleUserAgent() {
+	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
+		userAgent := req.UserAgent()
+		if userAgent == "Golang_Bot/1.0" {
+			fmt.Fprintf(rw, "hello gopher\n")
+		} else {
+			fmt.Fprintf(rw, "hello world\n")
+		}
+	}))
+	defer ts.Close()
+	
 	client := http.Client(time.Second * 15)
 
-	req, _ := http.NewRequest("GET", "http://localhost:8081/hello", nil)
+	req, _ := http.NewRequest("GET", ts.URL, nil)
 	req.Header.Set("User-Agent", "Golang_Bot/1.0")
 
 	resp, _ := client.Do(req)
