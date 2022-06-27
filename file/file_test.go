@@ -335,8 +335,8 @@ func changeWD(str string) string {
 
 	switch {
 	case strings.Contains(wd, "/home/travis/gopath/"):
-		// https://travis-ci.org/
-		return strings.Replace(str, orig, "/home/travis/gopath/src/github.com/SimonWaldherr/golibs/", 1)
+		// https://travis-ci.com/
+		return strings.Replace(str, orig, "/home/travis/gopath/src/simonwaldherr.de/go/golibs/", 1)
 	case strings.Contains(wd, "/home/magnum/golibs/"):
 		// https://magnum-ci.com/
 		return strings.Replace(str, orig, "/home/magnum/golibs/", 1)

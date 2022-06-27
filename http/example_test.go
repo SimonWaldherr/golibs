@@ -2,7 +2,6 @@ package http_test
 
 import (
 	"fmt"
-	"io"
 	"io/ioutil"
 	webserver "net/http"
 	"time"
@@ -31,7 +30,7 @@ func ExampleClient() {
 	}
 
 	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		fmt.Println(err)
