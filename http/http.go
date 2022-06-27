@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rs/dnscache"
+	//"github.com/rs/dnscache"
 )
 
 var Transporter *http.Transport
@@ -18,6 +18,7 @@ var clientReady bool = false
 func init() {
 	dnsResolver := &dnscache.Resolver{}
 	Transporter = &http.Transport{
+		/*
 		DialContext: func(ctx context.Context, network string, addr string) (conn net.Conn, err error) {
 			separator := strings.LastIndex(addr, ":")
 			ips, err := dnsResolver.LookupHost(ctx, addr[:separator])
@@ -31,18 +32,19 @@ func init() {
 				}
 			}
 			return
-		},
+		},*/
 		MaxIdleConns:    1024,
 		MaxConnsPerHost: 1024,
 		IdleConnTimeout: 10 * time.Second,
 	}
+	/*
 	go func() {
 		cacheTicker := time.NewTicker(30 * time.Minute)
 		defer cacheTicker.Stop()
 		for range cacheTicker.C {
 			dnsResolver.Refresh(true)
 		}
-	}()
+	}()*/
 }
 
 var NewRequest = http.NewRequest
