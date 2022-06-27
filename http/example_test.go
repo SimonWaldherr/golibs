@@ -27,6 +27,7 @@ func ExampleClient() {
 
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	defer resp.Body.Close()
