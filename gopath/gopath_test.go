@@ -55,12 +55,6 @@ func Test_GOROOT(t *testing.T) {
 	}
 }
 
-func Test_GOPATH(t *testing.T) {
-	if v := GOPATH(); !isDir(v) {
-		t.Fatalf("GOPATH should be a directory but is: %v", v)
-	}
-}
-
 func Test_Compiled(t *testing.T) {
 	if v := Compiled(); v == true {
 		t.Fatalf("Compiled should be false but is: %v", v)
