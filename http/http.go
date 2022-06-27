@@ -2,7 +2,7 @@ package http
 
 import (
 	//"context"
-	"io"
+	"io/ioutil"
 	//"net"
 	"net/http"
 	//"strings"
@@ -68,7 +68,7 @@ func GetString(url string) (string, error) {
 	}
 
 	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		return "", err
