@@ -1,7 +1,6 @@
 package ssh
 
 import (
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -9,7 +8,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func SecureShell(user string, host string, port string, keyfile string) {
+func SecureShell(user string, host string, port string, keyfile string) *ssh.Session {
 	var client *ssh.Client
 	var session *ssh.Session
 	var err error
