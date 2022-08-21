@@ -45,6 +45,7 @@ each new build gets tested in multiple steps:
 * [ansi](https://github.com/SimonWaldherr/golibs#ansi-----) can print colored and styled text to your terminal
 * [arg](https://github.com/SimonWaldherr/golibs#arg-----) simplifies cli flags (arguments)
 * [as](https://github.com/SimonWaldherr/golibs#as-----) can convert most standard data types to most other data types
+* [bitmask](https://github.com/SimonWaldherr/golibs#bitmask-----) set and get bits in a bitmask
 * [cache](https://github.com/SimonWaldherr/golibs#cache-----) is an easy and small caching package
 * [cachedfile](https://github.com/SimonWaldherr/golibs#cachedfile-----) simplifies reading and writing from and to disk and adds caching
 * [channel](https://github.com/SimonWaldherr/golibs#channel-----) simplifies channel operations, e.g. sending the same data to multiple receivers
@@ -131,6 +132,19 @@ var x int = as.Int("32")
 
 ```go
 var x time.Time = as.Time("31.12.2014")
+```
+
+### bitmask - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/bitmask) [![Coverage Status](https://img.shields.io/badge/coverage-76%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+
+```go
+import "simonwaldherr.de/go/golibs/bitmask"
+```
+
+with **bitmask** you can set and get bits to and from a bitmask:  
+
+```go
+i := bitmask.New(0b11111111)
+i.Set(0, false)
 ```
 
 ### cache - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/cache) [![Coverage Status](https://img.shields.io/badge/coverage-97%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)

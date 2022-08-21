@@ -1,4 +1,4 @@
-//Package rss provides a RSS parser
+// Package rss provides a RSS parser
 package rss
 
 import (
