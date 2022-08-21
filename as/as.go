@@ -88,7 +88,7 @@ var regex = [...]ree{
 }
 
 // timeformats contains the supported time formats
-// for the convertion to time.Time.
+// for the conversion to time.Time.
 var timeformats = []string{
 	time.ANSIC,
 	time.UnixDate,
