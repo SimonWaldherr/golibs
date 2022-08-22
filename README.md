@@ -2,6 +2,8 @@
 golang functions (to be included in other projects)
 
 take a look at the 
-[golibs godoc](http://simonwaldherr.github.io/golibs/godoc/pkg/simonwaldherr.de/go/golibs.html) 
+[documentation](https://simonwaldherr.github.io/golibs/godoc/pkg/simonwaldherr.de/go/golibs.html) 
+the 
+[coverage](https://simonwaldherr.github.io/golibs/coverage/coverage.html) 
 and the 
-[golibs coverage](http://simonwaldherr.github.io/golibs/coverage/coverage.html) 
+[source](https://github.com/SimonWaldherr/golibs).
