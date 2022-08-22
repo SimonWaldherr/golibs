@@ -43,3 +43,7 @@ func (b *Bitmask) Int() int {
 func (b *Bitmask) String() string {
 	return fmt.Sprintf("%b", b.value)
 }
+
+func (b *Bitmask) Byte() []byte {
+	return []byte{byte(b.value)}
+}

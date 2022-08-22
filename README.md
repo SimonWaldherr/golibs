@@ -134,7 +134,7 @@ var x int = as.Int("32")
 var x time.Time = as.Time("31.12.2014")
 ```
 
-### bitmask - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/bitmask) [![Coverage Status](https://img.shields.io/badge/coverage-76%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### bitmask - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/bitmask) [![Coverage Status](https://img.shields.io/badge/coverage-92%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/bitmask"

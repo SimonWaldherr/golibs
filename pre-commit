@@ -10,6 +10,7 @@ BADGEBUILD=" ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Buil
 for i in "${libs[@]}"
 do
 	 go fmt ./$i
+	 go test -v -coverprofile=$i.coverprofile ./$i
 	 COVER="$(go test -v -coverprofile=$i.coverprofile ./$i 2> /dev/null | grep "coverage" 2> /dev/null)"
 	 COVERAGE="$(echo $COVER | sed -E "s/^.+ ([0-9.%]+) .+/\1/")"
 	 COVERINT="$(echo $COVER | sed -E "s/^.+ ([0-9]+).[0-9]%.+/\1/")"
@@ -47,13 +48,30 @@ do
 		 BADGEBLD="[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)"
 		 NHEADER="### $i - $BADGEDOC $BADGECOV $BADGEBLD"
 
-		 rm "$i.coverprofile"
+		 #rm "$i.coverprofile"
 	 fi
 
 	 if [ "x$CHEADER" != "x" ]; then
 		 rpl "$CHEADER" "$NHEADER" README.md 
 	 fi
 done
+
+gover
+go tool cover -html=gover.coverprofile -o coverage.html
+
+for i in "${libs[@]}"
+do
+    rm "$i.coverprofile"
+done
+
+godoc -http=:6060 &
+
+wget -r -np -N -E -p -k -e robots=off http://localhost:6060/pkg/simonwaldherr.de/go/golibs
+
+kill $(lsof -t -i:6060)
+
+mv localhost:6060 godoc
+
 
 rpl "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" README.md 
 
