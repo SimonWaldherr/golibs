@@ -13,7 +13,7 @@ go get -u -t simonwaldherr.de/go/golibs/...
 go test ./...
 ```
 
-   | service | info
+ . | service | info
 ---|---------|------
  ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
  [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.com  | test at travis-ci  
@@ -34,8 +34,6 @@ each new build gets tested in multiple steps:
 * on commit, git automatically runs the [pre-commit](https://github.com/SimonWaldherr/golibs/blob/master/pre-commit)-hook shell script
 * after a commit gets pushed to **GitHub**, the following tests are started via Webhooks and Services
 	* **Travis CI** build the lib and all tests on docker containers with the go versions noted in [.travis.yml](https://github.com/SimonWaldherr/golibs/blob/master/.travis.yml)
-	* **appveyor** builds the lib on Windows Server to test against the Microsoft Infrastructure ([.appveyor.yml](https://github.com/SimonWaldherr/golibs/blob/master/.appveyor.yml))
-	* **magnum-ci**, another ci service build the lib and tests on a linux (ubuntu) machine
 	* **semaphoreci**, yet another (linux (ubuntu) based) ci service
 
 
