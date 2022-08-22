@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>file - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19";</script>
+<script src="../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package file
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "simonwaldherr.de/go/golibs/file"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+				<dd><a href="index.html#pkg-examples" class="examplesLink">Examples</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>file wraps around the standard functions to simplify reading and writing on disk
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="index.html#Clean">func Clean(fn string) error</a></dd>
+			
+				
+				<dd><a href="index.html#Copy">func Copy(from, to string) error</a></dd>
+			
+				
+				<dd><a href="index.html#Delete">func Delete(fn string) error</a></dd>
+			
+				
+				<dd><a href="index.html#Each">func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error</a></dd>
+			
+				
+				<dd><a href="index.html#Exists">func Exists(fn string) bool</a></dd>
+			
+				
+				<dd><a href="index.html#FakeHomeDir">func FakeHomeDir(dir string) string</a></dd>
+			
+				
+				<dd><a href="index.html#GetAbsolutePath">func GetAbsolutePath(fn string) (string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#GetAbsolutePathByApp">func GetAbsolutePathByApp(fn string) (string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#GetHomeDir">func GetHomeDir() string</a></dd>
+			
+				
+				<dd><a href="index.html#IsDir">func IsDir(fn string) bool</a></dd>
+			
+				
+				<dd><a href="index.html#IsFile">func IsFile(fn string) bool</a></dd>
+			
+				
+				<dd><a href="index.html#IsSymlink">func IsSymlink(fn string) bool</a></dd>
+			
+				
+				<dd><a href="index.html#Read">func Read(fn string) (string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#ReadBlocks">func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#ReadDir">func ReadDir(dn string) ([]string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#ReadUntil">func ReadUntil(fn string, delim []string) (string, string, int, error)</a></dd>
+			
+				
+				<dd><a href="index.html#Rename">func Rename(from, to string) error</a></dd>
+			
+				
+				<dd><a href="index.html#SetHomeDir">func SetHomeDir() string</a></dd>
+			
+				
+				<dd><a href="index.html#Size">func Size(fn string) (int64, error)</a></dd>
+			
+				
+				<dd><a href="index.html#Time">func Time(fn string) (time.Time, time.Time, time.Time, error)</a></dd>
+			
+				
+				<dd><a href="index.html#Write">func Write(fn, str string, append bool) error</a></dd>
+			
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+		<div id="pkg-examples">
+			<h3>Examples</h3>
+			<div class="js-expandAll expandAll collapsed">(Expand All)</div>
+			<dl>
+			
+			<dd><a class="exampleLink" href="index.html#example_GetAbsolutePath">GetAbsolutePath</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Read">Read</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Size">Size</a></dd>
+			
+			</dl>
+		</div>
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go">file.go</a>
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file_darwin.go">file_darwin.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				
+				<pre>var <span id="HomeDir">HomeDir</span> <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			
+		
+		
+			
+			
+			<h2 id="Clean">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=2901:2928#L178">Clean</a>
+				<a class="permalink" href="index.html#Clean">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Clean(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Copy">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=3077:3109#L191">Copy</a>
+				<a class="permalink" href="index.html#Copy">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Copy(from, to <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Delete">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=3336:3364#L211">Delete</a>
+				<a class="permalink" href="index.html#Delete">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Delete(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Each">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=3748:3848#L236">Each</a>
+				<a class="permalink" href="index.html#Each">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Each(dirname <a href="http://localhost:6060/pkg/builtin/#string">string</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>, fnc func(<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>, <a href="http://localhost:6060/pkg/os/">os</a>.<a href="http://localhost:6060/pkg/os/#FileInfo">FileInfo</a>)) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Exists">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=348:375#L15">Exists</a>
+				<a class="permalink" href="index.html#Exists">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Exists(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="FakeHomeDir">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=4731:4766#L280">FakeHomeDir</a>
+				<a class="permalink" href="index.html#FakeHomeDir">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FakeHomeDir(dir <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="GetAbsolutePath">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=5414:5461#L309">GetAbsolutePath</a>
+				<a class="permalink" href="index.html#GetAbsolutePath">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetAbsolutePath(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			<p>GetAbsolutePath returns the absolute path to a file or dir
+if it is a relative path it is relative to the current working directory
+
+			<div id="example_GetAbsolutePath" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">
+converted, err := file.GetAbsolutePath(&#34;.&#34;)
+fmt.Println(converted, err)
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="GetAbsolutePathByApp">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=5716:5768#L319">GetAbsolutePathByApp</a>
+				<a class="permalink" href="index.html#GetAbsolutePathByApp">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetAbsolutePathByApp(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			<p>GetAbsolutePathByApp returns the absolute path to a file or dir
+if it is a relative path it is relative to the Go Application source or binary
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetHomeDir">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=4799:4823#L285">GetHomeDir</a>
+				<a class="permalink" href="index.html#GetHomeDir">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetHomeDir() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="IsDir">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=452:478#L22">IsDir</a>
+				<a class="permalink" href="index.html#IsDir">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func IsDir(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="IsFile">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=595:622#L33">IsFile</a>
+				<a class="permalink" href="index.html#IsFile">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func IsFile(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="IsSymlink">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=842:872#L48">IsSymlink</a>
+				<a class="permalink" href="index.html#IsSymlink">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func IsSymlink(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Read">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=964:1000#L56">Read</a>
+				<a class="permalink" href="index.html#Read">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Read(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			<div id="example_Read" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">str, _ := file.Read(&#34;test.txt&#34;)
+fmt.Println(str)
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="ReadBlocks">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=1718:1810#L104">ReadBlocks</a>
+				<a class="permalink" href="index.html#ReadBlocks">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ReadBlocks(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>, delim []<a href="http://localhost:6060/pkg/builtin/#string">string</a>, fnc func(<a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="ReadDir">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=3438:3479#L220">ReadDir</a>
+				<a class="permalink" href="index.html#ReadDir">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ReadDir(dn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) ([]<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="ReadUntil">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=1263:1333#L77">ReadUntil</a>
+				<a class="permalink" href="index.html#ReadUntil">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ReadUntil(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>, delim []<a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#int">int</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Rename">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=2963:2997#L182">Rename</a>
+				<a class="permalink" href="index.html#Rename">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Rename(from, to <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="SetHomeDir">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=4448:4472#L267">SetHomeDir</a>
+				<a class="permalink" href="index.html#SetHomeDir">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SetHomeDir() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Size">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=2688:2723#L160">Size</a>
+				<a class="permalink" href="index.html#Size">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Size(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#int64">int64</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			<div id="example_Size" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">size, _ := file.Size(&#34;test.txt&#34;)
+fmt.Println(size)
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">429
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Time">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file_darwin.go?s=51:112#L1">Time</a>
+				<a class="permalink" href="index.html#Time">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Time(fn <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a>, <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a>, <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="Write">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/file/file.go?s=2220:2265#L135">Write</a>
+				<a class="permalink" href="index.html#Write">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Write(fn, str <a href="http://localhost:6060/pkg/builtin/#string">string</a>, append <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>rss - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19";</script>
+<script src="../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package rss
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "simonwaldherr.de/go/golibs/rss"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>Package rss provides a RSS parser
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="index.html#Client">type Client</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Image">type Image</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Item">type Item</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Item.Time">func (episode *Item) Time() time.Time</a></dd>
+				
+			
+				
+				<dd><a href="index.html#ItemEnclosure">type ItemEnclosure</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Main">type Main</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Read">func Read(url string) (*Main, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#ReadCustomClient">func ReadCustomClient(url string, client Client) (*Main, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Main.Len">func (rss *Main) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Main.Time">func (rss *Main) Time() time.Time</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go">rss.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Client">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=185:260#L2">Client</a>
+				<a class="permalink" href="index.html#Client">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Client is a http client to crawl the feed from (#)
+
+			<pre>type Client interface {
+    Get(url <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (resp *<a href="http://localhost:6060/pkg/net/http/">http</a>.<a href="http://localhost:6060/pkg/net/http/#Response">Response</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Image">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=961:1036#L26">Image</a>
+				<a class="permalink" href="index.html#Image">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Image contains the URL and title of the podcast logo
+
+			<pre>type Image struct {
+<span id="Image.URL"></span>    URL   <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;url&#34;`
+<span id="Image.Title"></span>    Title <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;title&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Item">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=478:903#L13">Item</a>
+				<a class="permalink" href="index.html#Item">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Item represents an episode with all of its content
+
+			<pre>type Item struct {
+<span id="Item.Title"></span>    Title       <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;title&#34;`
+<span id="Item.Link"></span>    Link        <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;link&#34;`
+<span id="Item.Comments"></span>    Comments    <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;comments&#34;`
+<span id="Item.PubDate"></span>    PubDate     <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;pubDate&#34;`
+<span id="Item.GUID"></span>    GUID        <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;guid&#34;`
+<span id="Item.Category"></span>    Category    []<a href="http://localhost:6060/pkg/builtin/#string">string</a>        `xml:&#34;category&#34;`
+<span id="Item.Enclosure"></span>    Enclosure   []<a href="index.html#ItemEnclosure">ItemEnclosure</a> `xml:&#34;enclosure&#34;`
+<span id="Item.Description"></span>    Description <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;description&#34;`
+<span id="Item.Content"></span>    Content     <a href="http://localhost:6060/pkg/builtin/#string">string</a>          `xml:&#34;content&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Item.Time">func (*Item) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=2334:2371#L80">Time</a>
+					<a class="permalink" href="index.html#Item.Time">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (episode *<a href="index.html#Item">Item</a>) Time() <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a></pre>
+				<p>Time returns the specified publication date as time.Time
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="ItemEnclosure">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=332:422#L7">ItemEnclosure</a>
+				<a class="permalink" href="index.html#ItemEnclosure">&#xb6;</a>
+				
+				
+			</h2>
+			<p>ItemEnclosure contains an URL and its MIME-Type of an episode file
+
+			<pre>type ItemEnclosure struct {
+<span id="ItemEnclosure.URL"></span>    URL  <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;url,attr&#34;`
+<span id="ItemEnclosure.Type"></span>    Type <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;type,attr&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Main">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=1089:1456#L32">Main</a>
+				<a class="permalink" href="index.html#Main">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Main struct represents the root of the RSS feed
+
+			<pre>type Main struct {
+<span id="Main.Title"></span>    Title         <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;title&#34;`
+<span id="Main.Link"></span>    Link          <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;link&#34;`
+<span id="Main.Copyright"></span>    Copyright     <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;copyright&#34;`
+<span id="Main.Description"></span>    Description   <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;description&#34;`
+<span id="Main.Generator"></span>    Generator     <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;generator&#34;`
+<span id="Main.Language"></span>    Language      <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;language&#34;`
+<span id="Main.LastBuildDate"></span>    LastBuildDate <a href="http://localhost:6060/pkg/builtin/#string">string</a> `xml:&#34;lastBuildDate&#34;`
+<span id="Main.Items"></span>    Items         []<a href="index.html#Item">Item</a> `xml:&#34;item&#34;`
+<span id="Main.Image"></span>    Image         <a href="index.html#Image">Image</a>  `xml:&#34;image&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="Read">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=1541:1577#L45">Read</a>
+					<a class="permalink" href="index.html#Read">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func Read(url <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (*<a href="index.html#Main">Main</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<p>Read reads from an URL with the Golang default http client and returns rss.Main
+
+				
+				
+			
+				
+				<h3 id="ReadCustomClient">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=1695:1758#L50">ReadCustomClient</a>
+					<a class="permalink" href="index.html#ReadCustomClient">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func ReadCustomClient(url <a href="http://localhost:6060/pkg/builtin/#string">string</a>, client <a href="index.html#Client">Client</a>) (*<a href="index.html#Main">Main</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<p>ReadCustomClient allows to read with an custom http client
+
+				
+				
+			
+
+			
+				
+				<h3 id="Main.Len">func (*Main) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=2086:2112#L70">Len</a>
+					<a class="permalink" href="index.html#Main.Len">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (rss *<a href="index.html#Main">Main</a>) Len() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+				<p>Len returns the episode count
+
+				
+				
+				
+			
+				
+				<h3 id="Main.Time">func (*Main) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/rss/rss.go?s=2200:2233#L75">Time</a>
+					<a class="permalink" href="index.html#Main.Time">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (rss *<a href="index.html#Main">Main</a>) Time() <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a></pre>
+				<p>Time returns the specified last build date as time.Time
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

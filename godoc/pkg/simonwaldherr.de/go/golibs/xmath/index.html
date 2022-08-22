@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>xmath - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19";</script>
+<script src="../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package xmath
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "simonwaldherr.de/go/golibs/xmath"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+				<dd><a href="index.html#pkg-examples" class="examplesLink">Examples</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>xmath is a package with math functions.
+Besides a few standard formulas it contains various mean algorithms.
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="index.html#Arithmetic">func Arithmetic(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Count">func Count(val interface{}) int</a></dd>
+			
+				
+				<dd><a href="index.html#Deg2Rad">func Deg2Rad(deg float64) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Even">func Even(number int) bool</a></dd>
+			
+				
+				<dd><a href="index.html#FloatRound">func FloatRound(v float64, d int) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Geometric">func Geometric(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Harmonic">func Harmonic(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Max">func Max(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Mean">func Mean(val interface{}, t Meantype) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Median">func Median(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Min">func Min(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Odd">func Odd(number int) bool</a></dd>
+			
+				
+				<dd><a href="index.html#Prime">func Prime(n int) int</a></dd>
+			
+				
+				<dd><a href="index.html#Rad2Deg">func Rad2Deg(rad float64) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Rootmeansquare">func Rootmeansquare(val interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Round">func Round(v float64) int</a></dd>
+			
+				
+				<dd><a href="index.html#Sqrt">func Sqrt(n int64) int64</a></dd>
+			
+				
+				<dd><a href="index.html#Sum">func Sum(val interface{}) float64</a></dd>
+			
+			
+				
+				<dd><a href="index.html#Meantype">type Meantype</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+		<div id="pkg-examples">
+			<h3>Examples</h3>
+			<div class="js-expandAll expandAll collapsed">(Expand All)</div>
+			<dl>
+			
+			<dd><a class="exampleLink" href="index.html#example_Arithmetic">Arithmetic</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Count">Count</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Geometric">Geometric</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Harmonic">Harmonic</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Max">Max</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Mean">Mean</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Median">Median</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Min">Min</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Prime">Prime</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Sum">Sum</a></dd>
+			
+			</dl>
+		</div>
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go">math.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="Arithmetic">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=4519:4559#L191">Arithmetic</a>
+				<a class="permalink" href="index.html#Arithmetic">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Arithmetic(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Arithmetic returns the arithmetic mean from a slice of Values as float64.
+The arithmetic mean or simply the mean or average when the context is clear,
+is the sum of a list of numbers divided by the number of numbers
+in the list.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Arithmetic" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Arithmetic(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 27
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Count">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=1677:1708#L77">Count</a>
+				<a class="permalink" href="index.html#Count">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Count(val interface{}) <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+			<p>Count returns the length of any slice (like len()).
+
+			<div id="example_Count" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, xmath.Count(float))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 8
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Deg2Rad">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=996:1029#L50">Deg2Rad</a>
+				<a class="permalink" href="index.html#Deg2Rad">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Deg2Rad(deg <a href="http://localhost:6060/pkg/builtin/#float64">float64</a>) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Deg2Rad returns the rad of a deg.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Even">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=6450:6476#L247">Even</a>
+				<a class="permalink" href="index.html#Even">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Even(number <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			<p>Even tells if a number is even
+
+			
+			
+
+		
+			
+			
+			<h2 id="FloatRound">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=1506:1547#L71">FloatRound</a>
+				<a class="permalink" href="index.html#FloatRound">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FloatRound(v <a href="http://localhost:6060/pkg/builtin/#float64">float64</a>, d <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Round returns a rounded float64 from a float64
+with d digits after the point. It rounds via
+&quot;Round half away from zero&quot;.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Geometric">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=6175:6214#L236">Geometric</a>
+				<a class="permalink" href="index.html#Geometric">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Geometric(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Geometric returns the geometric mean from a slice of Values as float64.
+The geometric mean is a type of mean or average, which indicates the central
+tendency or typical value of a set of numbers by using the product of their
+values (as opposed to the arithmetic mean which uses their sum). The
+geometric mean is defined as the nth root of the product of n numbers.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Geometric" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Geometric(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 8
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Harmonic">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=5492:5530#L219">Harmonic</a>
+				<a class="permalink" href="index.html#Harmonic">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Harmonic(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Harmonic returns the harmonic mean from a slice of Values as float64.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Harmonic" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Harmonic(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 2
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Max">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=2783:2816#L121">Max</a>
+				<a class="permalink" href="index.html#Max">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Max(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Max returns the greatest number from a slice of Values as float64.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Max" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Max(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 130
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Mean">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=3193:3239#L148">Mean</a>
+				<a class="permalink" href="index.html#Mean">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Mean(val interface{}, t <a href="index.html#Meantype">Meantype</a>) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			
+			<div id="example_Mean" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;Arithmetic: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.ArithmeticMean)))
+fmt.Printf(&#34;Geometric: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.GeometricMean)))
+fmt.Printf(&#34;Harmonic: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.HarmonicMean)))
+fmt.Printf(&#34;Median: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.MedianMean)))
+fmt.Printf(&#34;Rootmeansquare: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.RmsMean)))
+fmt.Printf(&#34;Default: %#v =&gt; %v\n&#34;, ints, round2(xmath.Mean(ints, xmath.Default)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Arithmetic: []int{10, 12, 14, 20} =&gt; 14
+Geometric: []int{10, 12, 14, 20} =&gt; 13.54
+Harmonic: []int{10, 12, 14, 20} =&gt; 13.13
+Median: []int{10, 12, 14, 20} =&gt; 13
+Rootmeansquare: []int{10, 12, 14, 20} =&gt; 14.49
+Default: []int{10, 12, 14, 20} =&gt; 14
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Median">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=3905:3941#L171">Median</a>
+				<a class="permalink" href="index.html#Median">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Median(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Median returns the median from a slice of Values as float64.
+The median is the numerical value separating the higher half
+of a data sample from the lower half. The median of a list of
+numbers can be found by arranging all the observations from
+lowest value to highest value and picking the middle one.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Median" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Median(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 9
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Min">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=2338:2371#L102">Min</a>
+				<a class="permalink" href="index.html#Min">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Min(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Min returns the smallest number from a slice of Values as float64.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Min" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Min(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 1
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Odd">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=6536:6561#L252">Odd</a>
+				<a class="permalink" href="index.html#Odd">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Odd(number <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			<p>Odd tells if a number is odd
+
+			
+			
+
+		
+			
+			
+			<h2 id="Prime">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=524:545#L24">Prime</a>
+				<a class="permalink" href="index.html#Prime">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Prime(n <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+			<p>Prime returns the nth prime number as int.
+
+			<div id="example_Prime" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, 42, xmath.Prime(42))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">42 =&gt; 181
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Rad2Deg">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=1102:1135#L55">Rad2Deg</a>
+				<a class="permalink" href="index.html#Rad2Deg">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Rad2Deg(rad <a href="http://localhost:6060/pkg/builtin/#float64">float64</a>) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Rad2Deg returns the deg of a rad.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Rootmeansquare">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=5069:5113#L206">Rootmeansquare</a>
+				<a class="permalink" href="index.html#Rootmeansquare">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Rootmeansquare(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Rootmeansquare returns the root mean square from a slice of Values as float64.
+The root mean square is the root value of the sum of the squared value of a
+list of numbers divided by the number of numbers in the list.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Round">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=1264:1289#L61">Round</a>
+				<a class="permalink" href="index.html#Round">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Round(v <a href="http://localhost:6060/pkg/builtin/#float64">float64</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+			<p>Round returns a rounded int from a float64.
+It rounds via &quot;Round half away from zero&quot;.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Sqrt">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=243:267#L3">Sqrt</a>
+				<a class="permalink" href="index.html#Sqrt">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Sqrt(n <a href="http://localhost:6060/pkg/builtin/#int64">int64</a>) <a href="http://localhost:6060/pkg/builtin/#int64">int64</a></pre>
+			<p>Sqrt calculates the square root of n.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Sum">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=1909:1942#L85">Sum</a>
+				<a class="permalink" href="index.html#Sum">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Sum(val interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Sum returns the sum from a slice of Values as float64.
+It uses &quot;as&quot; (simonwaldherr.de/go/golibs/as) to
+convert given values to floats.
+
+			<div id="example_Sum" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">fmt.Printf(&#34;%#v =&gt; %v&#34;, float, round(xmath.Sum(float)))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">[]float64{0.5, 1.33, 2.66, 3.99, 13.37, 23.42, 42.00031, 130} =&gt; 217
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+		
+			
+			
+			<h2 id="Meantype">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/xmath/math.go?s=3072:3089#L137">Meantype</a>
+				<a class="permalink" href="index.html#Meantype">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Meantype <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+
+			
+				
+				<pre>const (
+    <span id="ArithmeticMean">ArithmeticMean</span> <a href="index.html#Meantype">Meantype</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="GeometricMean">GeometricMean</span>
+    <span id="HarmonicMean">HarmonicMean</span>
+    <span id="MedianMean">MedianMean</span>
+    <span id="RmsMean">RmsMean</span>
+    <span id="Default">Default</span>
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

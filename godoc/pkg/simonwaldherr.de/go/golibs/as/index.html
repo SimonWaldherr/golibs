@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>as - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19";</script>
+<script src="../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package as
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "simonwaldherr.de/go/golibs/as"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+				<dd><a href="index.html#pkg-examples" class="examplesLink">Examples</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>Package as helps by converting various data types to various other types
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="index.html#Bool">func Bool(valuea ...interface{}) bool</a></dd>
+			
+				
+				<dd><a href="index.html#Bytes">func Bytes(valuea ...interface{}) []byte</a></dd>
+			
+				
+				<dd><a href="index.html#DBType">func DBType(str string) string</a></dd>
+			
+				
+				<dd><a href="index.html#DBTypeMultiple">func DBTypeMultiple(val []string) string</a></dd>
+			
+				
+				<dd><a href="index.html#Duration">func Duration(valuea ...interface{}) time.Duration</a></dd>
+			
+				
+				<dd><a href="index.html#FixedLengthAfter">func FixedLengthAfter(str string, spacer string, length int) string</a></dd>
+			
+				
+				<dd><a href="index.html#FixedLengthBefore">func FixedLengthBefore(str string, spacer string, length int) string</a></dd>
+			
+				
+				<dd><a href="index.html#FixedLengthCenter">func FixedLengthCenter(str string, spacer string, length int) string</a></dd>
+			
+				
+				<dd><a href="index.html#Float">func Float(valuea ...interface{}) float64</a></dd>
+			
+				
+				<dd><a href="index.html#FloatFromXString">func FloatFromXString(valuea ...string) float64</a></dd>
+			
+				
+				<dd><a href="index.html#Int">func Int(valuea ...interface{}) int64</a></dd>
+			
+				
+				<dd><a href="index.html#String">func String(valuea ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Time">func Time(valuea ...interface{}) time.Time</a></dd>
+			
+				
+				<dd><a href="index.html#Trimmed">func Trimmed(valuea ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Type">func Type(valuea ...interface{}) (string, error)</a></dd>
+			
+				
+				<dd><a href="index.html#Uint">func Uint(valuea ...interface{}) uint64</a></dd>
+			
+			
+				
+				<dd><a href="index.html#Dynamic">type Dynamic</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Dynamic.UnmarshalJSON">func (d *Dynamic) UnmarshalJSON(buf []byte) error</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Int64">type Int64</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Int64.MarshalJSON">func (i Int64) MarshalJSON() ([]byte, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Int64.UnmarshalJSON">func (i *Int64) UnmarshalJSON(buf []byte) error</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+		<div id="pkg-examples">
+			<h3>Examples</h3>
+			<div class="js-expandAll expandAll collapsed">(Expand All)</div>
+			<dl>
+			
+			<dd><a class="exampleLink" href="index.html#example_Bool">Bool</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Bytes">Bytes</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_String">String</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Time">Time</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Type">Type</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Type_json">Type (Json)</a></dd>
+			
+			</dl>
+		</div>
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go">as.go</a>
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/json.go">json.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="Bool">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=3299:3336#L121">Bool</a>
+				<a class="permalink" href="index.html#Bool">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Bool(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+			<p>Bool returns a boolean value.
+It mainly depends on the output of strconv.ParseBool,
+but also checks for integer values.
+
+			<div id="example_Bool" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">values := []interface{}{&#34;foobar&#34;, &#34;true&#34;, 1, true}
+
+fmt.Println(&#34;as.Bool()&#34;)
+for _, v := range values {
+    fmt.Printf(&#34;%v =&gt; %v\n&#34;, v, as.Bool(v))
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">as.Bool()
+foobar =&gt; false
+true =&gt; true
+1 =&gt; true
+true =&gt; true
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Bytes">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=3487:3527#L131">Bytes</a>
+				<a class="permalink" href="index.html#Bytes">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Bytes(valuea ...interface{}) []<a href="http://localhost:6060/pkg/builtin/#byte">byte</a></pre>
+			<p>Bytes returns a slice of bytes.
+
+			<div id="example_Bytes" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">values := []interface{}{&#34;foobar&#34;, &#34;true&#34;, 1, true}
+
+fmt.Println(&#34;as.Bytes()&#34;)
+for _, v := range values {
+    fmt.Printf(&#34;%v =&gt; %v\n&#34;, v, as.Bytes(v))
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">as.Bytes()
+foobar =&gt; [102 111 111 98 97 114]
+true =&gt; [116 114 117 101]
+1 =&gt; [49]
+true =&gt; [116 114 117 101]
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="DBType">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=11172:11202#L456">DBType</a>
+				<a class="permalink" href="index.html#DBType">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DBType(str <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>DBType returns a Database Type of a string.
+
+			
+			
+
+		
+			
+			
+			<h2 id="DBTypeMultiple">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=11452:11492#L470">DBTypeMultiple</a>
+				<a class="permalink" href="index.html#DBTypeMultiple">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DBTypeMultiple(val []<a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>DBTypeMultiple returns the lowest common denominator of a type for all inserted DBTypes
+
+			
+			
+
+		
+			
+			
+			<h2 id="Duration">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=3922:3972#L154">Duration</a>
+				<a class="permalink" href="index.html#Duration">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Duration(valuea ...interface{}) <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a></pre>
+			<p>Duration converts input values to time.Duration.
+It mainly depends on time.ParseDuration.
+
+			
+			
+
+		
+			
+			
+			<h2 id="FixedLengthAfter">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=4359:4426#L170">FixedLengthAfter</a>
+				<a class="permalink" href="index.html#FixedLengthAfter">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FixedLengthAfter(str <a href="http://localhost:6060/pkg/builtin/#string">string</a>, spacer <a href="http://localhost:6060/pkg/builtin/#string">string</a>, length <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>FixedLengthAfter appends spacer chars after a string
+
+			
+			
+
+		
+			
+			
+			<h2 id="FixedLengthBefore">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=4642:4710#L183">FixedLengthBefore</a>
+				<a class="permalink" href="index.html#FixedLengthBefore">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FixedLengthBefore(str <a href="http://localhost:6060/pkg/builtin/#string">string</a>, spacer <a href="http://localhost:6060/pkg/builtin/#string">string</a>, length <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>FixedLengthBefore prepends spacer chars before a string
+
+			
+			
+
+		
+			
+			
+			<h2 id="FixedLengthCenter">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=4932:5000#L196">FixedLengthCenter</a>
+				<a class="permalink" href="index.html#FixedLengthCenter">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FixedLengthCenter(str <a href="http://localhost:6060/pkg/builtin/#string">string</a>, spacer <a href="http://localhost:6060/pkg/builtin/#string">string</a>, length <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>FixedLengthCenter adds spacer chars after and before a string
+
+			
+			
+
+		
+			
+			
+			<h2 id="Float">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=5537:5578#L217">Float</a>
+				<a class="permalink" href="index.html#Float">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Float(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>Float converts it&apos;s input to type float64.
+int, uint and float gets converted as expected,
+time is transformed to a float of the corresponding timestamp.
+strings and byte slices gets converted via strconv.ParseFloat.
+
+			
+			
+
+		
+			
+			
+			<h2 id="FloatFromXString">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=6455:6502#L261">FloatFromXString</a>
+				<a class="permalink" href="index.html#FloatFromXString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FloatFromXString(valuea ...<a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#float64">float64</a></pre>
+			<p>FloatFromXString converts strings to float64.
+Most values can be converted to float via Float(),
+but floats as strings in e.g. german spelling
+should be converted with this function.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Int">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=7825:7862#L303">Int</a>
+				<a class="permalink" href="index.html#Int">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Int(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#int64">int64</a></pre>
+			<p>Int returns an int64 of the input value.
+Float values and float values in strings will be rounded via
+&quot;round half towards positive infinity&quot;.
+strings get converted via strconv.ParseFloat.
+
+			
+			
+
+		
+			
+			
+			<h2 id="String">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=8681:8722#L346">String</a>
+				<a class="permalink" href="index.html#String">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func String(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>String converts input values to string.
+Time and Duration gets converted via standard functions.
+Most types gets &quot;converted&quot; via fmt.Sprintf.
+
+			<div id="example_String" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">values := []interface{}{[]byte(&#34;foobar&#34;), 1, true, 5 * time.Second, 0xfefe}
+
+fmt.Println(&#34;as.String()&#34;)
+for _, v := range values {
+    fmt.Printf(&#34;%v =&gt; %v\n&#34;, v, as.String(v))
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">as.String()
+[102 111 111 98 97 114] =&gt; foobar
+1 =&gt; 1
+true =&gt; true
+5s =&gt; 5s
+65278 =&gt; 65278
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Time">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=9210:9252#L373">Time</a>
+				<a class="permalink" href="index.html#Time">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Time(valuea ...interface{}) <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a></pre>
+			<p>Time converts inputs values to time.Time.
+Time formats in the variable timeformats can be used.
+
+			<div id="example_Time" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">values := []interface{}{&#34;01.01.1970&#34;, &#34;01.01.1999&#34;, &#34;2000/10/30&#34;}
+
+fmt.Println(&#34;as.Time()&#34;)
+for _, v := range values {
+    fmt.Printf(&#34;%v =&gt; %v\n&#34;, v, as.Time(v))
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">as.Time()
+01.01.1970 =&gt; 1970-01-01 00:00:00 +0000 UTC
+01.01.1999 =&gt; 1999-01-01 00:00:00 +0000 UTC
+2000/10/30 =&gt; 2000-10-30 00:00:00 +0000 UTC
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Trimmed">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=9531:9573#L387">Trimmed</a>
+				<a class="permalink" href="index.html#Trimmed">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Trimmed(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+			<p>Trimmed takes the first given value, converts it to
+a string, trims the whitespace an returns it.
+
+			
+			
+
+		
+			
+			
+			<h2 id="Type">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=10610:10658#L437">Type</a>
+				<a class="permalink" href="index.html#Type">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Type(valuea ...interface{}) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+			<p>Type returns a type (string) of a string.
+
+			<div id="example_Type" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">values := []string{
+    &#34;false&#34;,
+    &#34;0&#34;,
+    &#34;3&#34;,
+    &#34;5€&#34;,
+    &#34;23$&#34;,
+    &#34;42¢&#34;,
+    &#34;1.337£&#34;,
+    &#34;020161586X&#34;,
+    &#34;13,37&#34;,
+    &#34;https://simonwaldherr.de/&#34;,
+    &#34;contact@simonwaldherr.de&#34;,
+    &#34;127.0.0.1&#34;,
+    &#34;rgb(255, 231, 200)&#34;,
+    &#34;#ffffff&#34;,
+    &#34;#03a&#34;,
+    &#34;06.06.1989&#34;,
+    &#34;2010/07/29&#34;,
+    &#34;2006-01-02&#34;,
+    &#34;¢«∑€®†Ω¨⁄øπ•±‘æœ@∆ºª©ƒ∂‚å≤¥≈ç√∫~µ∞…–¡“≠¿&#39;¬”ﬁ&#34;,
+}
+
+fmt.Println(&#34;as.Type()&#34;)
+for _, v := range values {
+    str, _ := as.Type(v)
+    fmt.Printf(&#34;%v =&gt; %v\n&#34;, v, str)
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">as.Type()
+false =&gt; bool
+0 =&gt; bool
+3 =&gt; int
+5€ =&gt; price
+23$ =&gt; price
+42¢ =&gt; price
+1.337£ =&gt; price
+020161586X =&gt; isbn
+13,37 =&gt; float
+https://simonwaldherr.de/ =&gt; url
+contact@simonwaldherr.de =&gt; email
+127.0.0.1 =&gt; ipv4
+rgb(255, 231, 200) =&gt; color
+#ffffff =&gt; color
+#03a =&gt; color
+06.06.1989 =&gt; date
+2010/07/29 =&gt; date
+2006-01-02 =&gt; date
+¢«∑€®†Ω¨⁄øπ•±‘æœ@∆ºª©ƒ∂‚å≤¥≈ç√∫~µ∞…–¡“≠¿&#39;¬”ﬁ =&gt;
+</pre>
+			
+		
+	</div>
+</div>
+<div id="example_Type_json" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example (Json)</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example (Json)</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">jsonStr := `
+{
+    &#34;first&#34;: &#34;2019-01-04 00:00:00&#34;,
+    &#34;second&#34;: &#34;foobar@example.tld&#34;,
+    &#34;third&#34;: &#34;15€&#34;
+}`
+
+x := dynStruct{}
+
+if err := json.Unmarshal([]byte(jsonStr), &amp;x); err != nil {
+    fmt.Println(err)
+}
+
+fmt.Printf(&#34;%v: %v\n&#34;, x.First.Type, x.First.Data)
+fmt.Printf(&#34;%v: %v\n&#34;, x.Second.Type, x.Second.Data)
+fmt.Printf(&#34;%v: %v\n&#34;, x.Third.Type, x.Third.Data)
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">date: 2019-01-04 00:00:00 +0000 UTC
+email: foobar@example.tld
+price: 15€
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+
+		
+			
+			
+			<h2 id="Uint">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=9842:9881#L396">Uint</a>
+				<a class="permalink" href="index.html#Uint">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Uint(valuea ...interface{}) <a href="http://localhost:6060/pkg/builtin/#uint64">uint64</a></pre>
+			<p>Uint returns an uint64 of the input value.
+Float values and float values in strings will be rounded via
+&quot;round half towards positive infinity&quot;.
+strings get converted via strconv.ParseFloat.
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Dynamic">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/as.go?s=192:246#L7">Dynamic</a>
+				<a class="permalink" href="index.html#Dynamic">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Dynamic struct {
+<span id="Dynamic.Type"></span>    Type <a href="http://localhost:6060/pkg/builtin/#string">string</a>
+<span id="Dynamic.Data"></span>    Data interface{}
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Dynamic.UnmarshalJSON">func (*Dynamic) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/json.go?s=559:608#L19">UnmarshalJSON</a>
+					<a class="permalink" href="index.html#Dynamic.UnmarshalJSON">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (d *<a href="index.html#Dynamic">Dynamic</a>) UnmarshalJSON(buf []<a href="http://localhost:6060/pkg/builtin/#byte">byte</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+				<p>UnmarshalJSON implements json.Unmarshaler inferface for the Dynamic Type.
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Int64">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/json.go?s=35:51#L1">Int64</a>
+				<a class="permalink" href="index.html#Int64">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Int64 <a href="http://localhost:6060/pkg/builtin/#int64">int64</a></pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Int64.MarshalJSON">func (Int64) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/json.go?s=124:168#L1">MarshalJSON</a>
+					<a class="permalink" href="index.html#Int64.MarshalJSON">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (i <a href="index.html#Int64">Int64</a>) MarshalJSON() ([]<a href="http://localhost:6060/pkg/builtin/#byte">byte</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<p>MarshalJSON implements json.Marshaler interface for the Int64 Type.
+
+				
+				
+				
+			
+				
+				<h3 id="Int64.UnmarshalJSON">func (*Int64) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/as/json.go?s=271:318#L5">UnmarshalJSON</a>
+					<a class="permalink" href="index.html#Int64.UnmarshalJSON">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (i *<a href="index.html#Int64">Int64</a>) UnmarshalJSON(buf []<a href="http://localhost:6060/pkg/builtin/#byte">byte</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+				<p>UnmarshalJSON implements json.Unmarshaler inferface for the Int64 Type.
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

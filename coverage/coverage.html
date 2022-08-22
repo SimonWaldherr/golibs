@@ -1,0 +1,3208 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ansi: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">simonwaldherr.de/go/golibs/ansi/ansi.go (100.0%)</option>
+				
+				<option value="file1">simonwaldherr.de/go/golibs/arg/arg.go (72.0%)</option>
+				
+				<option value="file2">simonwaldherr.de/go/golibs/as/as.go (99.5%)</option>
+				
+				<option value="file3">simonwaldherr.de/go/golibs/as/json.go (88.9%)</option>
+				
+				<option value="file4">simonwaldherr.de/go/golibs/bitmask/bitmask.go (92.9%)</option>
+				
+				<option value="file5">simonwaldherr.de/go/golibs/cache/cache.go (97.0%)</option>
+				
+				<option value="file6">simonwaldherr.de/go/golibs/cachedfile/cfile.go (96.0%)</option>
+				
+				<option value="file7">simonwaldherr.de/go/golibs/channel/channel.go (100.0%)</option>
+				
+				<option value="file8">simonwaldherr.de/go/golibs/csv/csv.go (100.0%)</option>
+				
+				<option value="file9">simonwaldherr.de/go/golibs/file/file.go (92.4%)</option>
+				
+				<option value="file10">simonwaldherr.de/go/golibs/file/file_darwin.go (100.0%)</option>
+				
+				<option value="file11">simonwaldherr.de/go/golibs/foreach/foreach.go (90.0%)</option>
+				
+				<option value="file12">simonwaldherr.de/go/golibs/gopath/gopath.go (89.7%)</option>
+				
+				<option value="file13">simonwaldherr.de/go/golibs/graphics/graphics.go (100.0%)</option>
+				
+				<option value="file14">simonwaldherr.de/go/golibs/http/http.go (83.3%)</option>
+				
+				<option value="file15">simonwaldherr.de/go/golibs/log/log.go (100.0%)</option>
+				
+				<option value="file16">simonwaldherr.de/go/golibs/re/re.go (100.0%)</option>
+				
+				<option value="file17">simonwaldherr.de/go/golibs/regex/regex.go (88.9%)</option>
+				
+				<option value="file18">simonwaldherr.de/go/golibs/rss/rss.go (92.9%)</option>
+				
+				<option value="file19">simonwaldherr.de/go/golibs/ssl/ssl.go (87.2%)</option>
+				
+				<option value="file20">simonwaldherr.de/go/golibs/stack/stack.go (100.0%)</option>
+				
+				<option value="file21">simonwaldherr.de/go/golibs/structs/structs.go (100.0%)</option>
+				
+				<option value="file22">simonwaldherr.de/go/golibs/xmath/math.go (100.0%)</option>
+				
+				<option value="file23">simonwaldherr.de/go/golibs/xtime/time.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">// Package ansi can print colored and styled text to your terminal.
+package ansi
+
+import (
+        "fmt"
+        "log"
+)
+
+// Col defines supported colors
+type Col int
+
+// defines supported colors
+const (
+        Black = Col(iota)
+        Red
+        Green
+        Yellow
+        Blue
+        Magenta
+        Cyan
+        White
+)
+
+// defines text styling options
+const (
+        TReset = Col(iota)
+        TBold
+        TFaint
+        TItalic
+        TUnderline
+        TBlinkSlow
+        TBlinkFast
+        TNegative
+        TConceal
+        TCrossedOut
+)
+
+// Foreground text colors
+const (
+        FgBlack = Col(iota + 30)
+        FgRed
+        FgGreen
+        FgYellow
+        FgBlue
+        FgMagenta
+        FgCyan
+        FgWhite
+)
+
+// Background text colors
+const (
+        BgBlack = Col(iota + 40)
+        BgRed
+        BgGreen
+        BgYellow
+        BgBlue
+        BgMagenta
+        BgCyan
+        BgWhite
+)
+
+// Set sets styling options on strings and stringable interfaces
+func Set(str interface{}, Attribute ...Col) string <span class="cov8" title="1">{
+        var rstr = fmt.Sprint(str)
+        for _, attr := range Attribute </span><span class="cov8" title="1">{
+                rstr = fmt.Sprintf("\033[%vm%v\033[0m", attr, rstr)
+        }</span>
+        <span class="cov8" title="1">return rstr</span>
+}
+
+// Color adds the color code of col as text color to str and returns as string
+func Color(str interface{}, col Col) string <span class="cov8" title="1">{
+        return fmt.Sprintf("\033[3%vm%v\033[0m", col, str)
+}</span>
+
+// BgColor adds the color code of col as background color to str and returns as string
+func BgColor(str interface{}, col Col) string <span class="cov8" title="1">{
+        return fmt.Sprintf("\033[4%vm%v\033[0m", col, str)
+}</span>
+
+// Bold surrounds str with the code for bold styled text
+func Bold(str interface{}) string <span class="cov8" title="1">{
+        return fmt.Sprintf("\033[1m%v\033[0m", str)
+}</span>
+
+// Underline surrounds str with the code for underlined text
+func Underline(str interface{}) string <span class="cov8" title="1">{
+        return fmt.Sprintf("\033[4m%v\033[0m", str)
+}</span>
+
+// Log prints red text via log package
+func Log(valuea ...interface{}) interface{} <span class="cov8" title="1">{
+        if valuea[1] != nil </span><span class="cov8" title="1">{
+                log.Println(Color(valuea[1], Red))
+        }</span>
+
+        <span class="cov8" title="1">return valuea[0]</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">// the arg package simplifies cli flags (arguments)
+package arg
+
+import (
+        "bufio"
+        "flag"
+        "fmt"
+        "os"
+        "time"
+)
+
+type argument struct {
+        name         string
+        defaultValue string
+        flagValue    *string
+        usage        string
+        timeout      time.Duration
+        argNr        int
+}
+
+var flagVar = make(map[string]argument)
+var values = make(map[string]interface{})
+var i = 1
+
+func String(name, defaultValue, usage string, timeout time.Duration) <span class="cov8" title="1">{
+        flagVar[name] = argument{
+                name:         name,
+                defaultValue: defaultValue,
+                flagValue:    flag.String(name, "", usage),
+                usage:        usage,
+                timeout:      timeout,
+                argNr:        -1,
+        }
+}</span>
+
+func StringArg(name, defaultValue, usage string, timeout time.Duration) <span class="cov0" title="0">{
+        flagVar[name] = argument{
+                name:         name,
+                defaultValue: defaultValue,
+                flagValue:    flag.String(name, "", usage),
+                usage:        usage,
+                timeout:      timeout,
+                argNr:        i,
+        }
+        i++
+}</span>
+
+func Parse() <span class="cov8" title="1">{
+        var value interface{}
+
+        flag.Parse()
+
+        for v := range flagVar </span><span class="cov8" title="1">{
+                if *flagVar[v].flagValue != "" </span><span class="cov0" title="0">{
+                        value = *flagVar[v].flagValue
+                }</span> else<span class="cov8" title="1"> if !(flagVar[v].argNr &gt;= 1 &amp;&amp; flagVar[v].argNr &lt; len(os.Args)) &amp;&amp; flagVar[v].timeout &gt;= time.Second*1 </span><span class="cov8" title="1">{
+                        fmt.Printf("# %v: ", flagVar[v].usage)
+                        scanner := bufio.NewScanner(os.Stdin)
+                        ch := make(chan bool, 1)
+                        go func() </span><span class="cov8" title="1">{
+                                defer func() </span><span class="cov8" title="1">{
+                                        close(ch)
+                                }</span>()
+                                <span class="cov8" title="1">ch &lt;- scanner.Scan()</span>
+                        }()
+                        <span class="cov8" title="1">select </span>{
+                        case &lt;-ch:<span class="cov8" title="1">
+                                value = scanner.Text()</span>
+                        case &lt;-time.After(flagVar[v].timeout):<span class="cov0" title="0">
+                                value = flagVar[v].defaultValue</span>
+                        }
+                } else<span class="cov0" title="0"> if flagVar[v].argNr &gt;= 1 &amp;&amp; flagVar[v].argNr &lt; len(os.Args) </span><span class="cov0" title="0">{
+                        value = os.Args[flagVar[v].argNr]
+                }</span> else<span class="cov0" title="0"> {
+                        value = flagVar[v].defaultValue
+                }</span>
+                <span class="cov8" title="1">values[v] = value</span>
+        }
+}
+
+func Get(name string) interface{} <span class="cov8" title="1">{
+        return values[name]
+}</span>
+
+func Dump() string <span class="cov8" title="1">{
+        return fmt.Sprintf("%v\n", flagVar)
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">// Package as helps by converting various data types to various other types
+package as
+
+import (
+        "fmt"
+        "regexp"
+        "strconv"
+        "strings"
+        "time"
+)
+
+type ree struct {
+        typ string
+        re  string
+}
+
+type Dynamic struct {
+        Type string
+        Data interface{}
+}
+
+// regex (regular expression) in a slice of ree struct
+var regex = [...]ree{
+        {
+                typ: "bool",
+                re:  "(0|1|true|false)",
+        }, {
+                typ: "int",
+                re:  "\\d+",
+        }, {
+                typ: "int",
+                re:  "\\d+[\\^eE]\\d+",
+        }, {
+                typ: "float",
+                re:  "[-+]?[0-9]*[\\.,]?[0-9]+([eE][-+]?[0-9]+)?",
+        }, {
+                typ: "price",
+                re:  "((€|\\$|¢|£|EURO?|DM|USD) ?)?[-+]?[0-9]*[\\.,]?[0-9]+([eE][-+]?[0-9]+)?( ?(€|\\$|¢|£|EURO?|DM|USD))?",
+        }, {
+                typ: "url",
+                re:  "(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?",
+        }, {
+                typ: "ipv4",
+                re:  "(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])",
+        }, {
+                typ: "ipv6",
+                re:  "([0-9A-Fa-f]{1,4}:([0-9A-Fa-f]{1,4}:([0-9A-Fa-f]{1,4}:([0-9A-Fa-f]{1,4}:([0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{0,4}|:[0-9A-Fa-f]{1,4})?|(:[0-9A-Fa-f]{1,4}){0,2})|(:[0-9A-Fa-f]{1,4}){0,3})|(:[0-9A-Fa-f]{1,4}){0,4})|:(:[0-9A-Fa-f]{1,4}){0,5})((:[0-9A-Fa-f]{1,4}){2}|:(25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])(\\.(25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])){3})|(([0-9A-Fa-f]{1,4}:){1,6}|:):[0-9A-Fa-f]{0,4}|([0-9A-Fa-f]{1,4}:){7}:",
+        }, {
+                typ: "mac",
+                re:  "([0-9a-f]{1,2}:){5}([0-9a-f]{1,2})",
+        }, {
+                typ: "email",
+                re:  "[a-z0-9\\._%\\+\\-]+\\@[a-z0-9\\.\\-]+\\.[a-z]{2,9}",
+        }, {
+                typ: "creditcard",
+                re:  "(?:4\\d{12}(?:\\d{3})?|5[1-5]\\d{14}|3[47]\\d{13}|3(?:0[0-5]|[68]\\d)\\d{11}|6(?:011|5\\d{2})\\d{12}|(?:2131|1800|35\\d{3})\\d{11})",
+        }, {
+                typ: "color",
+                re:  "#[a-f0-9]{2,6}",
+        }, {
+                typ: "color",
+                re:  "(rgb|hsl|yuv)\\( *[\\d\\.%]+ *, *[\\d\\.%]+ *, *[\\d\\.%]+ *\\)",
+        }, {
+                typ: "color",
+                re:  "(rgba|cmyk)\\( *\\d+ *, *\\d+ *, *\\d+ *, *\\d+ *\\)",
+        }, {
+                typ: "isbn",
+                re:  "(1(?:(0)|3))?:?[- ]?(\\s)*[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]*[- ]*[xX0-9]",
+        }, {
+                typ: "date",
+                re:  "(?i:([MDCLXVI])((M{0,3})((C[DM])|(D?C{0,3}))?((X[LC])|(L?XX{0,2})|L)?((I[VX])|(V?(II{0,2}))|V)?))",
+        }, {
+                typ: "alpha",
+                re:  "[a-zA-Z]+",
+        }, {
+                typ: "alphanumeric",
+                re:  "[a-zA-Z0-9]+",
+        }, {
+                typ: "base64",
+                re:  "(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=|[A-Za-z0-9+\\/]{4})",
+        }, {
+                typ: "string",
+                re:  "[[:print:]]+",
+        }, {
+                typ: "ascii",
+                re:  "[[:ascii:]]+",
+        },
+}
+
+// timeformats contains the supported time formats
+// for the conversion to time.Time.
+var timeformats = []string{
+        time.ANSIC,
+        time.UnixDate,
+        time.RubyDate,
+        time.RFC822,
+        time.RFC822Z,
+        time.RFC850,
+        time.RFC1123,
+        time.RFC1123Z,
+        time.RFC3339,
+        time.RFC3339Nano,
+        time.Kitchen,
+        time.Stamp,
+        time.StampMilli,
+        time.StampMicro,
+        time.StampNano,
+        "Mon, 2 Jan 2006 15:04:05 -0700",
+        "02.01.06",
+        "01/02/06",
+        "2006-01-02",
+        "2006/01/02",
+        "01/02/2006",
+        "02.01.2006",
+        "01/02/06 15:04",
+        "2006-01-02 15:04",
+        "2006-01-02T15:04",
+        "01/02/2006 15:04",
+        "02.01.06 15:04:05",
+        "01/02/06 15:04:05",
+        "01/02/2006 15:04:05",
+        "2006-01-02 15:04:05",
+        "2006-01-02T15:04:05",
+        "02.01.2006 15:04:05",
+        "2006-01-02 15:04:05 -0700 MST",
+}
+
+// Bool returns a boolean value.
+// It mainly depends on the output of strconv.ParseBool,
+// but also checks for integer values.
+func Bool(valuea ...interface{}) bool <span class="cov8" title="1">{
+        value := valuea[0]
+        if Int(value) &gt; 0 </span><span class="cov8" title="1">{
+                return true
+        }</span>
+        <span class="cov8" title="1">b, _ := strconv.ParseBool(String(value))
+        return b</span>
+}
+
+// Bytes returns a slice of bytes.
+func Bytes(valuea ...interface{}) []byte <span class="cov8" title="1">{
+        value := valuea[0]
+        if value == nil </span><span class="cov8" title="1">{
+                return []byte{}
+        }</span>
+
+        <span class="cov8" title="1">switch val := value.(type) </span>{
+        case bool:<span class="cov8" title="1">
+                if val == true </span><span class="cov8" title="1">{
+                        return []byte("true")
+                }</span>
+                <span class="cov8" title="1">return []byte("false")</span>
+        case string:<span class="cov8" title="1">
+                return []byte(val)</span>
+        case []byte:<span class="cov8" title="1">
+                return val</span>
+        default:<span class="cov8" title="1">
+                return []byte(fmt.Sprintf("%v", value))</span>
+        }
+}
+
+// Duration converts input values to time.Duration.
+// It mainly depends on time.ParseDuration.
+func Duration(valuea ...interface{}) time.Duration <span class="cov8" title="1">{
+        value := valuea[0]
+        switch value.(type) </span>{
+        case int, int8, int16, int32, int64:<span class="cov8" title="1">
+                return time.Duration(Int(value))</span>
+        case uint, uint8, uint16, uint32, uint64:<span class="cov8" title="1">
+                return time.Duration(Int(value))</span>
+        case float32, float64:<span class="cov8" title="1">
+                return time.Duration(Int(value))</span>
+        default:<span class="cov8" title="1">
+                dur, _ := time.ParseDuration(String(value))
+                return dur</span>
+        }
+}
+
+// FixedLengthAfter appends spacer chars after a string
+func FixedLengthAfter(str string, spacer string, length int) string <span class="cov8" title="1">{
+        spacer = spacer[:1]
+        l := length - len(str)
+        if l &gt; 0 </span><span class="cov8" title="1">{
+                return str + strings.Repeat(spacer, l)
+        }</span>
+        <span class="cov8" title="1">if l == 0 </span><span class="cov8" title="1">{
+                return str
+        }</span>
+        <span class="cov8" title="1">return str[:length]</span>
+}
+
+// FixedLengthBefore prepends spacer chars before a string
+func FixedLengthBefore(str string, spacer string, length int) string <span class="cov8" title="1">{
+        spacer = spacer[:1]
+        l := length - len(str)
+        if l &gt; 0 </span><span class="cov8" title="1">{
+                return strings.Repeat(spacer, l) + str
+        }</span>
+        <span class="cov8" title="1">if l == 0 </span><span class="cov8" title="1">{
+                return str
+        }</span>
+        <span class="cov8" title="1">return str[:length]</span>
+}
+
+// FixedLengthCenter adds spacer chars after and before a string
+func FixedLengthCenter(str string, spacer string, length int) string <span class="cov8" title="1">{
+        spacer = spacer[:1]
+        l := length - len(str)
+        if l &gt; 0 </span><span class="cov8" title="1">{
+                if l%2 == 0 </span><span class="cov8" title="1">{
+                        l = l / 2
+                        return strings.Repeat(spacer, l) + str + strings.Repeat(spacer, l)
+                }</span>
+                <span class="cov8" title="1">l = (l + 1) / 2
+                return strings.Repeat(spacer, l) + str + strings.Repeat(spacer, l-1)</span>
+        }
+        <span class="cov8" title="1">if l == 0 </span><span class="cov8" title="1">{
+                return str
+        }</span>
+        <span class="cov8" title="1">return str[:length]</span>
+}
+
+// Float converts it's input to type float64.
+// int, uint and float gets converted as expected,
+// time is transformed to a float of the corresponding timestamp.
+// strings and byte slices gets converted via strconv.ParseFloat.
+func Float(valuea ...interface{}) float64 <span class="cov8" title="1">{
+        value := valuea[0]
+        switch val := value.(type) </span>{
+        case int:<span class="cov8" title="1">
+                return float64(val)</span>
+        case int8:<span class="cov8" title="1">
+                return float64(val)</span>
+        case int16:<span class="cov8" title="1">
+                return float64(val)</span>
+        case int32:<span class="cov8" title="1">
+                return float64(val)</span>
+        case int64:<span class="cov8" title="1">
+                return float64(val)</span>
+        case uint:<span class="cov8" title="1">
+                return float64(val)</span>
+        case uint8:<span class="cov8" title="1">
+                return float64(val)</span>
+        case uint16:<span class="cov8" title="1">
+                return float64(val)</span>
+        case uint32:<span class="cov8" title="1">
+                return float64(val)</span>
+        case uint64:<span class="cov8" title="1">
+                return float64(val)</span>
+        case float32:<span class="cov8" title="1">
+                return float64(val)</span>
+        case float64:<span class="cov8" title="1">
+                return float64(val)</span>
+        case time.Time:<span class="cov8" title="1">
+                return float64(val.Unix())</span>
+        case bool:<span class="cov8" title="1">
+                if val == true </span><span class="cov8" title="1">{
+                        return float64(1)
+                }</span>
+                <span class="cov8" title="1">return float64(0)</span>
+        default:<span class="cov8" title="1">
+                f, _ := strconv.ParseFloat(String(value), 64)
+                return float64(f)</span>
+        }
+}
+
+// FloatFromXString converts strings to float64.
+// Most values can be converted to float via Float(),
+// but floats as strings in e.g. german spelling
+// should be converted with this function.
+func FloatFromXString(valuea ...string) float64 <span class="cov8" title="1">{
+        value := valuea[0]
+        value = strings.Trim(value, "\t\n\r¢§$€ ")
+        var float float64
+        c := strings.Count(value, ",")
+        p := strings.Count(value, ".")
+        fc := strings.Index(value, ",")
+        fp := strings.Index(value, ".")
+        if c == 0 &amp;&amp; p == 1 </span><span class="cov8" title="1">{
+                float, _ = strconv.ParseFloat(value, 64)
+        }</span> else<span class="cov8" title="1"> if c == 1 &amp;&amp; p == 0 </span><span class="cov8" title="1">{
+                value = strings.Replace(value, ",", ".", 1)
+                float, _ = strconv.ParseFloat(value, 64)
+        }</span> else<span class="cov8" title="1"> if c == 0 &amp;&amp; p == 0 </span><span class="cov8" title="1">{
+                intx, _ := strconv.ParseInt(value, 0, 64)
+                float = float64(intx)
+        }</span> else<span class="cov8" title="1"> if c &gt; 1 &amp;&amp; p &lt; 2 </span><span class="cov8" title="1">{
+                value = strings.Replace(value, ",", "", -1)
+                float, _ = strconv.ParseFloat(value, 64)
+        }</span> else<span class="cov8" title="1"> if c &lt; 2 &amp;&amp; p &gt; 1 </span><span class="cov8" title="1">{
+                value = strings.Replace(value, ".", "", -1)
+                value = strings.Replace(value, ",", ".", 1)
+                float, _ = strconv.ParseFloat(value, 64)
+        }</span> else<span class="cov8" title="1"> if c == 1 &amp;&amp; p == 1 </span><span class="cov8" title="1">{
+                if fp &lt; fc </span><span class="cov8" title="1">{
+                        value = strings.Replace(value, ".", "", -1)
+                        value = strings.Replace(value, ",", ".", 1)
+                }</span> else<span class="cov8" title="1"> {
+                        value = strings.Replace(value, ",", "", -1)
+                }</span>
+                <span class="cov8" title="1">float, _ = strconv.ParseFloat(value, 64)</span>
+        } else<span class="cov8" title="1"> {
+                value = "0"
+                float, _ = strconv.ParseFloat(value, 64)
+        }</span>
+        <span class="cov8" title="1">return float64(float)</span>
+}
+
+// Int returns an int64 of the input value.
+// Float values and float values in strings will be rounded via
+// "round half towards positive infinity".
+// strings get converted via strconv.ParseFloat.
+func Int(valuea ...interface{}) int64 <span class="cov8" title="1">{
+        value := valuea[0]
+        switch val := value.(type) </span>{
+        case int:<span class="cov8" title="1">
+                return int64(val)</span>
+        case int8:<span class="cov8" title="1">
+                return int64(val)</span>
+        case int16:<span class="cov8" title="1">
+                return int64(val)</span>
+        case int32:<span class="cov8" title="1">
+                return int64(val)</span>
+        case int64:<span class="cov8" title="1">
+                return int64(val)</span>
+        case uint:<span class="cov8" title="1">
+                return int64(val)</span>
+        case uint8:<span class="cov8" title="1">
+                return int64(val)</span>
+        case uint16:<span class="cov8" title="1">
+                return int64(val)</span>
+        case uint32:<span class="cov8" title="1">
+                return int64(val)</span>
+        case uint64:<span class="cov8" title="1">
+                return int64(val)</span>
+        case float32:<span class="cov8" title="1">
+                return int64(val + 0.5)</span>
+        case float64:<span class="cov8" title="1">
+                return int64(val + 0.5)</span>
+        case time.Time:<span class="cov8" title="1">
+                return int64(val.Unix())</span>
+        case bool:<span class="cov8" title="1">
+                if val == true </span><span class="cov8" title="1">{
+                        return int64(1)
+                }</span>
+                <span class="cov8" title="1">return int64(0)</span>
+        default:<span class="cov8" title="1">
+                i, _ := strconv.ParseFloat(String(value), 64)
+                return int64(i + 0.5)</span>
+        }
+}
+
+// String converts input values to string.
+// Time and Duration gets converted via standard functions.
+// Most types gets "converted" via fmt.Sprintf.
+func String(valuea ...interface{}) string <span class="cov8" title="1">{
+        value := valuea[0]
+        if value == nil </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+
+        <span class="cov8" title="1">switch val := value.(type) </span>{
+        case bool:<span class="cov8" title="1">
+                if value.(bool) == true </span><span class="cov8" title="1">{
+                        return "true"
+                }</span>
+                <span class="cov8" title="1">return "false"</span>
+        case time.Duration:<span class="cov8" title="1">
+                return string(val.String())</span>
+        case time.Time:<span class="cov8" title="1">
+                return string(val.Format(time.RFC3339))</span>
+        case string:<span class="cov8" title="1">
+                return val</span>
+        case []byte:<span class="cov8" title="1">
+                return string(val)</span>
+        default:<span class="cov8" title="1">
+                return fmt.Sprintf("%v", val)</span>
+        }
+}
+
+// Time converts inputs values to time.Time.
+// Time formats in the variable timeformats can be used.
+func Time(valuea ...interface{}) time.Time <span class="cov8" title="1">{
+        value := valuea[0]
+        s := String(value)
+        for _, format := range timeformats </span><span class="cov8" title="1">{
+                r, err := time.Parse(format, s)
+                if err == nil </span><span class="cov8" title="1">{
+                        return r
+                }</span>
+        }
+        <span class="cov8" title="1">return time.Time{}</span>
+}
+
+// Trimmed takes the first given value, converts it to
+// a string, trims the whitespace an returns it.
+func Trimmed(valuea ...interface{}) string <span class="cov8" title="1">{
+        value := valuea[0]
+        return strings.TrimSpace(String(value))
+}</span>
+
+// Uint returns an uint64 of the input value.
+// Float values and float values in strings will be rounded via
+// "round half towards positive infinity".
+// strings get converted via strconv.ParseFloat.
+func Uint(valuea ...interface{}) uint64 <span class="cov8" title="1">{
+        value := valuea[0]
+        switch val := value.(type) </span>{
+        case int:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case int8:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case int16:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case int32:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case int64:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case uint:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case uint8:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case uint16:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case uint32:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case uint64:<span class="cov8" title="1">
+                return uint64(val)</span>
+        case float32:<span class="cov8" title="1">
+                return uint64(val + 0.5)</span>
+        case float64:<span class="cov8" title="1">
+                return uint64(val + 0.5)</span>
+        case time.Time:<span class="cov8" title="1">
+                return uint64(val.Unix())</span>
+        case bool:<span class="cov8" title="1">
+                if val == true </span><span class="cov8" title="1">{
+                        return uint64(1)
+                }</span>
+                <span class="cov8" title="1">return uint64(0)</span>
+        default:<span class="cov8" title="1">
+                i, _ := strconv.ParseFloat(String(value), 64)
+                return uint64(i + 0.5)</span>
+        }
+}
+
+// Type returns a type (string) of a string.
+func Type(valuea ...interface{}) (string, error) <span class="cov8" title="1">{
+        var err error
+        str := strings.Trim(String(valuea[0]), " \t\n\r")
+        if !Time(str).IsZero() </span><span class="cov8" title="1">{
+                return "date", nil
+        }</span>
+        <span class="cov8" title="1">for _, b := range regex </span><span class="cov8" title="1">{
+                var match bool
+                re := "(?i)^" + b.re + "$"
+                if match, err = regexp.MatchString(re, str); match == true </span><span class="cov8" title="1">{
+                        //fmt.Printf("%v tested for %v with %v; result: %v\n", str, b.typ, b.re, match)
+                        return b.typ, nil
+                }</span>
+                //fmt.Printf("%v tested for %v with %v; result: %v\n", str, b.typ, b.re, match)
+        }
+        <span class="cov8" title="1">return "", err</span>
+}
+
+// DBType returns a Database Type of a string.
+func DBType(str string) string <span class="cov8" title="1">{
+        t, err := Type(str)
+        if err != nil </span><span class="cov0" title="0">{
+                return "string"
+        }</span>
+        <span class="cov8" title="1">switch t </span>{
+        case "bool", "int", "string", "float":<span class="cov8" title="1">
+                return t</span>
+        default:<span class="cov8" title="1">
+                return "string"</span>
+        }
+}
+
+// DBTypeMultiple returns the lowest common denominator of a type for all inserted DBTypes
+func DBTypeMultiple(val []string) string <span class="cov8" title="1">{
+        var typeint int
+        for _, typ := range val </span><span class="cov8" title="1">{
+                for i, b := range regex </span><span class="cov8" title="1">{
+                        if b.typ == typ </span><span class="cov8" title="1">{
+                                if typeint &lt; i </span><span class="cov8" title="1">{
+                                        typeint = i
+                                }</span>
+                        }
+                }
+        }
+        <span class="cov8" title="1">return regex[typeint].typ</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package as
+
+import (
+        "strconv"
+)
+
+type Int64 int64
+
+// MarshalJSON implements json.Marshaler interface for the Int64 Type.
+func (i Int64) MarshalJSON() ([]byte, error) <span class="cov0" title="0">{
+        return Bytes(i), nil
+}</span>
+
+// UnmarshalJSON implements json.Unmarshaler inferface for the Int64 Type.
+func (i *Int64) UnmarshalJSON(buf []byte) error <span class="cov8" title="1">{
+        var i64 Int64
+        str, err := strconv.Unquote(string(buf))
+        if err == nil </span><span class="cov8" title="1">{
+                i64 = Int64(Int(str))
+        }</span> else<span class="cov8" title="1"> {
+                i64 = Int64(Int(buf))
+        }</span>
+
+        <span class="cov8" title="1">*i = i64
+        return nil</span>
+}
+
+// UnmarshalJSON implements json.Unmarshaler inferface for the Dynamic Type.
+func (d *Dynamic) UnmarshalJSON(buf []byte) error <span class="cov8" title="1">{
+        var dyn Dynamic
+        str, err := strconv.Unquote(string(buf))
+        if err != nil </span><span class="cov0" title="0">{
+                str = string(buf)
+        }</span>
+
+        <span class="cov8" title="1">dyn.Type, _ = Type(str)
+
+        switch dyn.Type </span>{
+        case "date":<span class="cov8" title="1">
+                dyn.Data = Time(str)</span>
+        default:<span class="cov8" title="1">
+                dyn.Data = str</span>
+        }
+
+        <span class="cov8" title="1">*d = dyn
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package bitmask
+
+import "fmt"
+
+type Bitmask struct {
+        value int
+}
+
+func New(init int) *Bitmask <span class="cov8" title="1">{
+        return &amp;Bitmask{value: init}
+}</span>
+
+func (b *Bitmask) setBit(pos int) int <span class="cov8" title="1">{
+        b.value |= (1 &lt;&lt; pos)
+        return b.value
+}</span>
+
+func (b *Bitmask) clearBit(pos int) int <span class="cov8" title="1">{
+        mask := ^(1 &lt;&lt; pos)
+        b.value &amp;= mask
+        return b.value
+}</span>
+
+func (b *Bitmask) Set(pos int, val bool) int <span class="cov8" title="1">{
+        if val == true </span><span class="cov8" title="1">{
+                return b.setBit(pos)
+        }</span>
+        <span class="cov8" title="1">return b.clearBit(pos)</span>
+}
+
+func (b *Bitmask) hasBit(pos int) bool <span class="cov8" title="1">{
+        return ((b.value &amp; (1 &lt;&lt; pos)) &gt; 0)
+}</span>
+
+func (b *Bitmask) Get(pos int) bool <span class="cov8" title="1">{
+        return b.hasBit(pos)
+}</span>
+
+func (b *Bitmask) Int() int <span class="cov0" title="0">{
+        return b.value
+}</span>
+
+func (b *Bitmask) String() string <span class="cov8" title="1">{
+        return fmt.Sprintf("%b", b.value)
+}</span>
+
+func (b *Bitmask) Byte() []byte <span class="cov8" title="1">{
+        return []byte{byte(b.value)}
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">// Package cache simplifies caching with GC
+package cache
+
+import (
+        "encoding/gob"
+        "fmt"
+        "io"
+        "os"
+        "os/signal"
+        "sort"
+        "sync"
+        "syscall"
+        "time"
+)
+
+// Item as a single object with an interface as value and two time.Time values for creation and expiration dates
+type Item struct {
+        Object     interface{}
+        Creation   time.Time
+        Expiration time.Time
+}
+
+func (item *Item) isExpired() bool <span class="cov8" title="1">{
+        if item.Expiration.IsZero() </span><span class="cov0" title="0">{
+                return false
+        }</span>
+        <span class="cov8" title="1">return item.Expiration.Before(time.Now())</span>
+}
+
+// Cache is a storage for all Item items
+type Cache struct {
+        Expiration time.Duration
+        items      map[string]*Item
+        lock       sync.RWMutex
+}
+
+// Export all items to a gob buffer
+func (cache *Cache) Export(w io.Writer) error <span class="cov8" title="1">{
+        enc := gob.NewEncoder(w)
+
+        cache.lock.RLock()
+        defer cache.lock.RUnlock()
+
+        X := make(map[string]interface{})
+
+        for k := range cache.items </span><span class="cov8" title="1">{
+                X[k] = cache.items[k].Object
+        }</span>
+        <span class="cov8" title="1">if err := enc.Encode(X); err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Import all items from a gob buffer
+func (cache *Cache) Import(r io.Reader) error <span class="cov8" title="1">{
+        dec := gob.NewDecoder(r)
+        X := make(map[string]interface{})
+
+        if err := dec.Decode(&amp;X); err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">for k, v := range X </span><span class="cov8" title="1">{
+                cache.Set(k, v)
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// String returns all cached values as string (for debugging)
+func (cache *Cache) String() string <span class="cov8" title="1">{
+        var str string
+        var keys []string
+
+        cache.lock.RLock()
+        defer cache.lock.RUnlock()
+
+        for k := range cache.items </span><span class="cov8" title="1">{
+                keys = append(keys, k)
+        }</span>
+        <span class="cov8" title="1">sort.Strings(keys)
+
+        for _, k := range keys </span><span class="cov8" title="1">{
+                str += k + "\t" + fmt.Sprintf("%v", cache.items[k].Object) + "\n"
+        }</span>
+
+        <span class="cov8" title="1">return str</span>
+}
+
+// Set creates an Item in the cache, if there is already an item with that name it get overwritten
+func (cache *Cache) Set(key string, value interface{}) <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        cache.items[key] = &amp;Item{
+                Object:     value,
+                Creation:   time.Now(),
+                Expiration: time.Now().Add(cache.Expiration),
+        }
+}</span>
+
+// SetWithDuration does the same as Set but with an specific expiration date
+func (cache *Cache) SetWithDuration(key string, value interface{}, creation time.Time, duration time.Duration) <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        cache.items[key] = &amp;Item{
+                Object:     value,
+                Creation:   creation,
+                Expiration: time.Now().Add(duration),
+        }
+}</span>
+
+// Time returns the creation date of a cached item
+func (cache *Cache) Time(key string) time.Time <span class="cov8" title="1">{
+        return cache.items[key].Creation
+}</span>
+
+// Get returns the value of a cached item or nil if expired
+func (cache *Cache) Get(key string) interface{} <span class="cov8" title="1">{
+        cache.lock.RLock()
+        defer cache.lock.RUnlock()
+
+        item, ok := cache.items[key]
+        if !ok || item.isExpired() </span><span class="cov8" title="1">{
+                return nil
+        }</span>
+        <span class="cov8" title="1">return item.Object</span>
+}
+
+// Delete deletes a cached item
+func (cache *Cache) Delete(key string) <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        delete(cache.items, key)
+}</span>
+
+// Add creates an cached item
+func (cache *Cache) Add(key string, value interface{}) bool <span class="cov8" title="1">{
+        item := cache.Get(key)
+        if item != nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov8" title="1">cache.Set(key, value)
+        return true</span>
+}
+
+// Update changes the value of an key. If the key doesn't exist, it returns false
+func (cache *Cache) Update(key string, value interface{}) bool <span class="cov8" title="1">{
+        item := cache.Get(key)
+        if item == nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov8" title="1">cache.Set(key, value)
+        return true</span>
+}
+
+// DeleteExpired checks all cache items and deletes the expired items
+func (cache *Cache) DeleteExpired() <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        for k, v := range cache.items </span><span class="cov8" title="1">{
+                if v.isExpired() </span><span class="cov8" title="1">{
+                        delete(cache.items, k)
+                }</span>
+        }
+}
+
+// DeleteExpiredWithFunc does the same like DeleteExpired
+// but also calls a function for each deleted item
+func (cache *Cache) DeleteExpiredWithFunc(fn func(key string, value interface{})) <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        for k, v := range cache.items </span><span class="cov8" title="1">{
+                if v.isExpired() </span><span class="cov8" title="1">{
+                        fn(k, cache.items[k].Object)
+                        delete(cache.items, k)
+                }</span>
+        }
+}
+
+// DeleteAllWithFunc does the same like DeleteExpiredWithFunc
+// but not just for the expired items, also the non expired
+func (cache *Cache) DeleteAllWithFunc(fn func(key string, value interface{})) <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        for k := range cache.items </span><span class="cov8" title="1">{
+                fn(k, cache.items[k].Object)
+                delete(cache.items, k)
+        }</span>
+}
+
+// Size returns the number of cached items
+// it does not check for expired items, so run DeleteExpired before
+func (cache *Cache) Size() int <span class="cov8" title="1">{
+        n := len(cache.items)
+        return n
+}</span>
+
+// Clear removes all items in the cache
+func (cache *Cache) Clear() <span class="cov8" title="1">{
+        cache.lock.Lock()
+        defer cache.lock.Unlock()
+
+        cache.items = map[string]*Item{}
+}</span>
+
+func cleaner(cache *Cache, interval time.Duration) <span class="cov8" title="1">{
+        ticker := time.Tick(interval)
+        for </span><span class="cov8" title="1">{
+                select </span>{
+                case &lt;-ticker:<span class="cov8" title="1">
+                        cache.DeleteExpired()</span>
+                }
+        }
+}
+
+func cleanerWithFunc(cache *Cache, interval time.Duration, fn func(key string, value interface{})) <span class="cov8" title="1">{
+        defer cache.DeleteAllWithFunc(fn)
+        c := make(chan os.Signal, 1)
+        signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+        ticker := time.Tick(interval)
+        for </span><span class="cov8" title="1">{
+                select </span>{
+                case &lt;-ticker:<span class="cov8" title="1">
+                        cache.DeleteExpiredWithFunc(fn)</span>
+                case &lt;-c:<span class="cov0" title="0">
+                        cache.DeleteAllWithFunc(fn)
+                        os.Exit(1)</span>
+                }
+        }
+}
+
+// New creates a new Cache
+func New(expirationTime, cleanupInterval time.Duration) *Cache <span class="cov8" title="1">{
+        items := make(map[string]*Item)
+        if expirationTime == 0 </span><span class="cov8" title="1">{
+                expirationTime = -1
+        }</span>
+        <span class="cov8" title="1">cache := &amp;Cache{
+                Expiration: expirationTime,
+                items:      items,
+        }
+        go cleaner(cache, cleanupInterval)
+
+        return cache</span>
+}
+
+// New2 creates a new Cache with a cleaner function
+func New2(expirationTime, cleanupInterval time.Duration, fn func(key string, value interface{})) *Cache <span class="cov8" title="1">{
+        items := make(map[string]*Item)
+        if expirationTime == 0 </span><span class="cov8" title="1">{
+                expirationTime = -1
+        }</span>
+        <span class="cov8" title="1">cache := &amp;Cache{
+                Expiration: expirationTime,
+                items:      items,
+        }
+        go cleanerWithFunc(cache, cleanupInterval, fn)
+
+        return cache</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">// simplifies file access and adds a simple caching method
+package cachedfile
+
+import (
+        "fmt"
+        "simonwaldherr.de/go/golibs/cache"
+        "simonwaldherr.de/go/golibs/file"
+        "time"
+)
+
+var fileCache *cache.Cache
+var cacheInit bool
+
+func cacheWorker(filename string, value interface{}) <span class="cov8" title="1">{
+        _, mtime, _, err := file.Time(filename)
+        modify := mtime.UnixNano()
+        if err == nil &amp;&amp; modify &lt; fileCache.Time(filename).UnixNano() </span><span class="cov8" title="1">{
+                file.Write(filename, fmt.Sprint(value), false)
+        }</span>
+}
+
+func Init(expirationTime, cleanupInterval time.Duration) <span class="cov8" title="1">{
+        if cacheInit == true </span><span class="cov8" title="1">{
+                fileCache.DeleteAllWithFunc(cacheWorker)
+        }</span>
+        <span class="cov8" title="1">cacheInit = true
+        fileCache = cache.New2(expirationTime, cleanupInterval, cacheWorker)</span>
+}
+
+func Read(filename string) (string, error) <span class="cov8" title="1">{
+        if cacheInit == false </span><span class="cov8" title="1">{
+                cacheInit = true
+                fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
+        }</span>
+        <span class="cov8" title="1">var err error
+        var data string
+        filename, err = file.GetAbsolutePath(filename)
+        if err != nil </span><span class="cov8" title="1">{
+                return "", err
+        }</span>
+        <span class="cov8" title="1">if xdata := fileCache.Get(filename); xdata == nil </span><span class="cov8" title="1">{
+                if data, err = file.Read(filename); err != nil </span><span class="cov8" title="1">{
+                        return "", err
+                }</span>
+                <span class="cov8" title="1">_, mtime, _, err := file.Time(filename)
+                if err != nil </span><span class="cov0" title="0">{
+                        mtime = time.Now()
+                }</span>
+                <span class="cov8" title="1">duration, _ := time.ParseDuration("2h30m")
+                fileCache.SetWithDuration(filename, data, mtime, duration)</span>
+        } else<span class="cov8" title="1"> {
+                data = fmt.Sprint(xdata)
+        }</span>
+        <span class="cov8" title="1">return data, nil</span>
+}
+
+func Write(filename, str string, append bool) error <span class="cov8" title="1">{
+        if cacheInit == false </span><span class="cov8" title="1">{
+                cacheInit = true
+                fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
+        }</span>
+        <span class="cov8" title="1">var err error
+        var data string
+        filename, err = file.GetAbsolutePath(filename)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if append </span><span class="cov8" title="1">{
+                data, err = Read(filename)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">fileCache.Set(filename, data+str)</span>
+        } else<span class="cov8" title="1"> {
+                fileCache.Set(filename, str)
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func Size(filename string) (int64, error) <span class="cov8" title="1">{
+        str, err := Read(filename)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return -1, err
+        }</span>
+
+        <span class="cov8" title="1">return int64(len(str)), nil</span>
+}
+
+func Clean(filename string) error <span class="cov8" title="1">{
+        return Write(filename, "", false)
+}</span>
+
+func Stop() <span class="cov8" title="1">{
+        if cacheInit == true </span><span class="cov8" title="1">{
+                fileCache.DeleteAllWithFunc(cacheWorker)
+        }</span>
+}
+
+func Reset() <span class="cov8" title="1">{
+        fileCache = cache.New2(15*time.Minute, 1*time.Minute, cacheWorker)
+        cacheInit = false
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package channel
+
+type Communication struct {
+        receiver    map[chan interface{}]bool
+        addReceiver chan chan interface{}
+        rmReceiver  chan chan interface{}
+        messages    chan interface{}
+}
+
+func Init() *Communication <span class="cov8" title="1">{
+        var hub = &amp;Communication{
+                receiver:    make(map[chan interface{}]bool),
+                addReceiver: make(chan (chan interface{})),
+                rmReceiver:  make(chan (chan interface{})),
+                messages:    make(chan interface{}, 31),
+        }
+
+        go func() </span><span class="cov8" title="1">{
+                for </span><span class="cov8" title="1">{
+                        select </span>{
+                        case s := &lt;-hub.addReceiver:<span class="cov8" title="1">
+                                hub.receiver[s] = true</span>
+                        case s := &lt;-hub.rmReceiver:<span class="cov8" title="1">
+                                delete(hub.receiver, s)
+                                if len(hub.receiver) == 0 </span><span class="cov8" title="1">{
+                                        return
+                                }</span>
+                        case msg := &lt;-hub.messages:<span class="cov8" title="1">
+                                for rec := range hub.receiver </span><span class="cov8" title="1">{
+                                        go func(message interface{}, receiver chan interface{}) </span><span class="cov8" title="1">{
+                                                receiver &lt;- message
+                                        }</span>(msg, rec)
+                                }
+                        }
+                }
+        }()
+
+        <span class="cov8" title="1">return hub</span>
+}
+
+func (hub *Communication) AddReceiver() chan interface{} <span class="cov8" title="1">{
+        messageChannel := make(chan interface{})
+        hub.addReceiver &lt;- messageChannel
+        return messageChannel
+}</span>
+
+func (hub *Communication) CloseReceiver(ch chan interface{}) int <span class="cov8" title="1">{
+        hub.rmReceiver &lt;- ch
+        return hub.CountReceiver()
+}</span>
+
+func (hub *Communication) CountReceiver() int <span class="cov8" title="1">{
+        return len(hub.receiver)
+}</span>
+
+func (hub *Communication) AddTransmitter() chan&lt;- interface{} <span class="cov8" title="1">{
+        return hub.messages
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package csv
+
+import (
+        "bufio"
+        "encoding/csv"
+        "io"
+        "os"
+        "strings"
+)
+
+// LoadCSVfromFile parses a CSV from a file and returns two maps
+// one map with the data and another one with the csv head
+func LoadCSVfromFile(filename string) (map[int][]string, map[string]int) <span class="cov8" title="1">{
+        fp, _ := os.Open(filename)
+        return loadCSV(bufio.NewReader(fp))
+}</span>
+
+// LoadCSVfromString parses a CSV from a string and returns two maps
+// one map with the data and another one with the csv head
+func LoadCSVfromString(csv string) (map[int][]string, map[string]int) <span class="cov8" title="1">{
+        fp := strings.NewReader(csv)
+        return loadCSV(fp)
+}</span>
+
+func loadCSV(reader io.Reader) (map[int][]string, map[string]int) <span class="cov8" title="1">{
+        var row int
+        var head = map[int][]string{}
+        var data = map[int][]string{}
+
+        csvReader := csv.NewReader(reader)
+        csvReader.Comma = ';'
+        for </span><span class="cov8" title="1">{
+                record, err := csvReader.Read()
+                if err == io.EOF </span><span class="cov8" title="1">{
+                        break</span>
+                }
+
+                <span class="cov8" title="1">if row == 0 </span><span class="cov8" title="1">{
+                        head[row] = record
+                }</span> else<span class="cov8" title="1"> {
+                        data[row] = record
+                }</span>
+                <span class="cov8" title="1">row++</span>
+        }
+        <span class="cov8" title="1">return data, GetHead(head)</span>
+}
+
+// GetHead returns a map which represents the head of a csv map
+func GetHead(data map[int][]string) map[string]int <span class="cov8" title="1">{
+        head := make(map[string]int, len(data[0]))
+        for pos, name := range data[0] </span><span class="cov8" title="1">{
+                head[name] = pos
+        }</span>
+        <span class="cov8" title="1">return head</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">// file wraps around the standard functions to simplify reading and writing on disk
+package file
+
+import (
+        "bufio"
+        "bytes"
+        "io"
+        "io/ioutil"
+        "os"
+        "path/filepath"
+        "runtime"
+        "simonwaldherr.de/go/golibs/gopath"
+        "strings"
+)
+
+func contains(s []string, e string) bool <span class="cov8" title="1">{
+        for _, a := range s </span><span class="cov8" title="1">{
+                if a == e </span><span class="cov8" title="1">{
+                        return true
+                }</span>
+        }
+        <span class="cov8" title="1">return false</span>
+}
+
+func Exists(fn string) bool <span class="cov8" title="1">{
+        if _, err := os.Stat(fn); err == nil </span><span class="cov8" title="1">{
+                return true
+        }</span>
+        <span class="cov8" title="1">return false</span>
+}
+
+func IsDir(fn string) bool <span class="cov8" title="1">{
+        file, err := os.Stat(fn)
+        if err != nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov8" title="1">if file.IsDir() </span><span class="cov8" title="1">{
+                return true
+        }</span>
+        <span class="cov8" title="1">return false</span>
+}
+
+func IsFile(fn string) bool <span class="cov8" title="1">{
+        file, err := os.Stat(fn)
+        if err != nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov8" title="1">if file.Mode().IsRegular() </span><span class="cov8" title="1">{
+                return true
+        }</span>
+        <span class="cov8" title="1">return false</span>
+}
+
+func isSymlink(fi os.FileInfo) bool <span class="cov8" title="1">{
+        return fi.Mode()&amp;os.ModeSymlink == os.ModeSymlink
+}</span>
+
+func IsSymlink(fn string) bool <span class="cov8" title="1">{
+        file, err := os.Lstat(fn)
+        if err != nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov8" title="1">return isSymlink(file)</span>
+}
+
+func Read(fn string) (string, error) <span class="cov8" title="1">{
+        var file *os.File
+        var err error
+
+        buf := bytes.NewBuffer(nil)
+
+        file, err = os.Open(fn)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return "", err
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        if _, err = io.Copy(buf, file); err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+
+        <span class="cov8" title="1">s := string(buf.Bytes())
+        return s, nil</span>
+}
+
+func ReadUntil(fn string, delim []string) (string, string, int, error) <span class="cov8" title="1">{
+        file, err := os.Open(fn)
+
+        defer file.Close()
+
+        if err != nil </span><span class="cov8" title="1">{
+                return "", "", 0, err
+        }</span>
+
+        <span class="cov8" title="1">reader := bufio.NewReader(file)
+        scanner := bufio.NewScanner(reader)
+
+        scanner.Split(bufio.ScanRunes)
+        pos := 0
+        buf := ""
+
+        for scanner.Scan() </span><span class="cov8" title="1">{
+                char := scanner.Text()
+                if contains(delim, char) </span><span class="cov8" title="1">{
+                        return buf, char, pos, nil
+                }</span>
+                <span class="cov8" title="1">buf += char
+                pos++</span>
+        }
+        <span class="cov8" title="1">return buf, "", pos, nil</span>
+}
+
+func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error) <span class="cov8" title="1">{
+        file, err := os.Open(fn)
+
+        defer file.Close()
+
+        if err != nil </span><span class="cov8" title="1">{
+                return "", err
+        }</span>
+
+        <span class="cov8" title="1">reader := bufio.NewReader(file)
+        scanner := bufio.NewScanner(reader)
+
+        scanner.Split(bufio.ScanRunes)
+        pos := 0
+        buf := ""
+        ret := ""
+        str := ""
+
+        for scanner.Scan() </span><span class="cov8" title="1">{
+                char := scanner.Text()
+                if contains(delim, char) </span><span class="cov8" title="1">{
+                        str, err = fnc(buf)
+                        ret += str
+                        buf = ""
+                }</span>
+                <span class="cov8" title="1">buf += char
+                pos++</span>
+        }
+        <span class="cov8" title="1">return ret, nil</span>
+}
+
+func Write(fn, str string, append bool) error <span class="cov8" title="1">{
+        var file *os.File
+        var err error
+
+        if append </span><span class="cov8" title="1">{
+                file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
+        }</span> else<span class="cov8" title="1"> {
+                file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
+        }</span>
+
+        <span class="cov8" title="1">if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        if _, err = file.WriteString(str); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if err = file.Sync(); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func Size(fn string) (int64, error) <span class="cov8" title="1">{
+        file, err := os.Open(fn)
+
+        defer file.Close()
+
+        if err != nil </span><span class="cov8" title="1">{
+                return -1, err
+        }</span>
+
+        <span class="cov8" title="1">fi, err := file.Stat()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return -1, err
+        }</span>
+
+        <span class="cov8" title="1">return fi.Size(), nil</span>
+}
+
+func Clean(fn string) error <span class="cov8" title="1">{
+        return Write(fn, "", false)
+}</span>
+
+func Rename(from, to string) error <span class="cov8" title="1">{
+        err := os.Rename(from, to)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func Copy(from, to string) error <span class="cov8" title="1">{
+        r, err := os.Open(from)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">defer r.Close()
+
+        w, err := os.Create(to)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">defer w.Close()
+
+        _, err = io.Copy(w, r)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func Delete(fn string) error <span class="cov8" title="1">{
+        err := os.Remove(fn)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func ReadDir(dn string) ([]string, error) <span class="cov8" title="1">{
+        var flist []string
+        dn, err := GetAbsolutePath(dn)
+        if err != nil </span><span class="cov0" title="0">{
+                return []string{""}, err
+        }</span>
+        <span class="cov8" title="1">files, err := ioutil.ReadDir(dn)
+        if err != nil </span><span class="cov0" title="0">{
+                return []string{""}, err
+        }</span>
+        <span class="cov8" title="1">for _, f := range files </span><span class="cov8" title="1">{
+                flist = append(flist, f.Name())
+        }</span>
+        <span class="cov8" title="1">return flist, nil</span>
+}
+
+func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error <span class="cov8" title="1">{
+        file, err := os.Open(dirname)
+
+        defer file.Close()
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">list, err := file.Readdir(-1)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">for _, fi := range list </span><span class="cov8" title="1">{
+                path, _ := filepath.Abs(dirname + string(os.PathSeparator) + fi.Name())
+                isDir := fi.IsDir()
+                split := strings.Split(fi.Name(), ".")
+                suffix := split[len(split)-1:][0] // if you want the real filetype, use http.DetectContentType
+                fnc(fi.Name(), suffix, path, isDir, fi)
+                if recursive &amp;&amp; isDir </span><span class="cov8" title="1">{
+                        err = Each(path, recursive, fnc)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+var HomeDir string
+
+func SetHomeDir() string <span class="cov8" title="1">{
+        if HomeDir == "#" || runtime.GOOS == "windows" </span><span class="cov8" title="1">{
+                home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
+                if home == "" </span><span class="cov8" title="1">{
+                        home = os.Getenv("USERPROFILE")
+                }</span>
+                <span class="cov8" title="1">HomeDir = home
+                return home</span>
+        }
+        <span class="cov8" title="1">HomeDir = os.Getenv("HOME")
+        return os.Getenv("HOME")</span>
+}
+
+func FakeHomeDir(dir string) string <span class="cov8" title="1">{
+        HomeDir = dir
+        return dir
+}</span>
+
+func GetHomeDir() string <span class="cov8" title="1">{
+        if HomeDir == "" </span><span class="cov8" title="1">{
+                return SetHomeDir()
+        }</span>
+        <span class="cov8" title="1">return HomeDir</span>
+}
+
+func switchSymlink(path []byte, start int, link, after string) []byte <span class="cov8" title="1">{
+        if link[0] == os.PathSeparator </span><span class="cov0" title="0">{
+                return []byte(filepath.Join(link, after))
+        }</span>
+        <span class="cov8" title="1">return []byte(filepath.Join(string(path[0:start]), link, after))</span>
+}
+
+func nextComponent(path []byte, start int) []byte <span class="cov8" title="1">{
+        v := bytes.IndexByte(path[start:], os.PathSeparator)
+        if v &lt; 0 </span><span class="cov8" title="1">{
+                return path
+        }</span>
+        <span class="cov8" title="1">return path[0 : start+v]</span>
+}
+
+// GetAbsolutePath returns the absolute path to a file or dir
+// if it is a relative path it is relative to the current working directory
+func GetAbsolutePath(fn string) (string, error) <span class="cov8" title="1">{
+        pwd, err := os.Getwd()
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        <span class="cov8" title="1">return getAbsolutePathHelper(fn, pwd)</span>
+}
+
+// GetAbsolutePathByApp returns the absolute path to a file or dir
+// if it is a relative path it is relative to the Go Application source or binary
+func GetAbsolutePathByApp(fn string) (string, error) <span class="cov0" title="0">{
+        pwd := gopath.Dir()
+        return getAbsolutePathHelper(fn, pwd)
+}</span>
+
+func getAbsolutePathHelper(fn string, pwd string) (string, error) <span class="cov8" title="1">{
+        if len(fn) == 0 </span><span class="cov8" title="1">{
+                return "", os.ErrInvalid
+        }</span>
+
+        <span class="cov8" title="1">if fn[0] != os.PathSeparator </span><span class="cov8" title="1">{
+                if fn[0] == '.' </span><span class="cov8" title="1">{
+                        fn = filepath.Join(pwd, fn)
+                }</span> else<span class="cov8" title="1"> {
+                        fn = strings.Replace(fn, "~", GetHomeDir(), 1)
+                }</span>
+        }
+
+        <span class="cov8" title="1">path := []byte(fn)
+        nlinks := 0
+        start := 1
+        prev := 1
+
+        for start &lt; len(path) </span><span class="cov8" title="1">{
+                c := nextComponent(path, start)
+                cur := c[start:]
+
+                if len(cur) == 0 </span><span class="cov8" title="1">{
+                        copy(path[start:], path[start+1:])
+                        path = path[0 : len(path)-1]
+                }</span> else<span class="cov8" title="1"> if len(cur) == 1 &amp;&amp; cur[0] == '.' </span><span class="cov8" title="1">{
+                        if start+2 &lt; len(path) </span><span class="cov8" title="1">{
+                                copy(path[start:], path[start+2:])
+                        }</span>
+                        <span class="cov8" title="1">path = path[0 : len(path)-2]</span>
+                } else<span class="cov8" title="1"> if len(cur) == 2 &amp;&amp; cur[0] == '.' &amp;&amp; cur[1] == '.' </span><span class="cov8" title="1">{
+                        copy(path[prev:], path[start+2:])
+                        path = path[0 : len(path)+prev-(start+2)]
+                        prev = 1
+                        start = 1
+                }</span> else<span class="cov8" title="1"> {
+                        fi, err := os.Lstat(string(c))
+                        if err == nil </span><span class="cov8" title="1">{
+                                if isSymlink(fi) </span><span class="cov8" title="1">{
+                                        nlinks++
+                                        if nlinks &gt; 8 </span><span class="cov8" title="1">{
+                                                return "", os.ErrInvalid
+                                        }</span>
+
+                                        <span class="cov8" title="1">var link string
+                                        link, err = os.Readlink(string(c))
+                                        after := string(path[len(c):])
+                                        path = switchSymlink(path, start, link, after)
+                                        prev = 1
+                                        start = 1</span>
+                                } else<span class="cov8" title="1"> {
+                                        prev = start
+                                        start = len(c) + 1
+                                }</span>
+                        } else<span class="cov8" title="1"> {
+                                return string(path), nil
+                        }</span>
+                }
+        }
+
+        <span class="cov8" title="1">for len(path) &gt; 1 &amp;&amp; path[len(path)-1] == os.PathSeparator </span><span class="cov0" title="0">{
+                path = path[0 : len(path)-1]
+        }</span>
+        <span class="cov8" title="1">return string(path), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package file
+
+import (
+        "os"
+        "syscall"
+        "time"
+)
+
+func Time(fn string) (time.Time, time.Time, time.Time, error) <span class="cov8" title="1">{
+        file, err := os.Stat(fn)
+        if err != nil </span><span class="cov8" title="1">{
+                return time.Time{}, time.Time{}, time.Time{}, err
+        }</span>
+        <span class="cov8" title="1">mtime := file.ModTime()
+        stat := file.Sys().(*syscall.Stat_t)
+        atime := time.Unix(int64(stat.Atimespec.Sec), int64(stat.Atimespec.Nsec))
+        ctime := time.Unix(int64(stat.Ctimespec.Sec), int64(stat.Ctimespec.Nsec))
+        return atime, mtime, ctime, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">// run a function for each ...
+package foreach
+
+import (
+        "encoding/json"
+        "os"
+        "reflect"
+        "simonwaldherr.de/go/golibs/file"
+        "simonwaldherr.de/go/golibs/node"
+        "simonwaldherr.de/go/golibs/structs"
+        //"encoding/xml"
+)
+
+func File(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error <span class="cov8" title="1">{
+        return file.Each(dirname, recursive, fnc)
+}</span>
+
+func JSON(str string, handler func(*string, *int, *interface{}, int)) error <span class="cov8" title="1">{
+        var j interface{}
+        err := json.Unmarshal([]byte(str), &amp;j)
+        if err == nil </span><span class="cov8" title="1">{
+                node.Node(&amp;j, handler)
+                return nil
+        }</span>
+        <span class="cov0" title="0">return err</span>
+}
+
+func Struct(sstruct interface{}, handler func(string, string, interface{}, int)) <span class="cov8" title="1">{
+        v := reflect.ValueOf(sstruct)
+        t := reflect.TypeOf(sstruct)
+
+        structs.ReflectHelper(v, t, 0, handler)
+}</span>
+
+/*
+func XML(str string, handler func(*string, *int, *interface{}, int)) error {
+        var x interface{}
+        err := xml.Unmarshal([]byte(str), &amp;x)
+        if err == nil {
+                Node(&amp;x, handler)
+                return nil
+        }
+        return err
+}*/
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">// gopath provides an easy way to get system information
+package gopath
+
+import (
+        "os"
+        "path"
+        "path/filepath"
+        "runtime"
+        "strings"
+        "unicode/utf8"
+)
+
+type FileType int
+
+const (
+        DontExist FileType = iota
+        Directory
+        ASCII
+        Binary
+)
+
+// GetFileType returns the type of a given file.
+// The return values can be Directory, ASCII, Binary
+// or DontExist.
+func GetFileType(name string) FileType <span class="cov8" title="1">{
+        if file, err := os.Open(name); err == nil </span><span class="cov8" title="1">{
+                if fileStat, err := file.Stat(); err == nil &amp;&amp; fileStat.IsDir() </span><span class="cov8" title="1">{
+                        return Directory
+                }</span> else<span class="cov8" title="1"> if err == nil </span><span class="cov8" title="1">{
+                        data := make([]byte, 100)
+                        file.Read(data)
+                        if utf8.Valid(data) </span><span class="cov8" title="1">{
+                                return ASCII
+                        }</span>
+                        <span class="cov8" title="1">return Binary</span>
+                }
+        }
+        <span class="cov8" title="1">return DontExist</span>
+}
+
+// Compiler returns the name of the used compiler
+func Compiler() string <span class="cov8" title="1">{
+        return runtime.Compiler
+}</span>
+
+// GOARCH returns the system architecture
+func GOARCH() string <span class="cov8" title="1">{
+        return runtime.GOARCH
+}</span>
+
+// GOOS returns the name of the Operating System
+func GOOS() string <span class="cov8" title="1">{
+        return runtime.GOOS
+}</span>
+
+// GOROOT returns the $GOROOT environment variable
+func GOROOT() string <span class="cov8" title="1">{
+        return runtime.GOROOT()
+}</span>
+
+// GOPATH returns the $GOPATH environment variable
+func GOPATH() string <span class="cov0" title="0">{
+        return os.Getenv("GOPATH")
+}</span>
+
+// WD returns the working directory, this is
+// the folder where you were last.
+func WD() string <span class="cov8" title="1">{
+        dir, _ := os.Getwd()
+        return dir
+}</span>
+
+// Compiled returns a boolean which tells if you run
+// a already compiled binary or "go run" the source.
+func Compiled() bool <span class="cov8" title="1">{
+        if strings.HasPrefix(os.Args[0], "/var/folders/") ||
+                strings.HasPrefix(os.Args[0], "/tmp/go-build") ||
+                strings.Contains(os.Args[0], "\\AppData\\Local\\Temp\\") </span><span class="cov8" title="1">{
+                return false
+        }</span>
+        <span class="cov0" title="0">return true</span>
+}
+
+// gpath is the helper function for the public functions
+// Path(), Name() and Dir()
+func gpath(i int) string <span class="cov8" title="1">{
+        var filename string
+        if Compiled() == false </span><span class="cov8" title="1">{
+                _, filename, _, _ = runtime.Caller(i)
+        }</span> else<span class="cov0" title="0"> {
+                filename, _ = filepath.Abs(filepath.Join(WD(), os.Args[0]))
+        }</span>
+        <span class="cov8" title="1">return filename</span>
+}
+
+// Path returns the full path of the binary or source file
+// which is currently running.
+func Path() string <span class="cov8" title="1">{
+        return gpath(2)
+}</span>
+
+// Name returns the filename of the binary or source file
+// which is currently running.
+func Name() string <span class="cov8" title="1">{
+        _, f := path.Split(gpath(2))
+        return f
+}</span>
+
+// Dir returns the directory in which the binary or source file
+// is stored. This is useful if you have config files in the
+// same folder.
+func Dir() string <span class="cov8" title="1">{
+        return filepath.Dir(gpath(2))
+}</span>
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">// manipulating images pixel by pixel
+package graphics
+
+import (
+        "image"
+        "image/color"
+        "image/draw"
+        _ "image/gif"
+        _ "image/jpeg"
+        _ "image/png"
+        "os"
+)
+
+func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) (image.Image, error) <span class="cov8" title="1">{
+        src, _, err := image.Decode(file)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">bsrc := src.Bounds()
+        img := image.NewRGBA(bsrc)
+        draw.Draw(img, bsrc, src, bsrc.Min, draw.Src)
+
+        b := img.Bounds()
+
+        for y := b.Min.Y; y &lt; b.Max.Y; y++ </span><span class="cov8" title="1">{
+                for x := b.Min.X; x &lt; b.Max.X; x++ </span><span class="cov8" title="1">{
+                        oldPixel := img.At(x, y)
+                        r1, g1, b1, a1 := oldPixel.RGBA()
+                        r2, g2, b2, a2 := f(uint8(r1), uint8(g1), uint8(b1), uint8(a1))
+                        pixel := color.RGBA{uint8(r2), uint8(g2), uint8(b2), uint8(a2)}
+                        img.Set(x, y, pixel)
+                }</span>
+        }
+        <span class="cov8" title="1">return img, nil</span>
+}
+
+func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA, error) <span class="cov8" title="1">{
+        img, _, err := image.Decode(file)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">w := img.Bounds().Max.X
+        h := img.Bounds().Max.Y
+        newimg := image.NewNRGBA(image.Rectangle{Min: image.Point{0, 0}, Max: image.Point{newWidth, newHeight}})
+
+        xn := (w&lt;&lt;16)/newWidth + 1
+        yn := (h&lt;&lt;16)/newHeight + 1
+
+        for yo := 0; yo &lt; newHeight; yo++ </span><span class="cov8" title="1">{
+                y := (yo * yn) &gt;&gt; 16
+                for xo := 0; xo &lt; newWidth; xo++ </span><span class="cov8" title="1">{
+                        x := (xo * xn) &gt;&gt; 16
+                        newimg.Set(xo, yo, img.At(x, y))
+                }</span>
+        }
+        <span class="cov8" title="1">return newimg, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package http
+
+import (
+        //"context"
+        "io/ioutil"
+        //"net"
+        "net/http"
+        //"strings"
+        "time"
+        //"github.com/rs/dnscache"
+)
+
+var Transporter *http.Transport
+var client http.Client
+var clientReady bool = false
+
+func init() <span class="cov8" title="1">{
+        //dnsResolver := &amp;dnscache.Resolver{}
+        Transporter = &amp;http.Transport{
+                /*
+                        DialContext: func(ctx context.Context, network string, addr string) (conn net.Conn, err error) {
+                                separator := strings.LastIndex(addr, ":")
+                                ips, err := dnsResolver.LookupHost(ctx, addr[:separator])
+                                if err != nil {
+                                        return nil, err
+                                }
+                                for _, ip := range ips {
+                                        conn, err = net.Dial(network, ip+addr[separator:])
+                                        if err == nil {
+                                                break
+                                        }
+                                }
+                                return
+                        },*/
+                MaxIdleConns:    1024,
+                MaxConnsPerHost: 1024,
+                IdleConnTimeout: 10 * time.Second,
+        }
+        /*
+                go func() {
+                        cacheTicker := time.NewTicker(30 * time.Minute)
+                        defer cacheTicker.Stop()
+                        for range cacheTicker.C {
+                                dnsResolver.Refresh(true)
+                        }
+                }()*/
+}</span>
+
+var NewRequest = http.NewRequest
+
+func Client(timeout time.Duration) http.Client <span class="cov8" title="1">{
+        return http.Client{
+                Transport: Transporter,
+                Timeout:   timeout,
+        }
+}</span>
+
+func GetString(url string) (string, error) <span class="cov8" title="1">{
+        if clientReady == false </span><span class="cov8" title="1">{
+                client = Client(time.Second * 15)
+        }</span>
+
+        <span class="cov8" title="1">resp, err := client.Get(url)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+
+        <span class="cov8" title="1">defer resp.Body.Close()
+        body, err := ioutil.ReadAll(resp.Body)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+
+        <span class="cov8" title="1">return string(body), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package log
+
+import (
+        "io"
+        "log"
+        "os"
+)
+
+var (
+        Info    *log.Logger
+        Warning *log.Logger
+        Error   *log.Logger
+        Fatal   *log.Logger
+)
+
+func init() <span class="cov8" title="1">{
+        Info = log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile)
+        Warning = log.New(os.Stderr, "WARNING: ", log.Ltime|log.Lshortfile)
+        Error = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+        Fatal = log.New(os.Stderr, "FATAL: ", log.Ldate|log.Lmicroseconds|log.Llongfile)
+}</span>
+
+func Change(infoHandle, warningHandle, errorHandle, fatalHandle io.Writer,
+        infoFlag, warningFlag, errorFlag, fatalFlat int) <span class="cov8" title="1">{
+
+        Info = log.New(infoHandle,
+                "INFO: ", infoFlag)
+
+        Warning = log.New(warningHandle,
+                "WARNING: ", warningFlag)
+
+        Error = log.New(errorHandle,
+                "ERROR: ", errorFlag)
+
+        Fatal = log.New(fatalHandle,
+                "FATAL: ", fatalFlat)
+}</span>
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">// wanna do something several times?
+// Then this is the correct package for you.
+package re
+
+import (
+        "fmt"
+        "time"
+)
+
+var MaxAttempts = 10
+
+func Try(retrys int, fn func() (err error)) error <span class="cov8" title="1">{
+        defer func() </span><span class="cov8" title="1">{
+                if r := recover(); r != nil </span><span class="cov8" title="1">{
+                        fmt.Println("Recovered in f", r)
+                }</span>
+        }()
+        <span class="cov8" title="1">var err error
+
+        for attempt := 1; ; attempt++ </span><span class="cov8" title="1">{
+                err = fn()
+                if err == nil </span><span class="cov8" title="1">{
+                        break</span>
+                }
+
+                <span class="cov8" title="1">if attempt &gt;= MaxAttempts || attempt &gt;= retrys </span><span class="cov8" title="1">{
+                        return fmt.Errorf("Reached number of attempts (%v)\n%v", (attempt), err)
+                }</span>
+        }
+        <span class="cov8" title="1">return err</span>
+}
+
+func Do(wait time.Duration, fn func(chan&lt;- interface{})) (&lt;-chan interface{}, chan&lt;- bool) <span class="cov8" title="1">{
+        stop := make(chan bool, 1)
+        ret := make(chan interface{})
+
+        go func() </span><span class="cov8" title="1">{
+                defer func() </span><span class="cov8" title="1">{
+                        close(stop)
+                        time.Sleep(wait)
+                        close(ret)
+                }</span>()
+
+                <span class="cov8" title="1">var stopbool = false
+                for stopbool == false </span><span class="cov8" title="1">{
+                        select </span>{
+                        case &lt;-stop:<span class="cov8" title="1">
+                                stopbool = true</span>
+                        default:<span class="cov8" title="1">
+                                go fn(ret)
+                                time.Sleep(wait)</span>
+                        }
+                }
+        }()
+        <span class="cov8" title="1">return ret, stop</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">// regex is a wrapper for the standard regexp package.
+// It automates the regexp.Compile process for you.
+package regex
+
+import (
+        "regexp"
+)
+
+var regexArray = make(map[string]*regexp.Regexp)
+
+func CheckRegex(regex string) error <span class="cov8" title="1">{
+        _, err := regexp.Compile(regex)
+        return err
+}</span>
+
+func CacheRegex(regex string) error <span class="cov8" title="1">{
+        var err error
+        if _, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+        }</span>
+        <span class="cov8" title="1">return err</span>
+}
+
+func MatchString(src, regex string) (bool, error) <span class="cov8" title="1">{
+        var err error
+        if re, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return re.MatchString(src), nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+                return re.MatchString(src), nil
+        }</span>
+        <span class="cov0" title="0">return false, err</span>
+}
+
+// ReplaceAllString returns a copy of src, replacing matches of the regular expression
+// with the replacement string replace.  Inside replace, $ signs are interpreted as
+// in Expand, so for instance $1 represents the text of the first submatch.
+func ReplaceAllString(src, regex, replace string) (string, error) <span class="cov8" title="1">{
+        var err error
+        if re, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return re.ReplaceAllString(src, replace), nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+                return re.ReplaceAllString(src, replace), nil
+        }</span>
+        <span class="cov0" title="0">return "", err</span>
+}
+
+// ReplaceAllStringFunc returns a copy of src in which all matches of the
+// regular expression have been replaced by the return value of function replace applied
+// to the matched substring.  The replacement returned by replace is substituted
+// directly, without using Expand.
+func ReplaceAllStringFunc(src, regex string, replace func(s string) string) (string, error) <span class="cov8" title="1">{
+        var err error
+        if re, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return re.ReplaceAllStringFunc(src, replace), nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+                return re.ReplaceAllStringFunc(src, replace), nil
+        }</span>
+        <span class="cov0" title="0">return "", err</span>
+}
+
+// FindAllString returns a slice of all strings holding the text of the leftmost
+// match in src of the regular expression.  If there is no match, the return value is nil.
+// It will be empty if the regular expression successfully matches an empty string.
+func FindAllString(src, regex string) ([]string, error) <span class="cov8" title="1">{
+        var err error
+        if re, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return re.FindAllString(src, -1), nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+                return re.FindAllString(src, -1), nil
+        }</span>
+        <span class="cov0" title="0">return []string{}, err</span>
+}
+
+// FindAllStringSubmatch returns a slice of a slice of strings holding the text of the
+// leftmost match of the regular expression in src and the matches.
+// A return value of nil indicates no match.
+func FindAllStringSubmatch(src, regex string) ([][]string, error) <span class="cov8" title="1">{
+        var err error
+        if re, ok := regexArray[regex]; ok </span><span class="cov8" title="1">{
+                return re.FindAllStringSubmatch(src, -1), nil
+        }</span>
+        <span class="cov8" title="1">if re, err := regexp.Compile(regex); err == nil </span><span class="cov8" title="1">{
+                regexArray[regex] = re
+                return re.FindAllStringSubmatch(src, -1), nil
+        }</span>
+        <span class="cov0" title="0">return [][]string{}, err</span>
+}
+
+func Count() int <span class="cov8" title="1">{
+        return len(regexArray)
+}</span>
+
+func Cleanup() <span class="cov8" title="1">{
+        regexArray = make(map[string]*regexp.Regexp)
+}</span>
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">// Package rss provides a RSS parser
+package rss
+
+import (
+        "encoding/xml"
+        "net/http"
+        "simonwaldherr.de/go/golibs/as"
+        "time"
+)
+
+// Client is a http client to crawl the feed from (#)
+type Client interface {
+        Get(url string) (resp *http.Response, err error)
+}
+
+// ItemEnclosure contains an URL and its MIME-Type of an episode file
+type ItemEnclosure struct {
+        URL  string `xml:"url,attr"`
+        Type string `xml:"type,attr"`
+}
+
+// Item represents an episode with all of its content
+type Item struct {
+        Title       string          `xml:"title"`
+        Link        string          `xml:"link"`
+        Comments    string          `xml:"comments"`
+        PubDate     string          `xml:"pubDate"`
+        GUID        string          `xml:"guid"`
+        Category    []string        `xml:"category"`
+        Enclosure   []ItemEnclosure `xml:"enclosure"`
+        Description string          `xml:"description"`
+        Content     string          `xml:"content"`
+}
+
+// Image contains the URL and title of the podcast logo
+type Image struct {
+        URL   string `xml:"url"`
+        Title string `xml:"title"`
+}
+
+// Main struct represents the root of the RSS feed
+type Main struct {
+        Title         string `xml:"title"`
+        Link          string `xml:"link"`
+        Copyright     string `xml:"copyright"`
+        Description   string `xml:"description"`
+        Generator     string `xml:"generator"`
+        Language      string `xml:"language"`
+        LastBuildDate string `xml:"lastBuildDate"`
+        Items         []Item `xml:"item"`
+        Image         Image  `xml:"image"`
+}
+
+// Read reads from an URL with the Golang default http client and returns rss.Main
+func Read(url string) (*Main, error) <span class="cov8" title="1">{
+        return ReadCustomClient(url, http.DefaultClient)
+}</span>
+
+// ReadCustomClient allows to read with an custom http client
+func ReadCustomClient(url string, client Client) (*Main, error) <span class="cov8" title="1">{
+        r, err := client.Get(url)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+        <span class="cov8" title="1">defer func() </span><span class="cov8" title="1">{
+                err = r.Body.Close()
+        }</span>()
+        <span class="cov8" title="1">xmlDecoder := xml.NewDecoder(r.Body)
+
+        var rss struct {
+                Main Main `xml:"channel"`
+        }
+        if err = xmlDecoder.Decode(&amp;rss); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov8" title="1">return &amp;rss.Main, nil</span>
+}
+
+// Len returns the episode count
+func (rss *Main) Len() int <span class="cov8" title="1">{
+        return len(rss.Items)
+}</span>
+
+// Time returns the specified last build date as time.Time
+func (rss *Main) Time() time.Time <span class="cov8" title="1">{
+        return as.Time(rss.LastBuildDate)
+}</span>
+
+// Time returns the specified publication date as time.Time
+func (episode *Item) Time() time.Time <span class="cov8" title="1">{
+        return as.Time(episode.PubDate)
+}</span>
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">// Generate SSL Certs via this simple to use ssl package.
+package ssl
+
+import (
+        "bufio"
+        "crypto/rand"
+        "crypto/rsa"
+        "crypto/x509"
+        "crypto/x509/pkix"
+        "encoding/pem"
+        "fmt"
+        "log"
+        "math/big"
+        "os"
+        "time"
+)
+
+const (
+        day  = time.Hour * 24
+        year = day * 365
+)
+
+func Check(certPath string, keyPath string) error <span class="cov8" title="1">{
+        if _, err := os.Stat(certPath); os.IsNotExist(err) </span><span class="cov8" title="1">{
+                return err
+        }</span> else<span class="cov8" title="1"> if _, err := os.Stat(keyPath); os.IsNotExist(err) </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func Generate(options map[string]string) error <span class="cov8" title="1">{
+        var err error
+        var certOut *os.File
+        var derBytes []byte
+
+        priv, err := rsa.GenerateKey(rand.Reader, 2048)
+
+        if err != nil </span><span class="cov0" title="0">{
+                log.Printf("failed to generate private key: %s", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">notBefore := time.Now().Add(day * -1)
+        notAfter := notBefore.Add(year * 2)
+
+        serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
+        serialNumber, err := rand.Int(rand.Reader, serialNumberLimit)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Printf("failed to generate serial number: %s", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">scanner := bufio.NewScanner(os.Stdin)
+
+        var certPath string
+        if options["certPath"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# Cert filename: ")
+                scanner.Scan()
+                certPath = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                certPath = options["certPath"]
+        }</span>
+
+        <span class="cov8" title="1">var keyPath string
+        if options["keyPath"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# Key filename: ")
+                scanner.Scan()
+                keyPath = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                keyPath = options["keyPath"]
+        }</span>
+
+        <span class="cov8" title="1">var countryName string
+        if options["countryName"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# Country Name (2 letter code) [AU]: ")
+                scanner.Scan()
+                countryName = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                countryName = options["countryName"]
+        }</span>
+
+        <span class="cov8" title="1">var provinceName string
+        if options["provinceName"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# State or Province Name (full name) [Some-State]: ")
+                scanner.Scan()
+                provinceName = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                provinceName = options["provinceName"]
+        }</span>
+
+        <span class="cov8" title="1">var organizationName string
+        if options["organizationName"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# Organization Name (eg, company) [Lorem Ipsum Inc]: ")
+                scanner.Scan()
+                organizationName = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                organizationName = options["organizationName"]
+        }</span>
+
+        <span class="cov8" title="1">var commonName string
+        if options["commonName"] == "" </span><span class="cov8" title="1">{
+                fmt.Print("# Common Name (eg, YOUR name) [localhost]: ")
+                scanner.Scan()
+                commonName = scanner.Text()
+        }</span> else<span class="cov8" title="1"> {
+                commonName = options["commonName"]
+        }</span>
+
+        <span class="cov8" title="1">template := x509.Certificate{
+                SerialNumber: serialNumber,
+                Subject: pkix.Name{
+                        Country:      []string{string(countryName)},
+                        Organization: []string{string(organizationName)},
+                        Province:     []string{string(provinceName)},
+                },
+                NotBefore: notBefore,
+                NotAfter:  notAfter,
+
+                KeyUsage:              x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
+                ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+                BasicConstraintsValid: true,
+                DNSNames:              []string{string(commonName)},
+                IsCA:                  true,
+        }
+
+        if derBytes, err = x509.CreateCertificate(rand.Reader, &amp;template, &amp;template, &amp;priv.PublicKey, priv); err != nil </span><span class="cov0" title="0">{
+                log.Printf("Failed to create certificate: %s", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if certOut, err = os.Create(certPath); err != nil </span><span class="cov8" title="1">{
+                log.Printf("failed to open "+certPath+" for writing: %s", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if err = pem.Encode(certOut, &amp;pem.Block{Type: "CERTIFICATE", Bytes: derBytes}); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if err = certOut.Close(); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">log.Printf("written %v\n", certPath)
+
+        keyOut, err := os.OpenFile(keyPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+        if err != nil </span><span class="cov8" title="1">{
+                log.Print("failed to open "+keyPath+" for writing:", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if err = pem.Encode(keyOut, &amp;pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)}); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if err = keyOut.Close(); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">log.Printf("written %v\n", keyPath)
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">// stack implements a stack with "last in, first out" functionality.
+// it also provides a ring memory type which overrides itself after n write ops.
+package stack
+
+type Stype int
+
+const (
+        NIL Stype = iota
+        LiFo
+        FiFo
+)
+
+// struct Stack contains nodes as slice of interfaces
+// and a counter for the current position.
+type Stack struct {
+        nodes []interface{}
+        count int
+        stype Stype
+}
+
+// Lifo returns a pointer to a new stack.
+func Lifo() *Stack <span class="cov8" title="1">{
+        return &amp;Stack{
+                stype: LiFo,
+        }
+}</span>
+
+func Fifo() *Stack <span class="cov8" title="1">{
+        return &amp;Stack{
+                stype: FiFo,
+        }
+}</span>
+
+func (s *Stack) Unset() <span class="cov8" title="1">{
+        *s = Stack{
+                nodes: []interface{}{},
+                count: 0,
+                stype: NIL,
+        }
+}</span>
+
+func (s *Stack) ToFifo() *Stack <span class="cov8" title="1">{
+        var x *Stack
+        array := Fifo()
+        if s.stype == FiFo </span><span class="cov8" title="1">{
+                x = Fifo()
+                *x = *s
+                for s.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        array.Push(s.Pop())
+                }</span>
+        }
+        <span class="cov8" title="1">if s.stype == LiFo </span><span class="cov8" title="1">{
+                x = Lifo()
+                *x = *s
+                helper := Lifo()
+                for s.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        helper.Push(s.Pop())
+                }</span>
+                <span class="cov8" title="1">for helper.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        array.Push(helper.Pop())
+                }</span>
+        }
+        <span class="cov8" title="1">*s = *x
+        return array</span>
+}
+
+func (s *Stack) ToLifo() *Stack <span class="cov8" title="1">{
+        var x *Stack
+        array := Lifo()
+        if s.stype == FiFo </span><span class="cov8" title="1">{
+                x = Fifo()
+                *x = *s
+                for s.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        array.Push(s.Pop())
+                }</span>
+        }
+        <span class="cov8" title="1">if s.stype == LiFo </span><span class="cov8" title="1">{
+                x = Lifo()
+                *x = *s
+                helper := Lifo()
+                for s.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        helper.Push(s.Pop())
+                }</span>
+                <span class="cov8" title="1">for helper.Len() &gt; 0 </span><span class="cov8" title="1">{
+                        array.Push(helper.Pop())
+                }</span>
+        }
+        <span class="cov8" title="1">*s = *x
+        return array</span>
+}
+
+func (s *Stack) Val() []interface{} <span class="cov8" title="1">{
+        var a *Stack
+        var r []interface{}
+
+        if s.stype == FiFo </span><span class="cov8" title="1">{
+                a = s.ToFifo()
+        }</span> else<span class="cov8" title="1"> if s.stype == LiFo </span><span class="cov8" title="1">{
+                a = s.ToLifo()
+        }</span>
+
+        <span class="cov8" title="1">for s.Len() &gt; 0 </span><span class="cov8" title="1">{
+                r = append(r, s.Pop())
+        }</span>
+        <span class="cov8" title="1">*s = *a
+        return r</span>
+}
+
+// Push adds a value to the Stack
+func (s *Stack) Push(n interface{}) <span class="cov8" title="1">{
+        if s.stype == LiFo </span><span class="cov8" title="1">{
+                s.nodes = append(s.nodes[:s.count], n)
+                s.count++
+        }</span> else<span class="cov8" title="1"> if s.stype == FiFo </span><span class="cov8" title="1">{
+                s.nodes = append(s.nodes, n)
+        }</span>
+}
+
+func (s *Stack) Add(n interface{}) <span class="cov8" title="1">{
+        s.Push(n)
+}</span>
+
+// Pop returns the last added value and decrease the position counter.
+func (s *Stack) Pop() interface{} <span class="cov8" title="1">{
+        if s.stype == LiFo </span><span class="cov8" title="1">{
+                if s.count == 0 </span><span class="cov8" title="1">{
+                        return ""
+                }</span>
+                <span class="cov8" title="1">s.count--
+                return s.nodes[s.count]</span>
+        }
+        <span class="cov8" title="1">if s.stype == FiFo </span><span class="cov8" title="1">{
+                if s.count == len(s.nodes) </span><span class="cov8" title="1">{
+                        return ""
+                }</span>
+                <span class="cov8" title="1">s.count++
+                return s.nodes[s.count-1]</span>
+        }
+        <span class="cov8" title="1">return ""</span>
+}
+
+func (s *Stack) Get() interface{} <span class="cov8" title="1">{
+        return s.Pop()
+}</span>
+
+// Len returns the current position in the Stack.
+func (s *Stack) Len() int <span class="cov8" title="1">{
+        if s.stype == LiFo </span><span class="cov8" title="1">{
+                return s.count
+        }</span>
+        <span class="cov8" title="1">if s.stype == FiFo </span><span class="cov8" title="1">{
+                return len(s.nodes) - s.count
+        }</span>
+        <span class="cov8" title="1">return -1</span>
+}
+
+func (s *Stack) IsEmpty() bool <span class="cov8" title="1">{
+        if s.Len() == 0 </span><span class="cov8" title="1">{
+                return true
+        }</span>
+        <span class="cov8" title="1">return false</span>
+}
+
+// Ring returns a pointer to a new ring.
+func Ring() *Rings <span class="cov8" title="1">{
+        return &amp;Rings{}
+}</span>
+
+// struct Rings contains nodes as slice of strings,
+// count for the current ring position,
+// xcount for the total amount of added entries
+// and size for the maximum size of the "Ring".
+type Rings struct {
+        nodes  []string
+        count  int
+        xcount int
+        size   int
+}
+
+// SetSize sets the maximum size of the Ring,
+// this size must be greater then the current counter.
+func (r *Rings) SetSize(i int) <span class="cov8" title="1">{
+        if i &gt; r.xcount </span><span class="cov8" title="1">{
+                r.size = i
+        }</span>
+}
+
+// Init sets the default values of the Ring.
+func (r *Rings) Init(i int) <span class="cov8" title="1">{
+        r.size = i
+        r.count = -1
+        r.xcount = -1
+}</span>
+
+// GetSize returns the max size of the Ring.
+func (r *Rings) GetSize() int <span class="cov8" title="1">{
+        return r.size
+}</span>
+
+// Push adds a string to the Ring and returns it position
+func (r *Rings) Push(n string) int <span class="cov8" title="1">{
+        r.count++
+        r.xcount++
+        if r.count &gt; r.size </span><span class="cov8" title="1">{
+                r.count = 0
+        }</span>
+        <span class="cov8" title="1">if r.xcount &gt; r.count </span><span class="cov8" title="1">{
+                r.nodes[r.count] = n
+        }</span> else<span class="cov8" title="1"> {
+                r.nodes = append(r.nodes[:r.count], n)
+        }</span>
+
+        <span class="cov8" title="1">return r.count</span>
+}
+
+// Get returns a slice of strings from the given
+// to the current position
+func (r *Rings) Get(from int) []string <span class="cov8" title="1">{
+        ret := make([]string, r.size)
+        var i int
+        for from != r.count </span><span class="cov8" title="1">{
+                ret[i] = string(r.nodes[from])
+                from++
+                i++
+                if from &gt; r.size </span><span class="cov8" title="1">{
+                        from = 0
+                }</span>
+        }
+        <span class="cov8" title="1">return ret</span>
+}
+
+// Pos returns the current position and the
+// number of overall added values
+func (r *Rings) Pos() (int, int) <span class="cov8" title="1">{
+        return r.count, r.xcount
+}</span>
+</pre>
+		
+		<pre class="file" id="file21" style="display: none">package structs
+
+import (
+        "reflect"
+)
+
+func Reflect(sstruct interface{}) map[string]interface{} <span class="cov8" title="1">{
+        attrs := make(map[string]interface{})
+        v := reflect.ValueOf(sstruct)
+        t := reflect.TypeOf(sstruct)
+
+        attrs = ReflectHelper(v, t, 0, func(name string, vtype string, value interface{}, depth int) </span>{<span class="cov8" title="1">
+
+        }</span>)
+
+        <span class="cov8" title="1">return attrs</span>
+}
+
+func ReflectHelper(v reflect.Value, t reflect.Type, depth int, handler func(string, string, interface{}, int)) map[string]interface{} <span class="cov8" title="1">{
+        attrs := make(map[string]interface{})
+        for i := 0; i &lt; v.NumField(); i++ </span><span class="cov8" title="1">{
+                e := v.Field(i)
+                f := t.Field(i)
+                handler(f.Name, e.Type().String(), e.Interface(), depth)
+                if e.Kind().String() == "struct" </span><span class="cov8" title="1">{
+                        attrs[f.Name] = ReflectHelper(e, e.Type(), depth+1, handler)
+                }</span> else<span class="cov8" title="1"> {
+                        attrs[f.Name] = e.Type().String()
+                }</span>
+        }
+        <span class="cov8" title="1">return attrs</span>
+}
+</pre>
+		
+		<pre class="file" id="file22" style="display: none">// xmath is a package with math functions.
+// Besides a few standard formulas it contains various mean algorithms.
+package xmath
+
+import (
+        "math"
+        "reflect"
+        "simonwaldherr.de/go/golibs/as"
+        "sort"
+)
+
+// Sqrt calculates the square root of n.
+func Sqrt(n int64) int64 <span class="cov8" title="1">{
+        var t int64
+        var b int64
+        var r int64
+        t = int64(n)
+        p := int64(1 &lt;&lt; 30)
+        for p &gt; t </span><span class="cov8" title="1">{
+                p &gt;&gt;= 2
+        }</span>
+        <span class="cov8" title="1">for ; p != 0; p &gt;&gt;= 2 </span><span class="cov8" title="1">{
+                b = r | p
+                r &gt;&gt;= 1
+                if t &gt;= b </span><span class="cov8" title="1">{
+                        t -= b
+                        r |= p
+                }</span>
+        }
+        <span class="cov8" title="1">return int64(r)</span>
+}
+
+// Prime returns the nth prime number as int.
+func Prime(n int) int <span class="cov8" title="1">{
+        var primeList = []int{2}
+        isPrime := 1
+        num := 3
+        sqrtNum := 0
+        for len(primeList) &lt; n </span><span class="cov8" title="1">{
+                sqrtNum = int(Sqrt(int64(num)))
+                for i := 0; i &lt; len(primeList); i++ </span><span class="cov8" title="1">{
+                        if num%primeList[i] == 0 </span><span class="cov8" title="1">{
+                                isPrime = 0
+                        }</span>
+                        <span class="cov8" title="1">if primeList[i] &gt; sqrtNum </span><span class="cov8" title="1">{
+                                i = len(primeList)
+                        }</span>
+                }
+                <span class="cov8" title="1">if isPrime == 1 </span><span class="cov8" title="1">{
+                        primeList = append(primeList, num)
+                }</span> else<span class="cov8" title="1"> {
+                        isPrime = 1
+                }</span>
+                <span class="cov8" title="1">num = num + 2</span>
+        }
+        <span class="cov8" title="1">return primeList[n-1]</span>
+}
+
+// Deg2Rad returns the rad of a deg.
+func Deg2Rad(deg float64) float64 <span class="cov8" title="1">{
+        return (deg * math.Pi) / 180
+}</span>
+
+// Rad2Deg returns the deg of a rad.
+func Rad2Deg(rad float64) float64 <span class="cov8" title="1">{
+        return (rad * 180) / math.Pi
+}</span>
+
+// Round returns a rounded int from a float64.
+// It rounds via "Round half away from zero".
+func Round(v float64) int <span class="cov8" title="1">{
+        if v &lt; 0 </span><span class="cov8" title="1">{
+                return int(math.Ceil(v - 0.5))
+        }</span>
+        <span class="cov8" title="1">return int(math.Floor(v + 0.5))</span>
+}
+
+// Round returns a rounded float64 from a float64
+// with d digits after the point. It rounds via
+// "Round half away from zero".
+func FloatRound(v float64, d int) float64 <span class="cov8" title="1">{
+        pow := math.Pow(10, float64(d))
+        return float64(Round(v*pow)) / pow
+}</span>
+
+// Count returns the length of any slice (like len()).
+func Count(val interface{}) int <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        return slice.Len()
+}</span>
+
+// Sum returns the sum from a slice of Values as float64.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Sum(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">var sum float64
+        for _, value := range out </span><span class="cov8" title="1">{
+                sum = sum + value
+        }</span>
+        <span class="cov8" title="1">return sum</span>
+}
+
+// Min returns the smallest number from a slice of Values as float64.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Min(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">min := out[0]
+        for _, value := range out </span><span class="cov8" title="1">{
+                if value &lt; min </span><span class="cov8" title="1">{
+                        min = value
+                }</span>
+        }
+        <span class="cov8" title="1">return min</span>
+}
+
+// Max returns the greatest number from a slice of Values as float64.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Max(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">max := out[0]
+        for _, value := range out </span><span class="cov8" title="1">{
+                if value &gt; max </span><span class="cov8" title="1">{
+                        max = value
+                }</span>
+        }
+        <span class="cov8" title="1">return max</span>
+}
+
+type Meantype int
+
+const (
+        ArithmeticMean Meantype = iota
+        GeometricMean
+        HarmonicMean
+        MedianMean
+        RmsMean
+        Default
+)
+
+func Mean(val interface{}, t Meantype) float64 <span class="cov8" title="1">{
+        switch t </span>{
+        case ArithmeticMean:<span class="cov8" title="1">
+                return Arithmetic(val)</span>
+        case GeometricMean:<span class="cov8" title="1">
+                return Geometric(val)</span>
+        case HarmonicMean:<span class="cov8" title="1">
+                return Harmonic(val)</span>
+        case MedianMean:<span class="cov8" title="1">
+                return Median(val)</span>
+        case RmsMean:<span class="cov8" title="1">
+                return Rootmeansquare(val)</span>
+        }
+        <span class="cov8" title="1">return Arithmetic(val)</span>
+}
+
+// Median returns the median from a slice of Values as float64.
+// The median is the numerical value separating the higher half
+// of a data sample from the lower half. The median of a list of
+// numbers can be found by arranging all the observations from
+// lowest value to highest value and picking the middle one.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Median(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">sort.Float64s(out)
+        if c%2 == 1 </span><span class="cov8" title="1">{
+                return out[c/2]
+        }</span>
+        <span class="cov8" title="1">return (out[c/2] + out[c/2-1]) / 2</span>
+}
+
+// Arithmetic returns the arithmetic mean from a slice of Values as float64.
+// The arithmetic mean or simply the mean or average when the context is clear,
+// is the sum of a list of numbers divided by the number of numbers
+// in the list.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Arithmetic(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">return (Sum(out) / float64(len(out)))</span>
+}
+
+// Rootmeansquare returns the root mean square from a slice of Values as float64.
+// The root mean square is the root value of the sum of the squared value of a
+// list of numbers divided by the number of numbers in the list.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Rootmeansquare(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        out := make([]float64, c)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                out[i] = math.Pow(as.Float(slice.Index(i).Interface()), 2)
+        }</span>
+        <span class="cov8" title="1">return math.Sqrt(Sum(out) / float64(len(out)))</span>
+}
+
+// Harmonic returns the harmonic mean from a slice of Values as float64.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Harmonic(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        s := float64(0)
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                s = s + 1/as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">return (float64(c) * 1 / s)</span>
+}
+
+// Geometric returns the geometric mean from a slice of Values as float64.
+// The geometric mean is a type of mean or average, which indicates the central
+// tendency or typical value of a set of numbers by using the product of their
+// values (as opposed to the arithmetic mean which uses their sum). The
+// geometric mean is defined as the nth root of the product of n numbers.
+// It uses "as" (simonwaldherr.de/go/golibs/as) to
+// convert given values to floats.
+func Geometric(val interface{}) float64 <span class="cov8" title="1">{
+        slice := reflect.ValueOf(val)
+        c := slice.Len()
+        var m float64 = 1
+        for i := 0; i &lt; c; i++ </span><span class="cov8" title="1">{
+                m = m * as.Float(slice.Index(i).Interface())
+        }</span>
+        <span class="cov8" title="1">return float64(math.Pow(float64(m), 1/float64(c)))</span>
+}
+
+// Even tells if a number is even
+func Even(number int) bool <span class="cov8" title="1">{
+        return number%2 == 0
+}</span>
+
+// Odd tells if a number is odd
+func Odd(number int) bool <span class="cov8" title="1">{
+        return !Even(number)
+}</span>
+</pre>
+		
+		<pre class="file" id="file23" style="display: none">package xtime
+
+import (
+        "time"
+)
+
+var conv = map[rune]string{
+        'a': "Mon",
+        'A': "Monday",
+        'b': "Jan",
+        'B': "January",
+        'd': "02",
+        'D': "01-02-2006",
+        'F': "2006-01-02",
+        'H': "15",
+        'I': "03",
+        'L': ".000",
+        'm': "01",
+        'M': "04",
+        'p': "PM",
+        'S': "05",
+        'x': "2006-01-02",
+        'X': "15:04:05",
+        'y': "06",
+        'Y': "2006",
+        'z': "-0700",
+        'Z': "MST",
+        '0': "",
+        '%': "",
+}
+
+// StrfTime implements a subset of strftime
+// http://man7.org/linux/man-pages/man3/strftime.3.html
+func StrfTime(format string, t time.Time) string <span class="cov8" title="1">{
+        ret := make([]byte, 0, len(format))
+        for i := 0; i &lt; len(format); i++ </span><span class="cov8" title="1">{
+                if format[i] == '%' </span><span class="cov8" title="1">{
+                        if layout, ok := conv[rune(format[i+1])]; ok </span><span class="cov8" title="1">{
+                                ret = append(ret, []byte(t.Format(layout))...)
+                                i++
+                        }</span> else<span class="cov8" title="1"> {
+                                ret = append(ret, format[i])
+                        }</span>
+                } else<span class="cov8" title="1"> {
+                        ret = append(ret, format[i])
+                }</span>
+        }
+        <span class="cov8" title="1">return string(ret)</span>
+}
+
+// Fmt (xtime.Fmt) is an alias for StrfTime
+func Fmt(format string, t time.Time) string <span class="cov8" title="1">{
+        return StrfTime(format, t)
+}</span>
+
+// FmtNow is like StrfTime, but automatically with the current local time
+func FmtNow(format string) string <span class="cov8" title="1">{
+        t := time.Now()
+        return StrfTime(format, t)
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

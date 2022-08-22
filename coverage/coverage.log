@@ -1,0 +1,45 @@
+COVERAGE TEST
+ansi coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/ansi	0.119s	coverage: 100.0% of statements
+arg coverage: 72.0% of statements
+ok  	simonwaldherr.de/go/golibs/arg	0.131s	coverage: 72.0% of statements
+as coverage: 98.5% of statements
+ok  	simonwaldherr.de/go/golibs/as	0.138s	coverage: 98.5% of statements
+bitmask coverage: 92.9% of statements
+ok  	simonwaldherr.de/go/golibs/bitmask	0.161s	coverage: 92.9% of statements
+cache coverage: 97.0% of statements
+ok  	simonwaldherr.de/go/golibs/cache	2.265s	coverage: 97.0% of statements
+cachedfile coverage: 96.0% of statements
+ok  	simonwaldherr.de/go/golibs/cachedfile	0.159s	coverage: 96.0% of statements
+channel coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/channel	0.184s	coverage: 100.0% of statements
+csv coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/csv	0.124s	coverage: 100.0% of statements
+file coverage: 92.7% of statements
+ok  	simonwaldherr.de/go/golibs/file	0.187s	coverage: 92.7% of statements
+foreach coverage: 90.0% of statements
+ok  	simonwaldherr.de/go/golibs/foreach	0.171s	coverage: 90.0% of statements
+gopath coverage: 89.7% of statements
+ok  	simonwaldherr.de/go/golibs/gopath	0.118s	coverage: 89.7% of statements
+graphics coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/graphics	0.364s	coverage: 100.0% of statements
+http coverage: 83.3% of statements
+ok  	simonwaldherr.de/go/golibs/http	0.160s	coverage: 83.3% of statements
+log coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/log	0.126s	coverage: 100.0% of statements
+re coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/re	0.642s	coverage: 100.0% of statements
+regex coverage: 88.9% of statements
+ok  	simonwaldherr.de/go/golibs/regex	0.121s	coverage: 88.9% of statements
+rss coverage: 92.9% of statements
+ok  	simonwaldherr.de/go/golibs/rss	1.252s	coverage: 92.9% of statements
+ssl coverage: 87.2% of statements
+ok  	simonwaldherr.de/go/golibs/ssl	1.185s	coverage: 87.2% of statements
+stack coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/stack	0.123s	coverage: 100.0% of statements
+structs coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/structs	0.117s	coverage: 100.0% of statements
+xmath coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/xmath	0.117s	coverage: 100.0% of statements
+xtime coverage: 100.0% of statements
+ok  	simonwaldherr.de/go/golibs/xtime	0.119s	coverage: 100.0% of statements

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>stack - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19";</script>
+<script src="../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package stack
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "simonwaldherr.de/go/golibs/stack"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+				<dd><a href="index.html#pkg-examples" class="examplesLink">Examples</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>stack implements a stack with &quot;last in, first out&quot; functionality.
+it also provides a ring memory type which overrides itself after n write ops.
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="index.html#Rings">type Rings</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Ring">func Ring() *Rings</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.Get">func (r *Rings) Get(from int) []string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.GetSize">func (r *Rings) GetSize() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.Init">func (r *Rings) Init(i int)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.Pos">func (r *Rings) Pos() (int, int)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.Push">func (r *Rings) Push(n string) int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Rings.SetSize">func (r *Rings) SetSize(i int)</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Stack">type Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Fifo">func Fifo() *Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Lifo">func Lifo() *Stack</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Add">func (s *Stack) Add(n interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Get">func (s *Stack) Get() interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.IsEmpty">func (s *Stack) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Len">func (s *Stack) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Pop">func (s *Stack) Pop() interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Push">func (s *Stack) Push(n interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.ToFifo">func (s *Stack) ToFifo() *Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.ToLifo">func (s *Stack) ToLifo() *Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Unset">func (s *Stack) Unset()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Stack.Val">func (s *Stack) Val() []interface{}</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Stype">type Stype</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+		<div id="pkg-examples">
+			<h3>Examples</h3>
+			<div class="js-expandAll expandAll collapsed">(Expand All)</div>
+			<dl>
+			
+			<dd><a class="exampleLink" href="index.html#example_Rings">Rings</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Stack">Stack</a></dd>
+			
+			</dl>
+		</div>
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go">stack.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Rings">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2790:2864#L163">Rings</a>
+				<a class="permalink" href="index.html#Rings">&#xb6;</a>
+				
+				
+			</h2>
+			<p>struct Rings contains nodes as slice of strings,
+count for the current ring position,
+xcount for the total amount of added entries
+and size for the maximum size of the &quot;Ring&quot;.
+
+			<pre>type Rings struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			<div id="example_Rings" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">ring := stack.Ring()
+ring.Init(4)
+
+for i := 0; i &lt; 16; i++ {
+    ring.Push(fmt.Sprintf(&#34;%v&#34;, i))
+}
+
+vals := ring.Get(2)
+for _, v := range vals {
+    fmt.Println(v)
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">12
+13
+14
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+			
+
+			
+				
+				<h3 id="Ring">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2561:2579#L155">Ring</a>
+					<a class="permalink" href="index.html#Ring">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func Ring() *<a href="index.html#Rings">Rings</a></pre>
+				<p>Ring returns a pointer to a new ring.
+
+				
+				
+			
+
+			
+				
+				<h3 id="Rings.Get">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=3608:3646#L208">Get</a>
+					<a class="permalink" href="index.html#Rings.Get">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) Get(from <a href="http://localhost:6060/pkg/builtin/#int">int</a>) []<a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+				<p>Get returns a slice of strings from the given
+to the current position
+
+				
+				
+				
+			
+				
+				<h3 id="Rings.GetSize">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=3202:3231#L186">GetSize</a>
+					<a class="permalink" href="index.html#Rings.GetSize">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) GetSize() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+				<p>GetSize returns the max size of the Ring.
+
+				
+				
+				
+			
+				
+				<h3 id="Rings.Init">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=3083:3110#L179">Init</a>
+					<a class="permalink" href="index.html#Rings.Init">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) Init(i <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+				<p>Init sets the default values of the Ring.
+
+				
+				
+				
+			
+				
+				<h3 id="Rings.Pos">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=3895:3927#L224">Pos</a>
+					<a class="permalink" href="index.html#Rings.Pos">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) Pos() (<a href="http://localhost:6060/pkg/builtin/#int">int</a>, <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+				<p>Pos returns the current position and the
+number of overall added values
+
+				
+				
+				
+			
+				
+				<h3 id="Rings.Push">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=3310:3344#L191">Push</a>
+					<a class="permalink" href="index.html#Rings.Push">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) Push(n <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+				<p>Push adds a string to the Ring and returns it position
+
+				
+				
+				
+			
+				
+				<h3 id="Rings.SetSize">func (*Rings) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2967:2997#L172">SetSize</a>
+					<a class="permalink" href="index.html#Rings.SetSize">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (r *<a href="index.html#Rings">Rings</a>) SetSize(i <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+				<p>SetSize sets the maximum size of the Ring,
+this size must be greater then the current counter.
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Stack">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=319:385#L5">Stack</a>
+				<a class="permalink" href="index.html#Stack">&#xb6;</a>
+				
+				
+			</h2>
+			<p>struct Stack contains nodes as slice of interfaces
+and a counter for the current position.
+
+			<pre>type Stack struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			<div id="example_Stack" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">array := stack.Lifo()
+array.Push(&#34;1&#34;)
+array.Push(float64(13.37))
+array.Push(false)
+array.Push(&#34;Lorem Ipsum Dolor sit Amet&#34;)
+
+for array.Len() &gt; 0 {
+    fmt.Println(as.String(array.Pop()))
+}
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Lorem Ipsum Dolor sit Amet
+false
+13.37
+1
+</pre>
+			
+		
+	</div>
+</div>
+
+			
+			
+
+			
+				
+				<h3 id="Fifo">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=487:505#L18">Fifo</a>
+					<a class="permalink" href="index.html#Fifo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func Fifo() *<a href="index.html#Stack">Stack</a></pre>
+				
+				
+				
+			
+				
+				<h3 id="Lifo">func <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=429:447#L12">Lifo</a>
+					<a class="permalink" href="index.html#Lifo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func Lifo() *<a href="index.html#Stack">Stack</a></pre>
+				<p>Lifo returns a pointer to a new stack.
+
+				
+				
+			
+
+			
+				
+				<h3 id="Stack.Add">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=1803:1837#L109">Add</a>
+					<a class="permalink" href="index.html#Stack.Add">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Add(n interface{})</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.Get">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2188:2221#L132">Get</a>
+					<a class="permalink" href="index.html#Stack.Get">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Get() interface{}</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.IsEmpty">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2434:2464#L147">IsEmpty</a>
+					<a class="permalink" href="index.html#Stack.IsEmpty">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) IsEmpty() <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.Len">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=2293:2318#L137">Len</a>
+					<a class="permalink" href="index.html#Stack.Len">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Len() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+				<p>Len returns the current position in the Stack.
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Pop">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=1925:1958#L114">Pop</a>
+					<a class="permalink" href="index.html#Stack.Pop">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Pop() interface{}</pre>
+				<p>Pop returns the last added value and decrease the position counter.
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Push">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=1624:1659#L100">Push</a>
+					<a class="permalink" href="index.html#Stack.Push">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Push(n interface{})</pre>
+				<p>Push adds a value to the Stack
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.ToFifo">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=642:673#L32">ToFifo</a>
+					<a class="permalink" href="index.html#Stack.ToFifo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) ToFifo() *<a href="index.html#Stack">Stack</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.ToLifo">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=1000:1031#L57">ToLifo</a>
+					<a class="permalink" href="index.html#Stack.ToLifo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) ToLifo() *<a href="index.html#Stack">Stack</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.Unset">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=545:568#L24">Unset</a>
+					<a class="permalink" href="index.html#Stack.Unset">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Unset()</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Stack.Val">func (*Stack) <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=1358:1393#L82">Val</a>
+					<a class="permalink" href="index.html#Stack.Val">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (s *<a href="index.html#Stack">Stack</a>) Val() []interface{}</pre>
+				
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Stype">type <a href="http://localhost:6060/src/simonwaldherr.de/go/golibs/stack/stack.go?s=165:179#L1">Stype</a>
+				<a class="permalink" href="index.html#Stype">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Stype <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+
+			
+				
+				<pre>const (
+    <span id="NIL">NIL</span> <a href="index.html#Stype">Stype</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="LiFo">LiFo</span>
+    <span id="FiFo">FiFo</span>
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>
