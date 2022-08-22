@@ -2,9 +2,13 @@ module simonwaldherr.de/go/golibs
 
 go 1.18
 
-require github.com/rs/dnscache v0.0.0-20211102005908-e0241e321417
+require (
+	github.com/rs/dnscache v0.0.0-20211102005908-e0241e321417
+	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
+)
 
 require (
+	github.com/mattn/goveralls v0.0.11 // indirect
 	github.com/modocache/gover v0.0.0-20171022184752-b58185e213c5 // indirect
 	github.com/sozorogami/gover v0.0.0-20171022184752-b58185e213c5 // indirect
 	github.com/yuin/goldmark v1.4.13 // indirect

@@ -13,19 +13,19 @@ go get -u -t simonwaldherr.de/go/golibs/...
 go test ./...
 ```
 
- . | . | service | info
----|---|---------|------
- ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.com | test at travis-ci  
- ![Linux Build Status](https://simonwaldherr.de/icon/tux.png) | [![Semaphore CI](https://semaphoreci.com/api/v1/simonwaldherr/golibs/branches/master/badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | test at semaphore-ci  
-   | [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
-   | [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
-   | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
-   | [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/coverage/coverage.html) |  | go tool cover  
-   | [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield) | fossa.io | license report  
-   | [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
-   | [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
-   | [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/godoc/pkg/simonwaldherr.de/go/golibs.html) | godoc @ github.io | documentation  
+   | service | info
+---|---------|------
+ ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
+ [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.com  | test at travis-ci  
+ [![Build Status](https://semaphoreci.com/api/v1/simonwaldherr/golibs/branches/master/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | test at semaphore-ci  
+ [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
+ [![codebeat badge](https://codebeat.co/badges/f697775a-ac7f-4d6f-a7a2-214fadf765d9)](https://codebeat.co/projects/github-com-simonwaldherr-golibs) | codebeat.co | code quality  
+ [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) | coveralls.io | test coverage  
+ [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/coverage/coverage.html) |  | go tool cover  
+ [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield) | fossa.io | license report  
+ [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
+ [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
+ [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/godoc/pkg/simonwaldherr.de/go/golibs.html) | godoc @ github.io | documentation  
 
 each new build gets tested in multiple steps:
 
