@@ -11,6 +11,9 @@ textarea {
  	* user has inverted the browsers custom text and background colors. */
   color: inherit;
 }
+form {
+  display: none;
+}
 pre,
 code {
   font-family: Menlo, monospace;
