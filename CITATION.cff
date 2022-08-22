@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you refer to this project, please cite it as below."
+authors:
+- family-names: "Waldherr"
+  given-names: "Simon"
+title: "golibs"
+version: 0.13.0
+doi: 10.5281/zenodo.7015104
+date-released: 2022-08-22
+url: "https://github.com/SimonWaldherr/golibs"
