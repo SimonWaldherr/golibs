@@ -13,9 +13,11 @@ go get -u -t simonwaldherr.de/go/golibs/...
 go test ./...
 ```
 
+
  . | service | info
 ---|---------|------
  ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
+ [![Audit](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml/badge.svg?branch=master&event=push)](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml) | github.com  | test via GitHub Workflow  
  [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.com  | test at travis-ci  
  [![Build Status](https://semaphoreci.com/api/v1/simonwaldherr/golibs/branches/master/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | test at semaphore-ci  
  [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
