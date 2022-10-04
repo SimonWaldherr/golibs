@@ -1982,8 +1982,12 @@ import (
         _ "image/gif"
         _ "image/jpeg"
         _ "image/png"
+        "math"
         "os"
 )
+
+var edfX = [3][3]int8{{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}
+var edfY = [3][3]int8{{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}
 
 func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) (image.Image, error) <span class="cov8" title="1">{
         src, _, err := image.Decode(file)
@@ -2012,12 +2016,14 @@ func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, 
 
 func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA, error) <span class="cov8" title="1">{
         img, _, err := image.Decode(file)
-
         if err != nil </span><span class="cov8" title="1">{
                 return nil, err
         }</span>
+        <span class="cov8" title="1">return NearestNeighbor(img, newWidth, newHeight)</span>
+}
 
-        <span class="cov8" title="1">w := img.Bounds().Max.X
+func NearestNeighbor(img image.Image, newWidth, newHeight int) (*image.NRGBA, error) <span class="cov8" title="1">{
+        w := img.Bounds().Max.X
         h := img.Bounds().Max.Y
         newimg := image.NewNRGBA(image.Rectangle{Min: image.Point{0, 0}, Max: image.Point{newWidth, newHeight}})
 
@@ -2032,6 +2038,60 @@ func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA
                 }</span>
         }
         <span class="cov8" title="1">return newimg, nil</span>
+}
+
+func Grayscale(img image.Image) image.Image <span class="cov8" title="1">{
+        min := img.Bounds().Min
+        max := img.Bounds().Max
+
+        grayImg := image.NewGray(image.Rect(max.X, max.Y, min.X, min.Y))
+        for x := 0; x &lt; max.X; x++ </span><span class="cov8" title="1">{
+                for y := 0; y &lt; max.Y; y++ </span><span class="cov8" title="1">{
+                        grayPixel := color.GrayModel.Convert(img.At(x, y))
+                        grayImg.Set(x, y, grayPixel)
+                }</span>
+        }
+        <span class="cov8" title="1">return grayImg</span>
+}
+
+func Edgedetect(img image.Image) image.Image <span class="cov8" title="1">{
+        img = Grayscale(img)
+        max := img.Bounds().Max
+        min := img.Bounds().Min
+
+        edImg := image.NewGray(image.Rect(max.X, max.Y, min.X, min.Y))
+
+        width := max.X
+        height := max.Y
+        var pixel color.Color
+        for x := 1; x &lt; width-1; x++ </span><span class="cov8" title="1">{
+                for y := 1; y &lt; height-1; y++ </span><span class="cov8" title="1">{
+                        pX, pY := detectEdgeAroundPixel(img, x, y)
+                        val := uint32(math.Ceil(math.Sqrt(pX*pX + pY*pY)))
+                        pixel = color.Gray{Y: uint8(val)}
+                        edImg.SetGray(x, y, pixel.(color.Gray))
+                }</span>
+        }
+        <span class="cov8" title="1">return edImg</span>
+}
+
+func detectEdgeAroundPixel(img image.Image, x int, y int) (float64, float64) <span class="cov8" title="1">{
+        var pX, pY int
+        curX := x - 1
+        curY := y - 1
+
+        for i := 0; i &lt; 3; i++ </span><span class="cov8" title="1">{
+                for j := 0; j &lt; 3; j++ </span><span class="cov8" title="1">{
+                        r, _, _, _ := img.At(curX, curY).RGBA()
+                        pX += int(edfX[i][j]) * int(uint8(r))
+                        pY += int(edfY[i][j]) * int(uint8(r))
+                        curX++
+                }</span>
+                <span class="cov8" title="1">curX = x - 1
+                curY++</span>
+        }
+
+        <span class="cov8" title="1">return math.Abs(float64(pX)), math.Abs(float64(pY))</span>
 }
 </pre>
 		
