@@ -328,6 +328,24 @@ img := graphics.EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uin
 })
 ```
 
+you even can apply filters to images:
+
+```go
+file, _ := os.Open("./original.png")
+defer file.Close()
+
+img, _, err := image.Decode(file)
+
+img = Edgedetect(img)
+
+out, _ := os.Create("./edgeDetect.png")
+
+png.Encode(out, img)
+fd.Close()
+
+```
+
+
 ### http - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/http) [![Coverage Status](https://img.shields.io/badge/coverage-83%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go

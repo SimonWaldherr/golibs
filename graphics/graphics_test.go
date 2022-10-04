@@ -10,11 +10,10 @@ import (
 func Test_EachPixel(t *testing.T) {
 	var xr, xg, xb int = 0, 0, 0
 	file, err := os.Open("./img.png")
+	defer file.Close()
+
 	file1, err1 := os.Open("./graphics.go")
-	defer func() {
-		file.Close()
-		file1.Close()
-	}()
+	defer file1.Close()
 
 	if err != nil {
 		t.Fatalf("EachPixel Test failed: %v", err)
@@ -60,11 +59,10 @@ func Test_EachPixel(t *testing.T) {
 
 func Test_ResizeNearestNeighbor(t *testing.T) {
 	file, err := os.Open("./img.png")
+	defer file.Close()
+
 	file1, err1 := os.Open("./img.err")
-	defer func() {
-		file.Close()
-		file1.Close()
-	}()
+	defer file1.Close()
 
 	if err1 == nil {
 		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
@@ -90,9 +88,7 @@ func Test_ResizeNearestNeighbor(t *testing.T) {
 func Test_Grayscale(t *testing.T) {
 	file, err := os.Open("./img.png")
 	img, _, err := image.Decode(file)
-	defer func() {
-		file.Close()
-	}()
+	defer file.Close()
 
 	img = Grayscale(img)
 	fd, err := os.Create("./gry.png")
@@ -114,9 +110,7 @@ func Test_Grayscale(t *testing.T) {
 func Test_Edgedetect(t *testing.T) {
 	file, err := os.Open("./img.png")
 	img, _, err := image.Decode(file)
-	defer func() {
-		file.Close()
-	}()
+	defer file.Close()
 
 	img = Edgedetect(img)
 	fd, err := os.Create("./edg.png")
@@ -137,9 +131,7 @@ func Test_Edgedetect(t *testing.T) {
 
 func Test_ImageDecodeFail(t *testing.T) {
 	file, err := os.Open("../test.txt")
-	defer func() {
-		file.Close()
-	}()
+	defer file.Close()
 
 	_, err = ResizeNearestNeighbor(file, 200, 150)
 
