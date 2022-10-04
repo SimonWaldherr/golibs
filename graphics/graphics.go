@@ -8,8 +8,12 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+	"math"
 	"os"
 )
+
+var edfX = [3][3]int8{{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}
+var edfY = [3][3]int8{{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}
 
 func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, uint8, uint8)) (image.Image, error) {
 	src, _, err := image.Decode(file)
@@ -74,4 +78,44 @@ func Grayscale(img image.Image) image.Image {
 		}
 	}
 	return grayImg
+}
+
+func Edgedetect(img image.Image) image.Image {
+	img = Grayscale(img)
+	max := img.Bounds().Max
+	min := img.Bounds().Min
+
+	edImg := image.NewGray(image.Rect(max.X, max.Y, min.X, min.Y))
+
+	width := max.X
+	height := max.Y
+	var pixel color.Color
+	for x := 1; x < width-1; x++ {
+		for y := 1; y < height-1; y++ {
+			pX, pY := detectEdgeAroundPixel(img, x, y)
+			val := uint32(math.Ceil(math.Sqrt(pX*pX + pY*pY)))
+			pixel = color.Gray{Y: uint8(val)}
+			edImg.SetGray(x, y, pixel.(color.Gray))
+		}
+	}
+	return edImg
+}
+
+func detectEdgeAroundPixel(img image.Image, x int, y int) (float64, float64) {
+	var pX, pY int
+	curX := x - 1
+	curY := y - 1
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			r, _, _, _ := img.At(curX, curY).RGBA()
+			pX += int(edfX[i][j]) * int(uint8(r))
+			pY += int(edfY[i][j]) * int(uint8(r))
+			curX++
+		}
+		curX = x - 1
+		curY++
+	}
+
+	return math.Abs(float64(pX)), math.Abs(float64(pY))
 }

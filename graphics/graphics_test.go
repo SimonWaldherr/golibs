@@ -111,6 +111,30 @@ func Test_Grayscale(t *testing.T) {
 	}
 }
 
+func Test_Edgedetect(t *testing.T) {
+	file, err := os.Open("./img.png")
+	img, _, err := image.Decode(file)
+	defer func() {
+		file.Close()
+	}()
+
+	img = Edgedetect(img)
+	fd, err := os.Create("./edg.png")
+	if err != nil {
+		t.Fatalf("Edgedetect Test failed: %v", err)
+	}
+
+	err = png.Encode(fd, img)
+	if err != nil {
+		t.Fatalf("Edgedetect Test failed: %v", err)
+	}
+
+	err = fd.Close()
+	if err != nil {
+		t.Fatalf("Edgedetect Test failed: %v", err)
+	}
+}
+
 func Test_ImageDecodeFail(t *testing.T) {
 	file, err := os.Open("../test.txt")
 	defer func() {
