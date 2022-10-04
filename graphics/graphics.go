@@ -38,11 +38,13 @@ func EachPixel(file *os.File, f func(uint8, uint8, uint8, uint8) (uint8, uint8, 
 
 func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA, error) {
 	img, _, err := image.Decode(file)
-
 	if err != nil {
 		return nil, err
 	}
+	return NearestNeighbor(img, newWidth, newHeight)
+}
 
+func NearestNeighbor(img image.Image, newWidth, newHeight int) (*image.NRGBA, error) {
 	w := img.Bounds().Max.X
 	h := img.Bounds().Max.Y
 	newimg := image.NewNRGBA(image.Rectangle{Min: image.Point{0, 0}, Max: image.Point{newWidth, newHeight}})
@@ -58,4 +60,18 @@ func ResizeNearestNeighbor(file *os.File, newWidth, newHeight int) (*image.NRGBA
 		}
 	}
 	return newimg, nil
+}
+
+func Grayscale(img image.Image) image.Image {
+	min := img.Bounds().Min
+	max := img.Bounds().Max
+
+	grayImg := image.NewGray(image.Rect(max.X, max.Y, min.X, min.Y))
+	for x := 0; x < max.X; x++ {
+		for y := 0; y < max.Y; y++ {
+			grayPixel := color.GrayModel.Convert(img.At(x, y))
+			grayImg.Set(x, y, grayPixel)
+		}
+	}
+	return grayImg
 }

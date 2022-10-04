@@ -1,6 +1,7 @@
 package graphics
 
 import (
+	"image"
 	"image/png"
 	"os"
 	"testing"
@@ -83,6 +84,30 @@ func Test_ResizeNearestNeighbor(t *testing.T) {
 	err = fd.Close()
 	if err != nil {
 		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
+	}
+}
+
+func Test_Grayscale(t *testing.T) {
+	file, err := os.Open("./img.png")
+	img, _, err := image.Decode(file)
+	defer func() {
+		file.Close()
+	}()
+
+	img = Grayscale(img)
+	fd, err := os.Create("./gry.png")
+	if err != nil {
+		t.Fatalf("Grayscale Test failed: %v", err)
+	}
+
+	err = png.Encode(fd, img)
+	if err != nil {
+		t.Fatalf("Grayscale Test failed: %v", err)
+	}
+
+	err = fd.Close()
+	if err != nil {
+		t.Fatalf("Grayscale Test failed: %v", err)
 	}
 }
 
