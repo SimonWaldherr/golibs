@@ -58,3 +58,75 @@ func FmtNow(format string) string {
 	t := time.Now()
 	return StrfTime(format, t)
 }
+
+type TimeRange struct {
+	Start time.Time
+	End   time.Time
+}
+
+func (tr TimeRange) Overlaps(other TimeRange) bool {
+	return tr.Start.Before(other.End) && tr.End.After(other.Start)
+}
+
+func (tr TimeRange) Contains(other TimeRange) bool {
+	return tr.Start.Before(other.Start) && tr.End.After(other.End)
+}
+
+func (tr TimeRange) Within(other TimeRange) bool {
+	return other.Contains(tr)
+}
+
+func And(tr1, tr2 TimeRange) TimeRange {
+	if tr1.Overlaps(tr2) {
+		return TimeRange{
+			Start: tr1.Start,
+			End:   tr2.End,
+		}
+	}
+	return TimeRange{}
+}
+
+func Or(tr1, tr2 TimeRange) TimeRange {
+	if tr1.Overlaps(tr2) {
+		return TimeRange{
+			Start: tr1.Start,
+			End:   tr1.End,
+		}
+	}
+	return TimeRange{
+		Start: tr1.Start,
+		End:   tr2.End,
+	}
+}
+
+func Not(tr TimeRange, fullRange TimeRange) TimeRange {
+	return TimeRange{
+		Start: fullRange.Start,
+		End:   fullRange.End,
+	}.Subtract(tr)
+}
+
+func (tr TimeRange) Subtract(other TimeRange) TimeRange {
+	if !tr.Overlaps(other) {
+		return tr
+	}
+	if tr.Contains(other) {
+		return TimeRange{
+			Start: tr.Start,
+			End:   other.Start,
+		}
+	}
+	if tr.Within(other) {
+		return TimeRange{}
+	}
+	if tr.Start.Before(other.Start) {
+		return TimeRange{
+			Start: tr.Start,
+			End:   other.Start,
+		}
+	}
+	return TimeRange{
+		Start: other.End,
+		End:   tr.End,
+	}
+}

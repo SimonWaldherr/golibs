@@ -37,3 +37,19 @@ func Benchmark_Fmt(b *testing.B) {
 		}
 	}
 }
+
+func Test_Within(t *testing.T) {
+	tr1 := TimeRange{
+		Start: time.Date(2023, 03, 01, 0, 0, 0, 0, time.UTC),
+		End:   time.Date(2023, 03, 05, 0, 0, 0, 0, time.UTC),
+	}
+	tr2 := TimeRange{
+		Start: time.Date(2023, 03, 03, 0, 0, 0, 0, time.UTC),
+		End:   time.Date(2023, 03, 07, 0, 0, 0, 0, time.UTC),
+	}
+	
+	// Check if tr1 is within tr2
+	if tr1.Within(tr2) {
+		t.Fatalf("wrong result")
+	}
+}

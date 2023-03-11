@@ -2,6 +2,12 @@
 // it also provides a ring memory type which overrides itself after n write ops.
 package stack
 
+import (
+	"bytes"
+	"encoding/gob"
+	"sync"
+)
+
 type Stype int
 
 const (
@@ -16,6 +22,7 @@ type Stack struct {
 	nodes []interface{}
 	count int
 	stype Stype
+	mutex sync.RWMutex
 }
 
 // Lifo returns a pointer to a new stack.
@@ -108,6 +115,9 @@ func (s *Stack) Val() []interface{} {
 
 // Push adds a value to the Stack
 func (s *Stack) Push(n interface{}) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	
 	if s.stype == LiFo {
 		s.nodes = append(s.nodes[:s.count], n)
 		s.count++
@@ -122,6 +132,9 @@ func (s *Stack) Add(n interface{}) {
 
 // Pop returns the last added value and decrease the position counter.
 func (s *Stack) Pop() interface{} {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+	
 	if s.stype == LiFo {
 		if s.count == 0 {
 			return ""
@@ -145,6 +158,9 @@ func (s *Stack) Get() interface{} {
 
 // Len returns the current position in the Stack.
 func (s *Stack) Len() int {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+	
 	if s.stype == LiFo {
 		return s.count
 	}
@@ -154,11 +170,51 @@ func (s *Stack) Len() int {
 	return -1
 }
 
+// IsEmpty checks if the Stack is empty
 func (s *Stack) IsEmpty() bool {
 	if s.Len() == 0 {
 		return true
 	}
 	return false
+}
+
+// Marshal transfers the stack nodes to gob-bytes
+func (s *Stack) Marshal() ([]byte, error) {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+	
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	if err := enc.Encode(s.nodes); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
+}
+
+// Unmarshal loads gob-bytes to a stack
+func (s *Stack) Unmarshal(data []byte) error {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	
+	dec := gob.NewDecoder(bytes.NewReader(data))
+	if err := dec.Decode(&s.nodes); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Iter makes it easy to iterate over all stack nodes
+func (s *Stack) Iter() <-chan interface{} {
+	c := make(chan interface{})
+	go func() {
+		s.mutex.RLock()
+		defer s.mutex.RUnlock()
+		for _, v := range s.nodes {
+			c <- v
+		}
+		close(c)
+	}()
+	return c
 }
 
 // Ring returns a pointer to a new ring.

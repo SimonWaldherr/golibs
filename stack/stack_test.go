@@ -77,6 +77,7 @@ func Test_LiFo_IsEmptyAgain(t *testing.T) {
 func Test_Convert(t *testing.T) {
 	var str string
 	array := Fifo()
+
 	array.Push("1")
 	array.Push("2")
 	array.Push("3")
@@ -132,6 +133,33 @@ func Test_Stack_Unset(t *testing.T) {
 	}
 	if array.Pop() != "" {
 		t.Fatalf("Stack Unset 2 failed")
+	}
+}
+
+func Test_Stack_Marshal(t *testing.T) {
+	array := Fifo()
+	array.Add(3)
+	array.Add(1)
+	array.Add(4)
+	array.Add(15)
+	data, err := array.Marshal()
+	if err != nil {
+		t.Fatalf("Stack error on Marshal: %v", err)
+	}
+	
+	array2 := Fifo()
+	err = array2.Unmarshal(data)
+	if err != nil {
+		t.Fatalf("Stack error on Marshal: %v", err)
+	}
+	
+	out := ""
+	for value := range array2.Iter() {
+		out += fmt.Sprint(value.(int))
+	}
+	
+	if out != "31415" {
+		t.Fatalf("Stack Marshal/Unmarshal failed")
 	}
 }
 
