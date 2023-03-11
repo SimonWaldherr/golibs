@@ -117,7 +117,7 @@ func (s *Stack) Val() []interface{} {
 func (s *Stack) Push(n interface{}) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	
+
 	if s.stype == LiFo {
 		s.nodes = append(s.nodes[:s.count], n)
 		s.count++
@@ -134,7 +134,7 @@ func (s *Stack) Add(n interface{}) {
 func (s *Stack) Pop() interface{} {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
-	
+
 	if s.stype == LiFo {
 		if s.count == 0 {
 			return ""
@@ -160,7 +160,7 @@ func (s *Stack) Get() interface{} {
 func (s *Stack) Len() int {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
-	
+
 	if s.stype == LiFo {
 		return s.count
 	}
@@ -182,7 +182,7 @@ func (s *Stack) IsEmpty() bool {
 func (s *Stack) Marshal() ([]byte, error) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
-	
+
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 	if err := enc.Encode(s.nodes); err != nil {
@@ -195,7 +195,7 @@ func (s *Stack) Marshal() ([]byte, error) {
 func (s *Stack) Unmarshal(data []byte) error {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	
+
 	dec := gob.NewDecoder(bytes.NewReader(data))
 	if err := dec.Decode(&s.nodes); err != nil {
 		return err

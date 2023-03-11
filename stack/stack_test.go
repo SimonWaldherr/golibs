@@ -146,18 +146,18 @@ func Test_Stack_Marshal(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Stack error on Marshal: %v", err)
 	}
-	
+
 	array2 := Fifo()
 	err = array2.Unmarshal(data)
 	if err != nil {
 		t.Fatalf("Stack error on Marshal: %v", err)
 	}
-	
+
 	out := ""
 	for value := range array2.Iter() {
 		out += fmt.Sprint(value.(int))
 	}
-	
+
 	if out != "31415" {
 		t.Fatalf("Stack Marshal/Unmarshal failed")
 	}
