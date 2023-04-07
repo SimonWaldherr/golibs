@@ -4,6 +4,7 @@ import (
 	"reflect"
 )
 
+// Reflect returns a map of the struct
 func Reflect(sstruct interface{}) map[string]interface{} {
 	attrs := make(map[string]interface{})
 	v := reflect.ValueOf(sstruct)
@@ -16,6 +17,7 @@ func Reflect(sstruct interface{}) map[string]interface{} {
 	return attrs
 }
 
+// ReflectHelper is a helper function for Reflect
 func ReflectHelper(v reflect.Value, t reflect.Type, depth int, handler func(string, string, interface{}, int)) map[string]interface{} {
 	attrs := make(map[string]interface{})
 	for i := 0; i < v.NumField(); i++ {

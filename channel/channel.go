@@ -1,3 +1,4 @@
+// channel is a simple communication hub for go routines
 package channel
 
 type Communication struct {
@@ -7,6 +8,7 @@ type Communication struct {
 	messages    chan interface{}
 }
 
+// Init creates a new Communication
 func Init() *Communication {
 	var hub = &Communication{
 		receiver:    make(map[chan interface{}]bool),
@@ -38,21 +40,53 @@ func Init() *Communication {
 	return hub
 }
 
+// AddReceiver adds a new receiver to the hub
 func (hub *Communication) AddReceiver() chan interface{} {
 	messageChannel := make(chan interface{})
 	hub.addReceiver <- messageChannel
 	return messageChannel
 }
 
+// CloseReceiver closes a receiver
 func (hub *Communication) CloseReceiver(ch chan interface{}) int {
 	hub.rmReceiver <- ch
 	return hub.CountReceiver()
 }
 
+// CountReceiver returns the number of receivers
 func (hub *Communication) CountReceiver() int {
 	return len(hub.receiver)
 }
 
+// AddTransmitter adds a new transmitter to the hub
 func (hub *Communication) AddTransmitter() chan<- interface{} {
 	return hub.messages
+}
+
+// Close closes the hub
+func (hub *Communication) Close() {
+	close(hub.messages)
+}
+
+// CloseTransmitter closes a transmitter
+func (hub *Communication) CloseTransmitter(ch chan<- interface{}) {
+	close(ch)
+}
+
+// CloseAll closes all receivers and transmitters
+func (hub *Communication) CloseAll() {
+	for rec := range hub.receiver {
+		hub.CloseReceiver(rec)
+	}
+	hub.Close()
+}
+
+// Send sends a message to all receivers
+func (hub *Communication) Send(message interface{}) {
+	hub.messages <- message
+}
+
+// SendTo sends a message to a specific receiver
+func (hub *Communication) SendTo(message interface{}, receiver chan interface{}) {
+	receiver <- message
 }

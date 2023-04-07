@@ -32,12 +32,14 @@ func Lifo() *Stack {
 	}
 }
 
+// FiFo returns a pointer to a new stack.
 func Fifo() *Stack {
 	return &Stack{
 		stype: FiFo,
 	}
 }
 
+// Unset resets the stack
 func (s *Stack) Unset() {
 	*s = Stack{
 		nodes: []interface{}{},
@@ -46,6 +48,7 @@ func (s *Stack) Unset() {
 	}
 }
 
+// ToFifo converts a LIFO stack to a FIFO stack
 func (s *Stack) ToFifo() *Stack {
 	var x *Stack
 	array := Fifo()
@@ -71,6 +74,7 @@ func (s *Stack) ToFifo() *Stack {
 	return array
 }
 
+// ToLifo converts a FIFO stack to a LIFO stack
 func (s *Stack) ToLifo() *Stack {
 	var x *Stack
 	array := Lifo()
@@ -96,6 +100,7 @@ func (s *Stack) ToLifo() *Stack {
 	return array
 }
 
+// Val returns the stack as a slice of interfaces
 func (s *Stack) Val() []interface{} {
 	var a *Stack
 	var r []interface{}
@@ -126,6 +131,7 @@ func (s *Stack) Push(n interface{}) {
 	}
 }
 
+// Add adds a value to the Stack
 func (s *Stack) Add(n interface{}) {
 	s.Push(n)
 }
@@ -152,6 +158,7 @@ func (s *Stack) Pop() interface{} {
 	return ""
 }
 
+// Get returns the last added value and decrease the position counter.
 func (s *Stack) Get() interface{} {
 	return s.Pop()
 }

@@ -5,8 +5,9 @@ package xmath
 import (
 	"math"
 	"reflect"
-	"simonwaldherr.de/go/golibs/as"
 	"sort"
+
+	"simonwaldherr.de/go/golibs/as"
 )
 
 // Sqrt calculates the square root of n.
@@ -155,6 +156,7 @@ const (
 	Default
 )
 
+// Mean returns the mean from an interface of Values as float64.
 func Mean(val interface{}, t Meantype) float64 {
 	switch t {
 	case ArithmeticMean:

@@ -8,11 +8,13 @@ import (
 
 var regexArray = make(map[string]*regexp.Regexp)
 
+// CheckRegex checks if the regex is valid
 func CheckRegex(regex string) error {
 	_, err := regexp.Compile(regex)
 	return err
 }
 
+// CacheRegex caches the compiled regex
 func CacheRegex(regex string) error {
 	var err error
 	if _, ok := regexArray[regex]; ok {
@@ -24,6 +26,7 @@ func CacheRegex(regex string) error {
 	return err
 }
 
+// MatchString reports whether the string src contains any match of the regular expression.
 func MatchString(src, regex string) (bool, error) {
 	var err error
 	if re, ok := regexArray[regex]; ok {
@@ -97,10 +100,12 @@ func FindAllStringSubmatch(src, regex string) ([][]string, error) {
 	return [][]string{}, err
 }
 
+// Count returns the number of cached regex
 func Count() int {
 	return len(regexArray)
 }
 
+// Cleanup cleans the cache
 func Cleanup() {
 	regexArray = make(map[string]*regexp.Regexp)
 }

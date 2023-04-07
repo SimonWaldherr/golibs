@@ -16,7 +16,7 @@ go test ./...
 
  . | service | info
 ---|---------|------
- ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
+ ![OSX Build Status](https://simonwaldherr.de/icon/osx.png) | ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square) |  | go test ./...  
  [![Audit](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml/badge.svg?branch=master&event=push)](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml) | github.com  | test via GitHub Workflow  
  [![Travis CI](https://app.travis-ci.com/SimonWaldherr/golibs.svg?branch=master)](https://app.travis-ci.com/SimonWaldherr/golibs) | travis-ci.com  | test at travis-ci  
  [![Build Status](https://semaphoreci.com/api/v1/simonwaldherr/golibs/branches/master/shields_badge.svg)](https://semaphoreci.com/simonwaldherr/golibs) | semaphoreci.com | test at semaphore-ci  
@@ -135,7 +135,7 @@ var x int = as.Int("32")
 var x time.Time = as.Time("31.12.2014")
 ```
 
-### bitmask - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/bitmask) [![Coverage Status](https://img.shields.io/badge/coverage-92%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### bitmask - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/bitmask) [![Coverage Status](https://img.shields.io/badge/coverage-0%25-red.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/bitmask"
@@ -148,7 +148,7 @@ i := bitmask.New(0b11111111)
 i.Set(0, false)
 ```
 
-### cache - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/cache) [![Coverage Status](https://img.shields.io/badge/coverage-97%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### cache - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/cache) [![Coverage Status](https://img.shields.io/badge/coverage-93%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/cache"
@@ -178,7 +178,7 @@ str, _ := cachedfile.Read("filename.txt")
 and there will be no file access to disk.
 If you kill the App, wait 15 min or call ```cachedfile.Stop()``` the cached content will be exported to disk.
 
-### channel - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/channel) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### channel - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/channel) [![Coverage Status](https://img.shields.io/badge/coverage-73%25-yellowgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/channel"
@@ -242,7 +242,7 @@ err := file.Each("..", true, func(filename, extension, filepath string, dir bool
 
 If you need the absolute path to a file, but only have a relative path, you can use ```file.GetAbsolutePath("~/path/to/file.txt")```.  
 
-### foreach - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/foreach) [![Coverage Status](https://img.shields.io/badge/coverage-90%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### foreach - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/foreach) [![Coverage Status](https://img.shields.io/badge/coverage-42%25-red.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/foreach"
@@ -314,7 +314,7 @@ func main() {
   ...
 ```
 
-### graphics - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### graphics - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/graphics) [![Coverage Status](https://img.shields.io/badge/coverage-94%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/graphics"
@@ -346,7 +346,7 @@ fd.Close()
 ```
 
 
-### http - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/http) [![Coverage Status](https://img.shields.io/badge/coverage-83%25-green.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### http - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/http) [![Coverage Status](https://img.shields.io/badge/coverage-8%25-red.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/http"
@@ -418,7 +418,7 @@ err := ssl.Generate(options)
 ```
 
 
-### stack - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/stack) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### stack - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/stack) [![Coverage Status](https://img.shields.io/badge/coverage-97%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/stack"
@@ -463,7 +463,7 @@ fmt.Printf("Harmonic:   %v\n", xmath.Harmonic(f))
 fmt.Printf("Geometric:  %v\n", xmath.Geometric(f))
 ```
 
-### xtime - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xtime) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
+### xtime - [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/xtime) [![Coverage Status](https://img.shields.io/badge/coverage-43%25-red.svg?style=flat-square)](https://coveralls.io/r/SimonWaldherr/golibs) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/SimonWaldherr/golibs)
 
 ```go
 import "simonwaldherr.de/go/golibs/xtime"

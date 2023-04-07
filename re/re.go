@@ -9,6 +9,7 @@ import (
 
 var MaxAttempts = 10
 
+// Try tries to execute a function several times
 func Try(retrys int, fn func() (err error)) error {
 	defer func() {
 		if r := recover(); r != nil {
@@ -30,6 +31,7 @@ func Try(retrys int, fn func() (err error)) error {
 	return err
 }
 
+// Do executes a function as long as the stop channel is not closed
 func Do(wait time.Duration, fn func(chan<- interface{})) (<-chan interface{}, chan<- bool) {
 	stop := make(chan bool, 1)
 	ret := make(chan interface{})

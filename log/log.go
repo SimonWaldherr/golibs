@@ -1,3 +1,4 @@
+// log package is a wrapper of log package in standard library.
 package log
 
 import (

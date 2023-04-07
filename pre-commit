@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export GO15VENDOREXPERIMENT=1
-declare -a libs=(ansi arg as bitmask cache cachedfile channel csv file foreach gopath graphics http log re regex rss ssl stack structs xmath xtime)
+declare -a libs=(ansi arg as bitmask cache cachedfile channel csv file foreach gopath gps graphics http log node re regex rss ssl stack structs xmath xtime yoloDB)
 
 echo "COVERAGE TEST" > coverage.log
 
@@ -52,7 +52,13 @@ do
 	 fi
 
 	 if [ "x$CHEADER" != "x" ]; then
-		 rpl "$CHEADER" "$NHEADER" README.md 
+	 	#//replace "$CHEADER" "$NHEADER" README.md
+		./go_replace_tool README.md README_new.md "$CHEADER" "$NHEADER"
+		rm README.md
+		mv README_new.md README.md
+
+		#rpl "$CHEADER" "$NHEADER" README.md 
+
 	 fi
 done
 
@@ -73,7 +79,10 @@ kill $(lsof -t -i:6060)
 mv localhost:6060 godoc
 
 
-rpl "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" README.md 
+#rpl "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD" README.md 
+./go_replace_tool README.md README_new.md "$(cat README.md | grep " go test ./... ")" "$BADGEBUILD"
+rm README.md
+mv README_new.md README.md
 
 cp ./file/test.txt ./cachedfile/test.txt
 cp ./file/test.txt ./examples/test.txt

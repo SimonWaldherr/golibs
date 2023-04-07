@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
+// SecureShell connects to a remote host via SSH and returns a session
 func SecureShell(user string, host string, port string, keyfile string) *ssh.Session {
 	var client *ssh.Client
 	var session *ssh.Session
@@ -28,6 +29,7 @@ func SecureShell(user string, host string, port string, keyfile string) *ssh.Ses
 	return session
 }
 
+// connectToHost connects to a remote host via SSH and returns a session
 func connectToHost(user, host string) (*ssh.Client, *ssh.Session, error) {
 	var pass string
 	fmt.Print("SSH-Password: ")
@@ -53,6 +55,7 @@ func connectToHost(user, host string) (*ssh.Client, *ssh.Session, error) {
 	return client, session, nil
 }
 
+// connectToHostWithPublickey connects to a remote host via SSH and returns a session
 func connectToHostWithPublickey(user, host, publickeyfile string) (*ssh.Client, *ssh.Session, error) {
 	key, err := ioutil.ReadFile(publickeyfile)
 	if err != nil {

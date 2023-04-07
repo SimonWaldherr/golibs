@@ -9,8 +9,9 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"simonwaldherr.de/go/golibs/gopath"
 	"strings"
+
+	"simonwaldherr.de/go/golibs/gopath"
 )
 
 func contains(s []string, e string) bool {
@@ -22,6 +23,7 @@ func contains(s []string, e string) bool {
 	return false
 }
 
+// Exists checks if a file exists
 func Exists(fn string) bool {
 	if _, err := os.Stat(fn); err == nil {
 		return true
@@ -29,6 +31,7 @@ func Exists(fn string) bool {
 	return false
 }
 
+// IsDir checks if a file is a directory
 func IsDir(fn string) bool {
 	file, err := os.Stat(fn)
 	if err != nil {
@@ -40,6 +43,7 @@ func IsDir(fn string) bool {
 	return false
 }
 
+// IsFile checks if a file is a regular file
 func IsFile(fn string) bool {
 	file, err := os.Stat(fn)
 	if err != nil {
@@ -55,6 +59,7 @@ func isSymlink(fi os.FileInfo) bool {
 	return fi.Mode()&os.ModeSymlink == os.ModeSymlink
 }
 
+// IsSymlink checks if a file is a symlink
 func IsSymlink(fn string) bool {
 	file, err := os.Lstat(fn)
 	if err != nil {
@@ -63,6 +68,7 @@ func IsSymlink(fn string) bool {
 	return isSymlink(file)
 }
 
+// Read reads a file and returns the content as a string
 func Read(fn string) (string, error) {
 	var file *os.File
 	var err error
@@ -84,6 +90,7 @@ func Read(fn string) (string, error) {
 	return s, nil
 }
 
+// ReadUntil reads a file until a delimiter is found
 func ReadUntil(fn string, delim []string) (string, string, int, error) {
 	file, err := os.Open(fn)
 
@@ -111,6 +118,35 @@ func ReadUntil(fn string, delim []string) (string, string, int, error) {
 	return buf, "", pos, nil
 }
 
+// ReadBytes reads a file and returns the content as a string
+func ReadBytes(fn string, delim []string) (string, string, int, error) {
+	file, err := os.Open(fn)
+
+	defer file.Close()
+
+	if err != nil {
+		return "", "", 0, err
+	}
+
+	reader := bufio.NewReader(file)
+	scanner := bufio.NewScanner(reader)
+
+	scanner.Split(bufio.ScanRunes)
+	pos := 0
+	buf := ""
+
+	for scanner.Scan() {
+		char := scanner.Text()
+		if contains(delim, char) {
+			return buf, char, pos, nil
+		}
+		buf += char
+		pos++
+	}
+	return buf, "", pos, nil
+}
+
+// ReadBlocks reads a file and returns the content as a string
 func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error) {
 	file, err := os.Open(fn)
 
@@ -142,6 +178,32 @@ func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (st
 	return ret, nil
 }
 
+// ReadLines reads a file and returns the content as lines in a string slice
+func ReadLines(fn string) ([]string, error) {
+	var file *os.File
+	var err error
+
+	file, err = os.Open(fn)
+
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	scanner := bufio.NewScanner(reader)
+
+	scanner.Split(bufio.ScanLines)
+
+	var lines []string
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines, nil
+}
+
+// Write writes a string to a file
 func Write(fn, str string, append bool) error {
 	var file *os.File
 	var err error
@@ -167,6 +229,45 @@ func Write(fn, str string, append bool) error {
 	return nil
 }
 
+// WriteLines writes a string slice to a file
+func WriteLines(fn string, lines []string, append bool) error {
+	var file *os.File
+	var err error
+
+	if append {
+		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
+	} else {
+		file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
+	}
+
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	for _, line := range lines {
+		if _, err = file.WriteString(line + ""); err != nil {
+			return err
+		}
+	}
+
+	if err = file.Sync(); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Append appends a string to a file
+func Append(fn, str string) error {
+	return Write(fn, str, true)
+}
+
+// AppendLines appends a string slice to a file
+func AppendLines(fn string, lines []string) error {
+	return WriteLines(fn, lines, true)
+}
+
+// Size returns the size of a file
 func Size(fn string) (int64, error) {
 	file, err := os.Open(fn)
 
@@ -185,19 +286,22 @@ func Size(fn string) (int64, error) {
 	return fi.Size(), nil
 }
 
+// Clean removes a file
 func Clean(fn string) error {
 	return Write(fn, "", false)
 }
 
-func Rename(from, to string) error {
-	err := os.Rename(from, to)
-
-	if err != nil {
-		return err
-	}
-	return nil
+// Remove removes a file
+func Remove(fn string) error {
+	return os.Remove(fn)
 }
 
+// Rename renames a file
+func Rename(from, to string) error {
+	return os.Rename(from, to)
+}
+
+// Copy copies a file
 func Copy(from, to string) error {
 	r, err := os.Open(from)
 	if err != nil {
@@ -218,15 +322,12 @@ func Copy(from, to string) error {
 	return nil
 }
 
+// Delete deletes a file
 func Delete(fn string) error {
-	err := os.Remove(fn)
-
-	if err != nil {
-		return err
-	}
-	return nil
+	return os.Remove(fn)
 }
 
+// ReadDir reads a directory and returns the content as a string slice
 func ReadDir(dn string) ([]string, error) {
 	var flist []string
 	dn, err := GetAbsolutePath(dn)
@@ -243,6 +344,7 @@ func ReadDir(dn string) ([]string, error) {
 	return flist, nil
 }
 
+// Each iterates over a directory and calls a function for each file
 func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
 	file, err := os.Open(dirname)
 
@@ -274,6 +376,7 @@ func Each(dirname string, recursive bool, fnc func(string, string, string, bool,
 
 var HomeDir string
 
+// SetHomeDir sets the home directory
 func SetHomeDir() string {
 	if HomeDir == "#" || runtime.GOOS == "windows" {
 		home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
@@ -287,11 +390,13 @@ func SetHomeDir() string {
 	return os.Getenv("HOME")
 }
 
+// FakeHomeDir sets the home directory to a fake value
 func FakeHomeDir(dir string) string {
 	HomeDir = dir
 	return dir
 }
 
+// GetHomeDir returns the home directory
 func GetHomeDir() string {
 	if HomeDir == "" {
 		return SetHomeDir()

@@ -10,6 +10,7 @@ var archlist = map[string]bool{
 	"386":   true,
 	"amd64": true,
 	"arm":   true,
+	"arm64": true,
 }
 
 var oslist = map[string]bool{

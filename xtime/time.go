@@ -1,9 +1,11 @@
+// xt is a collection of time-related functions and types
 package xtime
 
 import (
 	"time"
 )
 
+// conv is a map of strftime format specifiers
 var conv = map[rune]string{
 	'a': "Mon",
 	'A': "Monday",
@@ -59,23 +61,33 @@ func FmtNow(format string) string {
 	return StrfTime(format, t)
 }
 
+// TimeRange is a simple struct to represent a time range
 type TimeRange struct {
 	Start time.Time
 	End   time.Time
 }
 
+// Duration returns the duration of the time range
+func (tr TimeRange) Duration() time.Duration {
+	return tr.End.Sub(tr.Start)
+}
+
+// Overlaps returns true if the time range overlaps with another time range
 func (tr TimeRange) Overlaps(other TimeRange) bool {
 	return tr.Start.Before(other.End) && tr.End.After(other.Start)
 }
 
+// Contains returns true if the time range contains another time range
 func (tr TimeRange) Contains(other TimeRange) bool {
 	return tr.Start.Before(other.Start) && tr.End.After(other.End)
 }
 
+// Within returns true if the time range is within another time range
 func (tr TimeRange) Within(other TimeRange) bool {
 	return other.Contains(tr)
 }
 
+// And returns the intersection of two time ranges
 func And(tr1, tr2 TimeRange) TimeRange {
 	if tr1.Overlaps(tr2) {
 		return TimeRange{
@@ -86,6 +98,7 @@ func And(tr1, tr2 TimeRange) TimeRange {
 	return TimeRange{}
 }
 
+// Or returns the union of two time ranges
 func Or(tr1, tr2 TimeRange) TimeRange {
 	if tr1.Overlaps(tr2) {
 		return TimeRange{
@@ -99,6 +112,7 @@ func Or(tr1, tr2 TimeRange) TimeRange {
 	}
 }
 
+// Not returns the inverse of a time range
 func Not(tr TimeRange, fullRange TimeRange) TimeRange {
 	return TimeRange{
 		Start: fullRange.Start,
@@ -106,6 +120,7 @@ func Not(tr TimeRange, fullRange TimeRange) TimeRange {
 	}.Subtract(tr)
 }
 
+// Subtract returns the difference of two time ranges
 func (tr TimeRange) Subtract(other TimeRange) TimeRange {
 	if !tr.Overlaps(other) {
 		return tr
