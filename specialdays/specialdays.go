@@ -62,7 +62,7 @@ func CalculateBussUndBettag(year int) time.Time {
 	// Der Buß- und Bettag ist der Mittwoch vor dem ersten Advent.
 	firstAdvent := CalculateFirstAdvent(year)
 	bussUndBettag := firstAdvent.AddDate(0, 0, -11)
-	
+
 	return bussUndBettag
 }
 

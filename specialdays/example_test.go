@@ -3,24 +3,25 @@ package specialdays_test
 import (
 	"fmt"
 	"sort"
+
 	"simonwaldherr.de/go/golibs/specialdays"
 )
 
 func ExampleGetSpecialDays() {
 	days := specialdays.GetSpecialDays(2019)
-	
+
 	keys := make([]string, 0, len(days))
-	
-		for k := range days{
-			keys = append(keys, k)
-		}
+
+	for k := range days {
+		keys = append(keys, k)
+	}
 	sort.Strings(keys)
-	
+
 	for _, k := range keys {
 		fmt.Printf("%s: %s\n", k, days[k].Format("2006-01-02"))
 	}
 
-	// Output: 
+	// Output:
 	// 1. Weihnachtstag: 2019-12-25
 	// 2. Weihnachtstag: 2019-12-26
 	// Allerheiligen: 2019-11-01
