@@ -2,8 +2,6 @@ package table
 
 import (
     "bytes"
-    "encoding/json"
-    "encoding/xml"
     "fmt"
     "reflect"
     "strings"
@@ -23,30 +21,34 @@ func RenderASCII(data interface{}, opt TableOption) (string, error) {
         headers, rows = rotate(headers, rows)
     }
 
+    colWidths := calculateColumnWidths(headers, rows)
+
+    // Create header line
     buffer.WriteString("+")
-    for _, header := range headers {
-        buffer.WriteString(strings.Repeat("-", len(header)+2) + "+")
+    for _, width := range colWidths {
+        buffer.WriteString(strings.Repeat("-", width+2) + "+")
     }
     buffer.WriteString("\n|")
-    for _, header := range headers {
-        buffer.WriteString(fmt.Sprintf(" %s |", header))
+    for i, header := range headers {
+        buffer.WriteString(fmt.Sprintf(" %-*s |", colWidths[i], header))
     }
     buffer.WriteString("\n+")
-    for range headers {
-        buffer.WriteString(strings.Repeat("-", len(headers[0])+2) + "+")
+    for _, width := range colWidths {
+        buffer.WriteString(strings.Repeat("-", width+2) + "+")
     }
     buffer.WriteString("\n")
 
+    // Create rows
     for _, row := range rows {
         buffer.WriteString("|")
-        for _, col := range row {
-            buffer.WriteString(fmt.Sprintf(" %s |", col))
+        for i, col := range row {
+            buffer.WriteString(fmt.Sprintf(" %-*s |", colWidths[i], col))
         }
         buffer.WriteString("\n")
     }
     buffer.WriteString("+")
-    for range headers {
-        buffer.WriteString(strings.Repeat("-", len(headers[0])+2) + "+")
+    for _, width := range colWidths {
+        buffer.WriteString(strings.Repeat("-", width+2) + "+")
     }
     buffer.WriteString("\n")
 
@@ -62,20 +64,24 @@ func RenderMarkdown(data interface{}, opt TableOption) (string, error) {
         headers, rows = rotate(headers, rows)
     }
 
+    colWidths := calculateColumnWidths(headers, rows)
+
+    // Create header line
     buffer.WriteString("|")
-    for _, header := range headers {
-        buffer.WriteString(fmt.Sprintf(" %s |", header))
+    for i, header := range headers {
+        buffer.WriteString(fmt.Sprintf(" %-*s |", colWidths[i], header))
     }
     buffer.WriteString("\n|")
-    for range headers {
-        buffer.WriteString(" --- |")
+    for i := range headers {
+        buffer.WriteString(strings.Repeat("-", colWidths[i]+2) + "|")
     }
     buffer.WriteString("\n")
 
+    // Create rows
     for _, row := range rows {
         buffer.WriteString("|")
-        for _, col := range row {
-            buffer.WriteString(fmt.Sprintf(" %s |", col))
+        for i, col := range row {
+            buffer.WriteString(fmt.Sprintf(" %-*s |", colWidths[i], col))
         }
         buffer.WriteString("\n")
     }
@@ -113,36 +119,45 @@ func parseStruct(data interface{}) ([]string, [][]string) {
 }
 
 func rotate(headers []string, rows [][]string) ([]string, [][]string) {
-    var newHeaders []string
-    var newRows [][]string
-
-    for _, header := range headers {
-        newHeaders = append(newHeaders, header)
+    newHeaders := make([]string, len(rows))
+    for i := range rows {
+        newHeaders[i] = fmt.Sprintf("Row %d", i+1)
     }
 
-    for i := 0; i < len(rows[0]); i++ {
-        var newRow []string
-        for j := 0; j < len(rows); j++ {
-            newRow = append(newRow, rows[j][i])
+    newRows := make([][]string, len(headers))
+    for i := range headers {
+        newRow := make([]string, len(rows))
+        for j := range rows {
+            newRow[j] = rows[j][i]
         }
-        newRows = append(newRows, newRow)
+        newRows[i] = newRow
     }
+
+    // Add original headers to newRows
+    for i, header := range headers {
+        newRows[i] = append([]string{header}, newRows[i]...)
+    }
+
+    // Add an empty column header for the row identifiers
+    newHeaders = append([]string{""}, newHeaders...)
 
     return newHeaders, newRows
 }
 
-func ConvertToJSON(data interface{}) (string, error) {
-    jsonData, err := json.Marshal(data)
-    if err != nil {
-        return "", err
-    }
-    return string(jsonData), nil
-}
+func calculateColumnWidths(headers []string, rows [][]string) []int {
+    colWidths := make([]int, len(headers))
 
-func ConvertToXML(data interface{}) (string, error) {
-    xmlData, err := xml.Marshal(data)
-    if err != nil {
-        return "", err
+    for i, header := range headers {
+        colWidths[i] = len(header)
     }
-    return string(xmlData), nil
+
+    for _, row := range rows {
+        for i, col := range row {
+            if len(col) > colWidths[i] {
+                colWidths[i] = len(col)
+            }
+        }
+    }
+
+    return colWidths
 }
