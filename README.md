@@ -21,7 +21,7 @@ go test ./...
  [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/coverage/coverage.html) |  | go tool cover  
  [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield) | fossa.io | license report  
  [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
- [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/SimonWaldherr/golibs/) | godoc.org | documentation  
+ [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://pkg.go.dev/simonwaldherr.de/go/golibs) | godoc.org | documentation  
  [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/godoc/pkg/simonwaldherr.de/go/golibs.html) | godoc @ github.io | documentation  
  [![DOI](https://zenodo.org/badge/17567331.svg)](https://zenodo.org/badge/latestdoi/17567331) | zenodo.org | Digital Object Identifier
 
