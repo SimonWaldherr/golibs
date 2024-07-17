@@ -56,9 +56,11 @@ each new build gets tested in multiple steps:
 * [re](https://github.com/SimonWaldherr/golibs#re-----) helps you whenever you have to do something multiple times
 * [regex](https://github.com/SimonWaldherr/golibs#regex-----) is a layer to speed up your regular expression development
 * [rss](https://github.com/SimonWaldherr/golibs#rss-----) is a rss feed parser based on Golangs std xml package
+* [semver](https://github.com/SimonWaldherr/golibs#semver-----) is a semantic version parsing/checking package
 * [ssl](https://github.com/SimonWaldherr/golibs#ssl-----) generates ssl certificates for https
 * [stack](https://github.com/SimonWaldherr/golibs#stack-----) can store your values in stacks and rings
 * [structs](https://github.com/SimonWaldherr/golibs#structs-----) use structs like maps
+* [table](https://github.com/SimonWaldherr/golibs#table-----) prints structs like ASCII or Markdown tables
 * [xmath](https://github.com/SimonWaldherr/golibs#xmath-----) provides a few mathematical functions like Sum, Median, Harmonic-mean, …
 * [xtime](https://github.com/SimonWaldherr/golibs#xtime-----) xtime implements a subset of strftime
 
