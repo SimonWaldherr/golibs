@@ -16,60 +16,31 @@ import (
 // TableOption defines the configuration for table output
 type TableOption struct {
 	Rotate bool
-	Align  []string // alignment options for each column: "left", "center", "right"
+	Align  []string // can be "left", "right", or "center"
+	Format string   // can be "ascii", "unicode", "markdown", or "html"
 }
 
 // RenderASCII renders the struct slice as an ASCII table
 func RenderASCII(data interface{}, opt TableOption) (string, error) {
-	var buffer bytes.Buffer
-	headers, rows, err := parseStruct(data)
-	if err != nil {
-		return "", err
-	}
+	return Render(data, TableOption{Rotate: opt.Rotate, Align: opt.Align, Format: "ascii"})
+}
 
-	if opt.Rotate {
-		headers, rows = rotate(headers, rows)
-	}
-
-	colWidths := calculateColumnWidths(headers, rows)
-
-	// Create header line
-	buffer.WriteString("+")
-	for _, width := range colWidths {
-		buffer.WriteString(strings.Repeat("-", width+2) + "+")
-	}
-	buffer.WriteString("\n|")
-	for i, header := range headers {
-		alignment := getColumnAlignment(i, opt.Align, header)
-		buffer.WriteString(" " + alignText(header, colWidths[i], alignment) + " |")
-	}
-	buffer.WriteString("\n+")
-	for _, width := range colWidths {
-		buffer.WriteString(strings.Repeat("-", width+2) + "+")
-	}
-	buffer.WriteString("\n")
-
-	// Create rows
-	for _, row := range rows {
-		buffer.WriteString("|")
-		for i, col := range row {
-			alignment := getColumnAlignment(i, opt.Align, col)
-			buffer.WriteString(" " + alignText(col, colWidths[i], alignment) + " |")
-		}
-		buffer.WriteString("\n")
-	}
-	buffer.WriteString("+")
-	for _, width := range colWidths {
-		buffer.WriteString(strings.Repeat("-", width+2) + "+")
-	}
-	buffer.WriteString("\n")
-
-	return buffer.String(), nil
+// RenderASCII renders the struct slice as an ASCII table
+func RenderUnicode(data interface{}, opt TableOption) (string, error) {
+	return Render(data, TableOption{Rotate: opt.Rotate, Align: opt.Align, Format: "unicode"})
 }
 
 // RenderMarkdown renders the struct slice as a Markdown table
 func RenderMarkdown(data interface{}, opt TableOption) (string, error) {
-	var buffer bytes.Buffer
+	return Render(data, TableOption{Rotate: opt.Rotate, Align: opt.Align, Format: "markdown"})
+}
+
+// RenderHTML renders the struct slice as an HTML table
+func RenderHTML(data interface{}, opt TableOption) (string, error) {
+	return Render(data, TableOption{Rotate: opt.Rotate, Align: opt.Align, Format: "html"})
+}
+
+func Render(data interface{}, opt TableOption) (string, error) {
 	headers, rows, err := parseStruct(data)
 	if err != nil {
 		return "", err
@@ -79,9 +50,82 @@ func RenderMarkdown(data interface{}, opt TableOption) (string, error) {
 		headers, rows = rotate(headers, rows)
 	}
 
+	switch opt.Format {
+	case "ascii":
+		return renderASCII(headers, rows, opt, basicBorders)
+	case "unicode":
+		return renderASCII(headers, rows, opt, niceBorders)
+	case "markdown":
+		return renderMarkdown(headers, rows, opt)
+	case "html":
+		return renderHTML(headers, rows)
+	default:
+		return "", fmt.Errorf("unsupported format: %s", opt.Format)
+	}
+}
+
+type borders struct {
+	topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight, hor, ver string
+}
+
+var basicBorders = borders{"+", "+", "+", "+", "+", "+", "+", "+", "+", "-", "|"}
+var niceBorders = borders{"┏", "┳", "┓", "┡", "╇", "┩", "└", "┴", "┘", "━", "┃"}
+
+func renderASCII(headers []string, rows [][]string, opt TableOption, brd borders) (string, error) {
+	var buffer bytes.Buffer
 	colWidths := calculateColumnWidths(headers, rows)
 
-	// Create header line
+	buffer.WriteString(brd.topLeft)
+	for i, width := range colWidths {
+		if i > 0 {
+			buffer.WriteString(brd.topMid)
+		}
+		buffer.WriteString(strings.Repeat(brd.hor, width+2))
+	}
+	buffer.WriteString(brd.topRight + "\n" + brd.ver)
+	for i, header := range headers {
+		if i > 0 {
+			buffer.WriteString(brd.ver)
+		}
+		alignment := getColumnAlignment(i, opt.Align, header)
+		buffer.WriteString(" " + alignText(header, colWidths[i], alignment) + " ")
+	}
+	buffer.WriteString(brd.ver + "\n" + brd.midLeft)
+	for i, width := range colWidths {
+		if i > 0 {
+			buffer.WriteString(brd.midMid)
+		}
+		buffer.WriteString(strings.Repeat(brd.hor, width+2))
+	}
+	buffer.WriteString(brd.midRight + "\n")
+
+	for _, row := range rows {
+		buffer.WriteString(brd.ver)
+		for i, col := range row {
+			if i > 0 {
+				buffer.WriteString(brd.ver)
+			}
+			alignment := getColumnAlignment(i, opt.Align, col)
+			buffer.WriteString(" " + alignText(col, colWidths[i], alignment) + " ")
+		}
+		buffer.WriteString(brd.ver + "\n")
+	}
+	buffer.WriteString(brd.botLeft)
+	for i, width := range colWidths {
+		if i > 0 {
+			buffer.WriteString(brd.botMid)
+		}
+		buffer.WriteString(strings.Repeat(brd.hor, width+2))
+	}
+	buffer.WriteString(brd.botRight + "\n")
+
+	return buffer.String(), nil
+}
+
+func renderMarkdown(headers []string, rows [][]string, opt TableOption) (string, error) {
+	var buffer bytes.Buffer
+	colWidths := calculateColumnWidths(headers, rows)
+
 	buffer.WriteString("|")
 	for i, header := range headers {
 		buffer.WriteString(fmt.Sprintf(" %-*s |", colWidths[i], header))
@@ -92,7 +136,6 @@ func RenderMarkdown(data interface{}, opt TableOption) (string, error) {
 	}
 	buffer.WriteString("\n")
 
-	// Create rows
 	for _, row := range rows {
 		buffer.WriteString("|")
 		for i, col := range row {
@@ -105,17 +148,8 @@ func RenderMarkdown(data interface{}, opt TableOption) (string, error) {
 	return buffer.String(), nil
 }
 
-// RenderHTML renders the struct slice as an HTML table
-func RenderHTML(data interface{}, opt TableOption) (string, error) {
+func renderHTML(headers []string, rows [][]string) (string, error) {
 	var buffer bytes.Buffer
-	headers, rows, err := parseStruct(data)
-	if err != nil {
-		return "", err
-	}
-
-	if opt.Rotate {
-		headers, rows = rotate(headers, rows)
-	}
 
 	buffer.WriteString("<table>\n<thead>\n<tr>")
 	for _, header := range headers {
