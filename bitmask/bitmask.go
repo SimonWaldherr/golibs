@@ -1,13 +1,16 @@
-// bitmasks are a way to store multiple boolean values in a single integer
+// Package bitmask provides a way to store multiple boolean values in a single integer.
 package bitmask
 
-import "fmt"
+import (
+	"fmt"
+)
 
+// Bitmask represents an integer that stores multiple boolean values using bit manipulation.
 type Bitmask struct {
 	value int
 }
 
-// New creates a new Bitmask
+// New creates a new Bitmask with the given initial value.
 func New(init int) *Bitmask {
 	return &Bitmask{value: init}
 }
@@ -54,4 +57,45 @@ func (b *Bitmask) String() string {
 // Byte returns the byte representation of the bitmask
 func (b *Bitmask) Byte() []byte {
 	return []byte{byte(b.value)}
+}
+
+// FromByte initializes the bitmask from a byte.
+func FromByte(b byte) *Bitmask {
+	return &Bitmask{value: int(b)}
+}
+
+// Toggle toggles the bit at the given position.
+func (b *Bitmask) Toggle(pos int) {
+	b.value ^= (1 << pos)
+}
+
+// Count returns the number of set bits (1s) in the bitmask.
+func (b *Bitmask) Count() int {
+	count := 0
+	value := b.value
+	for value > 0 {
+		count += value & 1
+		value >>= 1
+	}
+	return count
+}
+
+// Reset resets all bits to 0.
+func (b *Bitmask) Reset() {
+	b.value = 0
+}
+
+// And performs bitwise AND operation with another bitmask.
+func (b *Bitmask) And(other *Bitmask) *Bitmask {
+	return &Bitmask{value: b.value & other.value}
+}
+
+// Or performs bitwise OR operation with another bitmask.
+func (b *Bitmask) Or(other *Bitmask) *Bitmask {
+	return &Bitmask{value: b.value | other.value}
+}
+
+// Xor performs bitwise XOR operation with another bitmask.
+func (b *Bitmask) Xor(other *Bitmask) *Bitmask {
+	return &Bitmask{value: b.value ^ other.value}
 }
