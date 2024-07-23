@@ -153,3 +153,187 @@ func ExampleType_json() {
 	// email: foobar@example.tld
 	// price: 15€
 }
+
+func ExampleHexToRGB() {
+	values := []string{"#ff5733", "#00ff00", "#0000ff", "123456"}
+
+	fmt.Println("as.HexToRGB()")
+	for _, v := range values {
+		r, g, b, err := as.HexToRGB(v)
+		if err != nil {
+			fmt.Printf("%v => error: %v\n", v, err)
+		} else {
+			fmt.Printf("%v => R: %d, G: %d, B: %d\n", v, r, g, b)
+		}
+	}
+
+	// Output:
+	// as.HexToRGB()
+	// #ff5733 => R: 255, G: 87, B: 51
+	// #00ff00 => R: 0, G: 255, B: 0
+	// #0000ff => R: 0, G: 0, B: 255
+	// 123456 => R: 18, G: 52, B: 86
+}
+
+func ExampleRGBToHex() {
+	values := [][]int{{255, 87, 51}, {0, 255, 0}, {0, 0, 255}}
+
+	fmt.Println("as.RGBToHex()")
+	for _, v := range values {
+		hex := as.RGBToHex(v[0], v[1], v[2])
+		fmt.Printf("R: %d, G: %d, B: %d => %v\n", v[0], v[1], v[2], hex)
+	}
+
+	// Output:
+	// as.RGBToHex()
+	// R: 255, G: 87, B: 51 => #ff5733
+	// R: 0, G: 255, B: 0 => #00ff00
+	// R: 0, G: 0, B: 255 => #0000ff
+}
+
+func ExampleMapToStruct() {
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	values := []map[string]interface{}{
+		{"Name": "Alice", "Age": 30},
+		{"Name": "Bob", "Age": 25},
+	}
+
+	fmt.Println("as.MapToStruct()")
+	for _, v := range values {
+		var person Person
+		err := as.MapToStruct(v, &person)
+		if err != nil {
+			fmt.Printf("%v => error: %v\n", v, err)
+		} else {
+			fmt.Printf("%v => %+v\n", v, person)
+		}
+	}
+
+	// Output:
+	// as.MapToStruct()
+	// map[Age:30 Name:Alice] => {Name:Alice Age:30}
+	// map[Age:25 Name:Bob] => {Name:Bob Age:25}
+}
+
+func ExampleStructToMap() {
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	values := []Person{
+		{Name: "Alice", Age: 30},
+		{Name: "Bob", Age: 25},
+	}
+
+	fmt.Println("as.StructToMap()")
+	for _, v := range values {
+		m := as.StructToMap(v)
+		fmt.Printf("%+v => %v\n", v, m)
+	}
+
+	// Output:
+	// as.StructToMap()
+	// {Name:Alice Age:30} => map[Age:30 Name:Alice]
+	// {Name:Bob Age:25} => map[Age:25 Name:Bob]
+}
+
+func ExampleIsEmailValid() {
+	values := []string{"test@example.com", "invalid-email", "user@domain.co", "name@domain"}
+
+	fmt.Println("as.IsEmailValid()")
+	for _, v := range values {
+		valid := as.IsEmailValid(v)
+		fmt.Printf("%v => %v\n", v, valid)
+	}
+
+	// Output:
+	// as.IsEmailValid()
+	// test@example.com => true
+	// invalid-email => false
+	// user@domain.co => true
+	// name@domain => false
+}
+
+func ExampleIsURLValid() {
+	values := []string{"http://example.com", "https://www.google.com", "invalid-url", "ftp://example.com"}
+
+	fmt.Println("as.IsURLValid()")
+	for _, v := range values {
+		valid := as.IsURLValid(v)
+		fmt.Printf("%v => %v\n", v, valid)
+	}
+
+	// Output:
+	// as.IsURLValid()
+	// http://example.com => true
+	// https://www.google.com => true
+	// invalid-url => false
+	// ftp://example.com => false
+}
+
+func ExampleIsCreditCardValid() {
+	values := []string{"4111111111111111", "5500000000000004", "1234567890123456", "378282246310005"}
+
+	fmt.Println("as.IsCreditCardValid()")
+	for _, v := range values {
+		valid := as.IsCreditCardValid(v)
+		fmt.Printf("%v => %v\n", v, valid)
+	}
+
+	// Output:
+	// as.IsCreditCardValid()
+	// 4111111111111111 => true
+	// 5500000000000004 => true
+	// 1234567890123456 => false
+	// 378282246310005 => true
+}
+
+func ExampleToJSON() {
+	values := []interface{}{"foobar", 123, true, map[string]interface{}{"key": "value"}}
+
+	fmt.Println("as.ToJSON()")
+	for _, v := range values {
+		jsonStr, err := as.ToJSON(v)
+		if err != nil {
+			fmt.Printf("%v => error: %v\n", v, err)
+		} else {
+			fmt.Printf("%v => %v\n", v, jsonStr)
+		}
+	}
+
+	// Output:
+	// as.ToJSON()
+	// foobar => "foobar"
+	// 123 => 123
+	// true => true
+	// map[key:value] => {"key":"value"}
+}
+
+func ExampleFromJSON() {
+	type Person struct {
+		Name string
+		Age  int
+	}
+	values := []string{`{"Name": "Alice", "Age": 30}`, `{"Name": "Bob", "Age": 25}`}
+
+	fmt.Println("as.FromJSON()")
+	for _, v := range values {
+		var person Person
+		err := as.FromJSON(v, &person)
+		if err != nil {
+			fmt.Printf("%v => error: %v\n", v, err)
+		} else {
+			fmt.Printf("%v => %+v\n", v, person)
+		}
+	}
+
+	// Output:
+	// as.FromJSON()
+	// {"Name": "Alice", "Age": 30} => {Name:Alice Age:30}
+	// {"Name": "Bob", "Age": 25} => {Name:Bob Age:25}
+}

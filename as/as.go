@@ -2,7 +2,9 @@
 package as
 
 import (
+	"encoding/json"
 	"fmt"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -489,4 +491,105 @@ func DBTypeMultiple(val []string) string {
 		}
 	}
 	return regex[typeint].typ
+}
+
+// HexToRGB converts a hex color string to its RGB components.
+func HexToRGB(hex string) (int, int, int, error) {
+	hex = strings.TrimPrefix(hex, "#")
+	if len(hex) != 6 {
+		return 0, 0, 0, fmt.Errorf("invalid hex color length")
+	}
+	r, err := strconv.ParseInt(hex[0:2], 16, 64)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	g, err := strconv.ParseInt(hex[2:4], 16, 64)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	b, err := strconv.ParseInt(hex[4:6], 16, 64)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	return int(r), int(g), int(b), nil
+}
+
+// RGBToHex converts RGB components to a hex color string.
+func RGBToHex(r, g, b int) string {
+	return fmt.Sprintf("#%02x%02x%02x", r, g, b)
+}
+
+// MapToStruct converts a map to a struct based on the given struct type.
+func MapToStruct(m map[string]interface{}, result interface{}) error {
+	for k, v := range m {
+		structValue := reflect.ValueOf(result).Elem()
+		structFieldValue := structValue.FieldByName(strings.Title(k))
+		if !structFieldValue.IsValid() {
+			continue
+		}
+		if !structFieldValue.CanSet() {
+			continue
+		}
+		val := reflect.ValueOf(v)
+		if structFieldValue.Type() != val.Type() {
+			return fmt.Errorf("provided value type didn't match struct field type")
+		}
+		structFieldValue.Set(val)
+	}
+	return nil
+}
+
+// StructToMap converts a struct to a map.
+func StructToMap(input interface{}) map[string]interface{} {
+	output := make(map[string]interface{})
+	val := reflect.ValueOf(input)
+	typ := reflect.TypeOf(input)
+	for i := 0; i < val.NumField(); i++ {
+		output[typ.Field(i).Name] = val.Field(i).Interface()
+	}
+	return output
+}
+
+// IsEmailValid validates an email address using a regex.
+func IsEmailValid(email string) bool {
+	re := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$`)
+	return re.MatchString(email)
+}
+
+// IsURLValid validates a URL using a regex.
+func IsURLValid(url string) bool {
+	re := regexp.MustCompile(`^(https?://)?([a-z0-9.-]+)\.([a-z.]{2,6})([/\w .-]*)*/?$`)
+	return re.MatchString(url)
+}
+
+// IsCreditCardValid validates a credit card number using the Luhn algorithm.
+func IsCreditCardValid(cardNumber string) bool {
+	var sum int
+	alt := false
+	for i := len(cardNumber) - 1; i > -1; i-- {
+		n, _ := strconv.Atoi(string(cardNumber[i]))
+		if alt {
+			n *= 2
+			if n > 9 {
+				n -= 9
+			}
+		}
+		sum += n
+		alt = !alt
+	}
+	return sum%10 == 0
+}
+
+// ToJSON converts a Go value to a JSON string.
+func ToJSON(value interface{}) (string, error) {
+	jsonBytes, err := json.Marshal(value)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonBytes), nil
+}
+
+// FromJSON converts a JSON string to a Go value.
+func FromJSON(jsonStr string, result interface{}) error {
+	return json.Unmarshal([]byte(jsonStr), result)
 }
