@@ -17,7 +17,7 @@ go test ./...
  . | service | info
 ---|---------|------
  [![Audit](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml/badge.svg?branch=master&event=push)](https://github.com/SimonWaldherr/golibs/actions/workflows/audit.yml) | github.com  | test via GitHub Workflow  
- [![Go Report Card](https://goreportcard.com/badge/github.com/simonwaldherr/golibs)](https://goreportcard.com/report/github.com/simonwaldherr/golibs) | goreportcard.com | report card  
+ [![Go Report Card](https://goreportcard.com/badge/simonwaldherr.de/go/golibs)](https://goreportcard.com/report/simonwaldherr.de/go/golibs) | goreportcard.com | report card  
  [![Coverage Status](https://img.shields.io/coveralls/SimonWaldherr/golibs.svg?style=flat-square)](https://simonwaldherr.github.io/golibs/coverage/coverage.html) |  | go tool cover  
  [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSimonWaldherr%2Fgolibs?ref=badge_shield) | fossa.io | license report  
  [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/SimonWaldherr/golibs/master/LICENSE) |  | free + open source license  
