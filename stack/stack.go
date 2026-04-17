@@ -45,13 +45,15 @@ type Stack2 = Stack
 // ToFifo is a package-level convenience function that converts a Stack to FIFO order.
 func ToFifo(s *Stack) *Stack { return s.ToFifo() }
 
-// ToFifoFromFifo is a package-level convenience function that converts a FIFO Stack to a new FIFO Stack.
+// ToFifoFromFifo is a package-level convenience function that creates a new FIFO copy
+// of a FIFO Stack, restoring iteration order. Equivalent to ToFifo for FIFO stacks.
 func ToFifoFromFifo(s *Stack) *Stack { return s.ToFifo() }
 
 // ToLifo is a package-level convenience function that converts a Stack to LIFO order.
 func ToLifo(s *Stack) *Stack { return s.ToLifo() }
 
-// ToLifoFromLifo is a package-level convenience function that converts a LIFO Stack to a new LIFO Stack.
+// ToLifoFromLifo is a package-level convenience function that creates a new LIFO copy
+// of a LIFO Stack, restoring iteration order. Equivalent to ToLifo for LIFO stacks.
 func ToLifoFromLifo(s *Stack) *Stack { return s.ToLifo() }
 
 // Unset resets the stack

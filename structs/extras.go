@@ -28,7 +28,8 @@ func NestedStruct(s interface{}) error {
 	return ValidateAndModify(s)
 }
 
-// Base64 encodes the given string using standard base64 encoding.
+// Base64 encodes the given string using standard base64 encoding (base64.StdEncoding).
+// Note: this function encodes; use base64.StdEncoding.DecodeString to decode.
 func Base64(s string) string {
 	return base64.StdEncoding.EncodeToString([]byte(s))
 }

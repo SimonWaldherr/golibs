@@ -80,6 +80,7 @@ func GetString(url string) (string, error) {
 }
 
 // GetString2 fetches a URL with a custom timeout and returns the response body as a string.
+// The numeric suffix distinguishes it from GetString which uses the shared default client.
 func GetString2(url string, timeout time.Duration) (string, error) {
 	c := Client(timeout)
 	resp, err := c.Get(url)
