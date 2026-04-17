@@ -33,8 +33,11 @@ func Base64(s string) string {
 	return base64.StdEncoding.EncodeToString([]byte(s))
 }
 
-// Hash computes a cryptographic hash of the given string.
+// Hash computes a hash of the given string using the specified algorithm.
 // Supported algorithms: "md5", "sha256", "sha512", "crc32".
+// Note: MD5 and CRC32 are not cryptographically secure; use sha256 or sha512
+// for security-sensitive operations.
+// Returns an empty string for unsupported algorithms.
 func Hash(s, algorithm string) string {
 	switch algorithm {
 	case "md5":
@@ -50,7 +53,7 @@ func Hash(s, algorithm string) string {
 		h := crc32.ChecksumIEEE([]byte(s))
 		return strconv.FormatUint(uint64(h), 10)
 	}
-	return s
+	return ""
 }
 
 // URLEncode encodes the given string for safe use in URL query parameters.

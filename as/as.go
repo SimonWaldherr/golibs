@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 type ree struct {
@@ -545,7 +546,7 @@ func capitalizeFirst(s string) string {
 		return ""
 	}
 	r := []rune(s)
-	r[0] = []rune(strings.ToUpper(string(r[0])))[0]
+	r[0] = unicode.ToUpper(r[0])
 	return string(r)
 }
 
