@@ -39,6 +39,21 @@ func Fifo() *Stack {
 	}
 }
 
+// Stack2 is a type alias for Stack.
+type Stack2 = Stack
+
+// ToFifo is a package-level convenience function that converts a Stack to FIFO order.
+func ToFifo(s *Stack) *Stack { return s.ToFifo() }
+
+// ToFifoFromFifo is a package-level convenience function that converts a FIFO Stack to a new FIFO Stack.
+func ToFifoFromFifo(s *Stack) *Stack { return s.ToFifo() }
+
+// ToLifo is a package-level convenience function that converts a Stack to LIFO order.
+func ToLifo(s *Stack) *Stack { return s.ToLifo() }
+
+// ToLifoFromLifo is a package-level convenience function that converts a LIFO Stack to a new LIFO Stack.
+func ToLifoFromLifo(s *Stack) *Stack { return s.ToLifo() }
+
 // Unset resets the stack
 func (s *Stack) Unset() {
 	*s = Stack{

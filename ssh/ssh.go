@@ -2,8 +2,7 @@ package ssh
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net"
+	"os"
 
 	"golang.org/x/crypto/ssh"
 )
@@ -20,11 +19,11 @@ func SecureShell(user string, host string, port string, keyfile string) *ssh.Ses
 		client, session, err = connectToHost(user, fmt.Sprintf("%v:%v", host, port))
 	}
 
-	defer client.Close()
-
 	if err != nil {
 		panic(err)
 	}
+
+	defer client.Close()
 
 	return session
 }
@@ -57,7 +56,7 @@ func connectToHost(user, host string) (*ssh.Client, *ssh.Session, error) {
 
 // connectToHostWithPublickey connects to a remote host via SSH and returns a session
 func connectToHostWithPublickey(user, host, publickeyfile string) (*ssh.Client, *ssh.Session, error) {
-	key, err := ioutil.ReadFile(publickeyfile)
+	key, err := os.ReadFile(publickeyfile)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -68,7 +67,7 @@ func connectToHostWithPublickey(user, host, publickeyfile string) (*ssh.Client, 
 	client, err := ssh.Dial("tcp", host, &ssh.ClientConfig{
 		User:            user,
 		Auth:            []ssh.AuthMethod{ssh.PublicKeys(signer)},
-		HostKeyCallback: ssh.HostKeyCallback(func(string, net.Addr, ssh.PublicKey) error { return nil }),
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	})
 	if client == nil || err != nil {
 		return nil, nil, err

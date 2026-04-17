@@ -523,7 +523,7 @@ func RGBToHex(r, g, b int) string {
 func MapToStruct(m map[string]interface{}, result interface{}) error {
 	for k, v := range m {
 		structValue := reflect.ValueOf(result).Elem()
-		structFieldValue := structValue.FieldByName(strings.Title(k))
+		structFieldValue := structValue.FieldByName(capitalizeFirst(k))
 		if !structFieldValue.IsValid() {
 			continue
 		}
@@ -537,6 +537,16 @@ func MapToStruct(m map[string]interface{}, result interface{}) error {
 		structFieldValue.Set(val)
 	}
 	return nil
+}
+
+// capitalizeFirst returns s with its first Unicode letter upper-cased.
+func capitalizeFirst(s string) string {
+	if s == "" {
+		return ""
+	}
+	r := []rune(s)
+	r[0] = []rune(strings.ToUpper(string(r[0])))[0]
+	return string(r)
 }
 
 // StructToMap converts a struct to a map.

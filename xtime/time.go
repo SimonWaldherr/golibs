@@ -55,6 +55,9 @@ func Fmt(format string, t time.Time) string {
 	return StrfTime(format, t)
 }
 
+// Fmt2 is an alias for Fmt and StrfTime.
+var Fmt2 = Fmt
+
 // FmtNow is like StrfTime, but automatically with the current local time
 func FmtNow(format string) string {
 	t := time.Now()

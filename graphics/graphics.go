@@ -16,6 +16,9 @@ import (
 var edfX = [3][3]int8{{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}
 var edfY = [3][3]int8{{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}
 
+// RNN is an alias for NearestNeighbor (Resize via Nearest Neighbor).
+var RNN = NearestNeighbor
+
 // Invert inverts an image
 func Invert(img image.Image) (image.Image, error) {
 	b := img.Bounds()

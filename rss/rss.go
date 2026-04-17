@@ -83,6 +83,9 @@ func (rss *Main) Len() int {
 
 // Time returns the specified last build date as time.Time
 func (rss *Main) Time() time.Time {
+	if rss == nil {
+		return time.Time{}
+	}
 	return as.Time(rss.LastBuildDate)
 }
 
