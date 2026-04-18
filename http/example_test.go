@@ -79,7 +79,11 @@ func ExampleUserAgent() {
 	req, _ := http.NewRequest("GET", ts.URL, nil)
 	req.Header.Set("User-Agent", "Golang_Bot/1.0")
 
-	resp, _ := client.Do(req)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)

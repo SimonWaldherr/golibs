@@ -52,6 +52,12 @@ func (cache *Cache) Export(w io.Writer) error {
 	return nil
 }
 
+// Export exports all items in the given cache to a writer.
+// This is a package-level convenience wrapper around (*Cache).Export.
+func Export(c *Cache, w io.Writer) error {
+	return c.Export(w)
+}
+
 // Import all items from a gob buffer
 func (cache *Cache) Import(r io.Reader) error {
 	dec := gob.NewDecoder(r)

@@ -2,13 +2,16 @@ package http
 
 import (
 	//"context"
-	"io/ioutil"
+	"io"
 	//"net"
 	"net/http"
 	//"strings"
 	"time"
 	//"github.com/rs/dnscache"
 )
+
+// UserAgent is the default user agent string used by the HTTP client.
+const UserAgent = "Golang_Bot/1.0"
 
 var Transporter *http.Transport
 var client http.Client
@@ -67,11 +70,27 @@ func GetString(url string) (string, error) {
 	}
 
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		return "", err
 	}
 
+	return string(body), nil
+}
+
+// GetString2 fetches a URL with a custom timeout and returns the response body as a string.
+// The numeric suffix distinguishes it from GetString which uses the shared default client.
+func GetString2(url string, timeout time.Duration) (string, error) {
+	c := Client(timeout)
+	resp, err := c.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
 	return string(body), nil
 }
