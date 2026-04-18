@@ -20,7 +20,7 @@ type Client interface {
 type ItemEnclosure struct {
 	URL    string `xml:"url,attr"`
 	Type   string `xml:"type,attr"`
-	Length string `xml:"length,attr"`
+	Length int64  `xml:"length,attr"`
 }
 
 // ITunesOwner represents the iTunes podcast owner contact

@@ -61,7 +61,8 @@ func Float64(key string, defaultVal float64) float64 {
 }
 
 // Bool returns the value of the environment variable named by key as a bool.
-// Accepted true values: "1", "t", "T", "TRUE", "true", "True", "yes", "YES", "Yes".
+// Accepted true values (case-insensitive): "1", "t", "true", "yes", "on".
+// Accepted false values (case-insensitive): "0", "f", "false", "no", "off".
 // If the variable is not set, is empty, or cannot be parsed, defaultVal is returned.
 func Bool(key string, defaultVal bool) bool {
 	v := os.Getenv(key)

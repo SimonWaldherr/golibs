@@ -370,8 +370,8 @@ func Test_EnclosureFields(t *testing.T) {
 	if enc.Type != "audio/mpeg" {
 		t.Errorf("expected enclosure type %q, got %q", "audio/mpeg", enc.Type)
 	}
-	if enc.Length != "12345678" {
-		t.Errorf("expected enclosure length %q, got %q", "12345678", enc.Length)
+	if enc.Length != 12345678 {
+		t.Errorf("expected enclosure length %d, got %d", int64(12345678), enc.Length)
 	}
 }
 
