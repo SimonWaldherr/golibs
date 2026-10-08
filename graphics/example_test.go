@@ -3,14 +3,16 @@ package graphics_test
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/png"
 	"os"
+	"path/filepath"
 
 	"simonwaldherr.de/go/golibs/graphics"
 	//"../graphics"
 )
 
-func ExampleRNN() {
+func ExampleNearestNeighbor() {
 	img := createTestImage()
 
 	img_rnn, _ := graphics.NearestNeighbor(img, 80, 24)
@@ -120,19 +122,30 @@ func ExampleFlipHorizontal() {
 
 // createTestImage creates a simple test image
 func createTestImage() image.Image {
-	img, _ := graphics.LoadImage("img.jpg")
-
-	return img
+	// Use a small deterministic image so examples are quick and reproducible.
+	out := image.NewRGBA(image.Rect(0, 0, 80, 60))
+	for y := 0; y < 60; y++ {
+		for x := 0; x < 80; x++ {
+			out.Set(x, y, color.RGBA{uint8(x % 256), uint8(y % 256), uint8((x + y) % 256), 255})
+		}
+	}
+	return out
 }
 
 // saveImage saves an image to a file
 func saveImage(filename string, img image.Image) {
-	f, err := os.Create(filename)
+	dir, err := os.MkdirTemp("", "golibs-graphics-example-")
+	if err != nil {
+		fmt.Println("Failed to create directory:", err)
+		return
+	}
+	defer os.RemoveAll(dir)
+	f, err := os.Create(filepath.Join(dir, filename))
 	if err != nil {
 		fmt.Println("Failed to create file:", err)
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	err = png.Encode(f, img)
 	if err != nil {

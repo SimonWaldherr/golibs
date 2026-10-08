@@ -63,7 +63,7 @@ func Test_Do(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		select {
 		case x := <-data:
-			fmt.Printf("%v:1:%v", x, i)
+			t.Logf("%v:1:%v", x, i)
 			j++
 		}
 	}
@@ -71,11 +71,11 @@ func Test_Do(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		select {
 		case x := <-data:
-			fmt.Printf("%v:2:%v", x, i)
+			t.Logf("%v:2:%v", x, i)
 			j++
 		}
 	}
-	fmt.Println()
+	t.Logf("")
 	if j != 10 {
 		t.Fatalf("re.Do Test failed: should: 10 is: %v\n", j)
 	}

@@ -121,17 +121,18 @@ func firstN(s string, n int) string {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, Worldn"))
+	_, err := w.Write([]byte("Hello, Worldn"))
+	_ = err
 }
 
 // ExampleRenderHTTPResponse demonstrates how to render HTTP response headers
-func ExampleRenderHTTPResponse() {
+func ExampleRenderMarkdown_headers() {
 	req := httptest.NewRequest("GET", "https://github.com", nil)
 	w := httptest.NewRecorder()
 	handler(w, req)
 	resp := w.Result()
 
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	// Convert headers to a slice of Header structs
 	var headers []Header

@@ -1,28 +1,11 @@
 package csv
 
 import (
-	"sort"
 	"testing"
 )
 
 var userdata string = `id;name;email
 0;John Doe;jDoe@example.org`
-
-type kv struct {
-	Key   int
-	Value []string
-}
-
-func sorting(m map[int][]string) []kv {
-	var ss []kv
-	for k, v := range m {
-		ss = append(ss, kv{k, v})
-	}
-	sort.Slice(ss, func(i, j int) bool {
-		return ss[i].Value[1] > ss[j].Value[1]
-	})
-	return ss
-}
 
 func Test_LoadCSVfromString(t *testing.T) {
 	var str string

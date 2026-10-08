@@ -80,13 +80,13 @@ func Read(fn string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if _, err = io.Copy(buf, file); err != nil {
 		return "", err
 	}
 
-	s := string(buf.Bytes())
+	s := buf.String()
 	return s, nil
 }
 
@@ -94,7 +94,7 @@ func Read(fn string) (string, error) {
 func ReadUntil(fn string, delim []string) (string, string, int, error) {
 	file, err := os.Open(fn)
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if err != nil {
 		return "", "", 0, err
@@ -122,7 +122,7 @@ func ReadUntil(fn string, delim []string) (string, string, int, error) {
 func ReadBytes(fn string, delim []string) (string, string, int, error) {
 	file, err := os.Open(fn)
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if err != nil {
 		return "", "", 0, err
@@ -150,7 +150,7 @@ func ReadBytes(fn string, delim []string) (string, string, int, error) {
 func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error) {
 	file, err := os.Open(fn)
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if err != nil {
 		return "", err
@@ -169,6 +169,9 @@ func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (st
 		char := scanner.Text()
 		if contains(delim, char) {
 			str, err = fnc(buf)
+			if err != nil {
+				return "", err
+			}
 			ret += str
 			buf = ""
 		}
@@ -188,7 +191,7 @@ func ReadLines(fn string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	reader := bufio.NewReader(file)
 	scanner := bufio.NewScanner(reader)
@@ -217,7 +220,7 @@ func Write(fn, str string, append bool) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if _, err = file.WriteString(str); err != nil {
 		return err
@@ -243,7 +246,7 @@ func WriteLines(fn string, lines []string, append bool) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	for _, line := range lines {
 		if _, err = file.WriteString(line + ""); err != nil {
@@ -271,11 +274,10 @@ func AppendLines(fn string, lines []string) error {
 func Size(fn string) (int64, error) {
 	file, err := os.Open(fn)
 
-	defer file.Close()
-
 	if err != nil {
 		return -1, err
 	}
+	defer func() { _ = file.Close() }()
 
 	fi, err := file.Stat()
 
@@ -307,13 +309,13 @@ func Copy(from, to string) error {
 	if err != nil {
 		return err
 	}
-	defer r.Close()
+	defer func() { _ = r.Close() }()
 
 	w, err := os.Create(to)
 	if err != nil {
 		return err
 	}
-	defer w.Close()
+	defer func() { _ = w.Close() }()
 
 	_, err = io.Copy(w, r)
 	if err != nil {
@@ -348,7 +350,7 @@ func ReadDir(dn string) ([]string, error) {
 func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
 	file, err := os.Open(dirname)
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	if err != nil {
 		return err
@@ -481,7 +483,10 @@ func getAbsolutePathHelper(fn string, pwd string) (string, error) {
 					}
 
 					var link string
-					link, err = os.Readlink(string(c))
+					link, err := os.Readlink(string(c))
+					if err != nil {
+						return "", err
+					}
 					after := string(path[len(c):])
 					path = switchSymlink(path, start, link, after)
 					prev = 1

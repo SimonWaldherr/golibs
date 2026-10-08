@@ -3,6 +3,7 @@ package bitmask
 
 import (
 	"fmt"
+	"math/bits"
 )
 
 // Bitmask represents an integer that stores multiple boolean values using bit manipulation.
@@ -28,7 +29,7 @@ func (b *Bitmask) clearBit(pos int) int {
 
 // Set sets the bit at position pos to val
 func (b *Bitmask) Set(pos int, val bool) int {
-	if val == true {
+	if val {
 		return b.setBit(pos)
 	}
 	return b.clearBit(pos)
@@ -36,7 +37,7 @@ func (b *Bitmask) Set(pos int, val bool) int {
 
 // hasBit checks if the bit at position pos is set
 func (b *Bitmask) hasBit(pos int) bool {
-	return ((b.value & (1 << pos)) > 0)
+	return b.value&(1<<pos) != 0
 }
 
 // Get returns the value of the bit at position pos
@@ -69,15 +70,10 @@ func (b *Bitmask) Toggle(pos int) {
 	b.value ^= (1 << pos)
 }
 
-// Count returns the number of set bits (1s) in the bitmask.
+// Count returns the number of set bits (1s) in the full machine-width bitmask,
+// including the sign bit.
 func (b *Bitmask) Count() int {
-	count := 0
-	value := b.value
-	for value > 0 {
-		count += value & 1
-		value >>= 1
-	}
-	return count
+	return bits.OnesCount(uint(b.value))
 }
 
 // Reset resets all bits to 0.

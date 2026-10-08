@@ -2,24 +2,29 @@ package gcurses
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
-func (w *Writer) clear() {
+func (w *Writer) clear() error {
 	for i := 0; i < w.lines; i++ {
-		fmt.Fprint(w.Writer, "\033[0A")
-		fmt.Fprint(w.Writer, "\033[2K\r")
+		if _, err := w.Writer.Write([]byte("\033[0A")); err != nil {
+			return err
+		}
+		if _, err := w.Writer.Write([]byte("\033[2K\r")); err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
 type Writer struct {
 	Writer  io.Writer
-	running bool
-	kill    bool
+	running int32
+	kill    int32
 	buffer  bytes.Buffer
 	mutex   *sync.Mutex
 	lines   int
@@ -41,10 +46,12 @@ func (w *Writer) Flush() error {
 	if w.buffer.Len() == 0 {
 		return nil
 	}
-	w.clear()
+	if err := w.clear(); err != nil {
+		return err
+	}
 
-	for _, byte := range w.buffer.Bytes() {
-		if byte == '\n' {
+	for _, b := range w.buffer.Bytes() {
+		if b == '\n' {
 			lines++
 		}
 	}
@@ -55,32 +62,32 @@ func (w *Writer) Flush() error {
 }
 
 func (w *Writer) Start() {
-	w.kill = false
+	atomic.StoreInt32(&w.kill, 0)
+	if atomic.LoadInt32(&w.running) == 1 {
+		return
+	}
+	atomic.StoreInt32(&w.running, 1)
 	go w.Listen()
 }
 
 func (w *Writer) Stop() {
-	w.Flush()
-	w.kill = true
+	_ = w.Flush()
+	atomic.StoreInt32(&w.kill, 1)
 }
 
 func (w *Writer) Listen() {
-	if w.running {
+	if atomic.LoadInt32(&w.running) == 0 {
 		return
 	}
-	for !w.kill {
-		select {
-		default:
-			w.Wait()
-		}
+	for atomic.LoadInt32(&w.kill) == 0 {
+		w.Wait()
 	}
-	w.running = false
-	return
+	atomic.StoreInt32(&w.running, 0)
 }
 
 func (w *Writer) Wait() {
 	time.Sleep(time.Millisecond * 20)
-	w.Flush()
+	_ = w.Flush()
 }
 
 func (w *Writer) Write(b []byte) (n int, err error) {

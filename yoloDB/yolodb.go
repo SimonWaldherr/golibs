@@ -1,484 +1,260 @@
-// yolodb is a simple in-memory database that supports basic CRUD operations.
+// Package yolodb provides a small in-memory database for int and string columns.
+// Conditions use "column operator value", with = for both types and > or < for
+// integers. Multiple conditions are ANDed. Database methods are safe to call
+// concurrently. Data is held in memory and is not persisted.
 package yolodb
 
 import (
-	"errors"
 	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 )
 
-// Database is the main struct of the database.
+// Database holds named tables. Its zero value is ready to use.
+// A Database must not be copied after first use.
 type Database struct {
+	mu     sync.RWMutex
 	tables map[string]*Table
 }
 
-// Table is a struct that holds the table information.
+// Table holds a schema and its records, managed through Database methods.
 type Table struct {
-	name     string
-	columns  []*Column
-	records  []*Record
-	nextID   int
-	indexMap map[string]map[interface{}][]int
+	columns     []*Column
+	columnIndex map[string]int
+	records     []*Record
 }
 
-// Column is a struct that holds the column information.
+// Column describes a named column. Typ must be "int" or "string".
 type Column struct {
 	Name string
 	Typ  string
 }
 
-// Record is a struct that holds the record information.
+// Record holds values in schema order, managed through Database methods.
 type Record struct {
-	id   int
 	data []interface{}
 }
 
-// NewDatabase returns a pointer to a new Database.
+// NewDatabase returns an empty database.
 func NewDatabase() *Database {
-	return &Database{
-		tables: make(map[string]*Table),
-	}
+	return &Database{tables: make(map[string]*Table)}
 }
 
-// CreateTable creates a new table in the database.
+// CreateTable creates a table with a copied schema. Column names must be unique
+// and nonempty; nil columns and unsupported types return errors.
 func (db *Database) CreateTable(name string, columns []*Column) error {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	if _, ok := db.tables[name]; ok {
-		return fmt.Errorf("Table %s already exists", name)
+		return fmt.Errorf("table %s already exists", name)
 	}
-
-	for _, col := range columns {
+	table := &Table{columns: make([]*Column, len(columns)), columnIndex: make(map[string]int, len(columns))}
+	for i, col := range columns {
+		if col == nil || col.Name == "" {
+			return fmt.Errorf("column %d must have a name", i)
+		}
 		if col.Typ != "int" && col.Typ != "string" {
-			return fmt.Errorf("Invalid column type %s", col.Typ)
+			return fmt.Errorf("invalid column type %s", col.Typ)
 		}
+		if _, ok := table.columnIndex[col.Name]; ok {
+			return fmt.Errorf("duplicate column %s", col.Name)
+		}
+		copy := *col
+		table.columns[i] = &copy
+		table.columnIndex[col.Name] = i
 	}
-
-	db.tables[name] = &Table{
-		name:     name,
-		columns:  columns,
-		records:  []*Record{},
-		nextID:   1,
-		indexMap: make(map[string]map[interface{}][]int),
+	if db.tables == nil {
+		db.tables = make(map[string]*Table)
 	}
-
+	db.tables[name] = table
 	return nil
 }
 
-// Insert inserts a new record into the table.
+// Insert adds a row. Data must contain every schema column with its exact Go
+// type (int or string), and no additional columns. Validation happens before writing.
 func (db *Database) Insert(name string, data map[string]interface{}) error {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	table, ok := db.tables[name]
 	if !ok {
-		return fmt.Errorf("Table %s not found", name)
+		return fmt.Errorf("table %s not found", name)
 	}
-
-	if len(data) != len(table.columns) {
-		return errors.New("Data does not match table schema")
+	values, err := table.row(data)
+	if err != nil {
+		return err
 	}
-
-	recordData := make([]interface{}, len(table.columns))
-	for i, col := range table.columns {
-		if val, ok := data[col.Name]; ok {
-			if reflect.TypeOf(val).String() != col.Typ {
-				return fmt.Errorf("Invalid type for column %s", col.Name)
-			}
-			recordData[i] = val
-		} else {
-			return fmt.Errorf("Missing value for column %s", col.Name)
-		}
-	}
-
-	record := &Record{
-		id:   table.nextID,
-		data: recordData,
-	}
-
-	for i, col := range table.columns {
-		if _, ok := table.indexMap[col.Name]; !ok {
-			table.indexMap[col.Name] = make(map[interface{}][]int)
-		}
-		table.indexMap[col.Name][recordData[i]] = append(table.indexMap[col.Name][recordData[i]], table.nextID)
-	}
-
-	table.records = append(table.records, record)
-	table.nextID++
-
+	table.records = append(table.records, &Record{data: values})
 	return nil
 }
 
-// Select selects records from the table.
+// Select returns independent maps in insertion order. Each row includes only the
+// requested columns, which must exist. Empty conditions match all rows. Empty
+// columns produce empty maps for matching rows; no matches return a nil slice.
 func (db *Database) Select(name string, columns []string, whereClauses []string) ([]map[string]interface{}, error) {
+	db.mu.RLock()
+	defer db.mu.RUnlock()
 	table, ok := db.tables[name]
 	if !ok {
-		return nil, fmt.Errorf("Table %s not found", name)
+		return nil, fmt.Errorf("table %s not found", name)
 	}
-
+	indexes := make([]int, len(columns))
+	for i, name := range columns {
+		index, ok := table.columnIndex[name]
+		if !ok {
+			return nil, fmt.Errorf("column %s not found", name)
+		}
+		indexes[i] = index
+	}
+	conditions, err := table.conditions(whereClauses)
+	if err != nil {
+		return nil, err
+	}
 	var results []map[string]interface{}
-
-	columnSet := make(map[string]bool)
-	for _, col := range columns {
-		columnSet[col] = true
-	}
-
-	var indexMap map[string]map[interface{}][]int
-	if len(whereClauses) > 0 {
-		indexMap = make(map[string]map[interface{}][]int)
-		for _, clause := range whereClauses {
-			parts := strings.Split(clause, " ")
-			if len(parts) != 3 {
-				return nil, fmt.Errorf("Invalid where clause: %s", clause)
-			}
-
-			colName := parts[0]
-			op := parts[1]
-			valStr := parts[2]
-			val, err := db.parseValue(valStr, table.getColumnType(colName))
-			if err != nil {
-				return nil, err
-			}
-
-			if _, ok := indexMap[colName]; !ok {
-				if _, ok := table.indexMap[colName]; !ok {
-					return nil, fmt.Errorf("Column %s is not indexed", colName)
-				}
-				indexMap[colName] = table.indexMap[colName]
-			}
-
-			var ids []int
-			switch op {
-			case "=":
-				if vals, ok := indexMap[colName][val]; ok {
-					ids = vals
-				}
-			case ">":
-				for key, vals := range indexMap[colName] {
-					if key.(int) > val.(int) {
-						ids = append(ids, vals...)
-					}
-				}
-			case "<":
-				for key, vals := range indexMap[colName] {
-					if key.(int) < val.(int) {
-						ids = append(ids, vals...)
-					}
-				}
-			}
-
-			newIndexMap := make(map[interface{}][]int)
-			for _, id := range ids {
-				record := table.getRecordByID(id)
-				if _, ok := indexMap[colName][record.data[table.getColumnIndex(colName)]]; ok {
-					newIndexMap[record.data[table.getColumnIndex(colName)]] = append(newIndexMap[record.data[table.getColumnIndex(colName)]], id)
-				}
-			}
-
-			indexMap[colName] = newIndexMap
-		}
-	} else {
-		indexMap = table.indexMap
-	}
-
 	for _, record := range table.records {
-		if len(whereClauses) > 0 {
-			match := true
-			for _, clause := range whereClauses {
-				parts := strings.Split(clause, " ")
-				colName := parts[0]
-				op := parts[1]
-				valStr := parts[2]
-				val, err := db.parseValue(valStr, table.getColumnType(colName))
-				if err != nil {
-					return nil, err
-				}
-				colIndex := table.getColumnIndex(colName)
-				if op == "=" && record.data[colIndex] != val {
-					match = false
-					break
-				}
-				if op == ">" && record.data[colIndex].(int) <= val.(int) {
-					match = false
-					break
-				}
-				if op == "<" && record.data[colIndex].(int) >= val.(int) {
-					match = false
-					break
-				}
-			}
-			if !match {
-				continue
-			}
+		if !matches(record, conditions) {
+			continue
 		}
-
-		row := make(map[string]interface{})
-		for i, col := range table.columns {
-			if columnSet[col.Name] {
-				row[col.Name] = record.data[i]
-			}
+		row := make(map[string]interface{}, len(columns))
+		for i, index := range indexes {
+			row[columns[i]] = record.data[index]
 		}
 		results = append(results, row)
 	}
-
 	return results, nil
 }
 
-// Update updates records in the table.
+// Update replaces each matching row with a complete row, using Insert's schema
+// rules. Empty conditions update every row. Invalid data or conditions leave all
+// rows unchanged, even when the table is empty or no rows match.
 func (db *Database) Update(name string, data map[string]interface{}, whereClauses []string) error {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	table, ok := db.tables[name]
 	if !ok {
-		return fmt.Errorf("Table %s not found", name)
+		return fmt.Errorf("table %s not found", name)
 	}
-
-	if len(data) != len(table.columns) {
-		return errors.New("Data does not match table schema")
+	values, err := table.row(data)
+	if err != nil {
+		return err
 	}
-
-	indexMap := make(map[string]map[interface{}][]int)
-	for _, clause := range whereClauses {
-		parts := strings.Split(clause, " ")
-		if len(parts) != 3 {
-			return fmt.Errorf("Invalid where clause: %s", clause)
-		}
-
-		colName := parts[0]
-		op := parts[1]
-		valStr := parts[2]
-		val, err := db.parseValue(valStr, table.getColumnType(colName))
-		if err != nil {
-			return err
-		}
-
-		if _, ok := indexMap[colName]; !ok {
-			if _, ok := table.indexMap[colName]; !ok {
-				return fmt.Errorf("Column %s is not indexed", colName)
-			}
-			indexMap[colName] = table.indexMap[colName]
-		}
-
-		var ids []int
-		switch op {
-		case "=":
-			if vals, ok := indexMap[colName][val]; ok {
-				ids = vals
-			}
-		case ">":
-			for key, vals := range indexMap[colName] {
-				if key.(int) > val.(int) {
-					ids = append(ids, vals...)
-				}
-			}
-		case "<":
-			for key, vals := range indexMap[colName] {
-				if key.(int) < val.(int) {
-					ids = append(ids, vals...)
-				}
-			}
-		}
-
-		newIndexMap := make(map[interface{}][]int)
-		for _, id := range ids {
-			record := table.getRecordByID(id)
-			if _, ok := indexMap[colName][record.data[table.getColumnIndex(colName)]]; ok {
-				newIndexMap[record.data[table.getColumnIndex(colName)]] = append(newIndexMap[record.data[table.getColumnIndex(colName)]], id)
-			}
-		}
-
-		indexMap[colName] = newIndexMap
+	conditions, err := table.conditions(whereClauses)
+	if err != nil {
+		return err
 	}
-
 	for _, record := range table.records {
-		if len(whereClauses) > 0 {
-			match := true
-			for _, clause := range whereClauses {
-				parts := strings.Split(clause, " ")
-				colName := parts[0]
-				op := parts[1]
-				valStr := parts[2]
-				val, err := db.parseValue(valStr, table.getColumnType(colName))
-				if err != nil {
-					return err
-				}
-				colIndex := table.getColumnIndex(colName)
-				if op == "=" && record.data[colIndex] != val {
-					match = false
-					break
-				}
-				if op == ">" && record.data[colIndex].(int) <= val.(int) {
-					match = false
-					break
-				}
-				if op == "<" && record.data[colIndex].(int) >= val.(int) {
-					match = false
-					break
-				}
-
-			}
-			if !match {
-				continue
-			}
-		}
-
-		for colName, val := range data {
-			//colIndex := table.getColumnIndex(colName.(string))
-			colIndex := table.getColumnIndex(colName)
-			if reflect.TypeOf(val).String() != table.columns[colIndex].Typ {
-				return fmt.Errorf("Invalid type for column %s", colName)
-			}
-			record.data[colIndex] = val
-			if _, ok := table.indexMap[colName]; ok {
-				if _, ok := table.indexMap[colName][record.data[colIndex]]; !ok {
-					table.indexMap[colName][record.data[colIndex]] = []int{}
-				}
-				table.indexMap[colName][record.data[colIndex]] = append(table.indexMap[colName][record.data[colIndex]], record.id)
-			}
+		if matches(record, conditions) {
+			copy(record.data, values)
 		}
 	}
-
 	return nil
 }
 
-// Delete deletes records from the table.
+// Delete removes matching rows, preserving the order of remaining rows.
+// Empty conditions remove all rows. Invalid conditions leave the table unchanged.
 func (db *Database) Delete(name string, whereClauses []string) error {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	table, ok := db.tables[name]
 	if !ok {
-		return fmt.Errorf("Table %s not found", name)
+		return fmt.Errorf("table %s not found", name)
 	}
-
-	indexMap := make(map[string]map[interface{}][]int)
-	for _, clause := range whereClauses {
-		parts := strings.Split(clause, " ")
-		if len(parts) != 3 {
-			return fmt.Errorf("Invalid where clause: %s", clause)
-		}
-
-		colName := parts[0]
-		op := parts[1]
-		valStr := parts[2]
-		val, err := db.parseValue(valStr, table.getColumnType(colName))
-		if err != nil {
-			return err
-		}
-
-		if _, ok := indexMap[colName]; !ok {
-			if _, ok := table.indexMap[colName]; !ok {
-				return fmt.Errorf("Column %s is not indexed", colName)
-			}
-			indexMap[colName] = table.indexMap[colName]
-		}
-
-		var ids []int
-		switch op {
-		case "=":
-			if vals, ok := indexMap[colName][val]; ok {
-				ids = vals
-			}
-		case ">":
-			for key, vals := range indexMap[colName] {
-				if key.(int) > val.(int) {
-					ids = append(ids, vals...)
-				}
-			}
-		case "<":
-			for key, vals := range indexMap[colName] {
-				if key.(int) < val.(int) {
-					ids = append(ids, vals...)
-				}
-			}
-		}
-
-		newIndexMap := make(map[interface{}][]int)
-		for _, id := range ids {
-			record := table.getRecordByID(id)
-			if _, ok := indexMap[colName][record.data[table.getColumnIndex(colName)]]; ok {
-				newIndexMap[record.data[table.getColumnIndex(colName)]] = append(newIndexMap[record.data[table.getColumnIndex(colName)]], id)
-			}
-		}
-
-		indexMap[colName] = newIndexMap
+	conditions, err := table.conditions(whereClauses)
+	if err != nil {
+		return err
 	}
-
-	newRecords := []*Record{}
+	remaining := table.records[:0]
 	for _, record := range table.records {
-		if len(whereClauses) > 0 {
-			match := true
-			for _, clause := range whereClauses {
-				parts := strings.Split(clause, " ")
-				colName := parts[0]
-				op := parts[1]
-				valStr := parts[2]
-				val, err := db.parseValue(valStr, table.getColumnType(colName))
-				if err != nil {
-					return err
-				}
-				colIndex := table.getColumnIndex(colName)
-				if op == "=" && record.data[colIndex] != val {
-					match = false
-					break
-				}
-				if op == ">" && record.data[colIndex].(int) <= val.(int) {
-					match = false
-					break
-				}
-				if op == "<" && record.data[colIndex].(int) >= val.(int) {
-					match = false
-					break
-				}
-			}
-			if !match {
-				newRecords = append(newRecords, record)
-				continue
-			}
-		}
-
-		for i, col := range table.columns {
-			if _, ok := table.indexMap[col.Name]; ok {
-				delete(table.indexMap[col.Name], record.data[i])
-			}
+		if !matches(record, conditions) {
+			remaining = append(remaining, record)
 		}
 	}
-
-	table.records = newRecords
-
+	// Release removed records instead of keeping them in the backing array.
+	for i := len(remaining); i < len(table.records); i++ {
+		table.records[i] = nil
+	}
+	table.records = remaining
 	return nil
 }
 
-// parseValue parses a value string into the appropriate type.
-func (db *Database) parseValue(valStr string, typ string) (interface{}, error) {
-	switch typ {
-	case "int":
-		return strconv.Atoi(valStr)
-	case "string":
-		return valStr, nil
-	default:
-		return nil, fmt.Errorf("Invalid column type %s", typ)
+func (table *Table) row(data map[string]interface{}) ([]interface{}, error) {
+	if len(data) != len(table.columns) {
+		return nil, fmt.Errorf("data does not match table schema")
 	}
+	values := make([]interface{}, len(table.columns))
+	for i, col := range table.columns {
+		value, ok := data[col.Name]
+		if !ok {
+			return nil, fmt.Errorf("missing value for column %s", col.Name)
+		}
+		valid := false
+		switch col.Typ {
+		case "int":
+			_, valid = value.(int)
+		case "string":
+			_, valid = value.(string)
+		}
+		if !valid {
+			return nil, fmt.Errorf("invalid type for column %s", col.Name)
+		}
+		values[i] = value
+	}
+	return values, nil
 }
 
-// getRecordByID returns the record with the given id.
-func (t *Table) getRecordByID(id int) *Record {
-	for _, record := range t.records {
-		if record.id == id {
-			return record
-		}
-	}
-	return nil
+type condition struct {
+	column   int
+	operator byte
+	value    interface{}
 }
 
-// getColumnType returns the type of the column with the given name.
-func (t *Table) getColumnType(name string) string {
-	for _, col := range t.columns {
-		if col.Name == name {
-			return col.Typ
+func (table *Table) conditions(clauses []string) ([]condition, error) {
+	conditions := make([]condition, 0, len(clauses))
+	for _, clause := range clauses {
+		parts := strings.Fields(clause)
+		if len(parts) != 3 {
+			return nil, fmt.Errorf("invalid where clause: %s", clause)
 		}
+		index, ok := table.columnIndex[parts[0]]
+		if !ok {
+			return nil, fmt.Errorf("column %s not found", parts[0])
+		}
+		operator := parts[1]
+		if operator != "=" && operator != ">" && operator != "<" {
+			return nil, fmt.Errorf("invalid operator %s", operator)
+		}
+		var value interface{} = parts[2]
+		if table.columns[index].Typ == "int" {
+			parsed, err := strconv.Atoi(parts[2])
+			if err != nil {
+				return nil, fmt.Errorf("invalid integer for column %s: %w", parts[0], err)
+			}
+			value = parsed
+		} else if operator != "=" {
+			return nil, fmt.Errorf("operator %s requires an int column", operator)
+		}
+		conditions = append(conditions, condition{column: index, operator: operator[0], value: value})
 	}
-	return ""
+	return conditions, nil
 }
 
-// getColumnIndex returns the index of the column with the given name.
-func (t *Table) getColumnIndex(name string) int {
-	for i, col := range t.columns {
-		if col.Name == name {
-			return i
+func matches(record *Record, conditions []condition) bool {
+	for _, condition := range conditions {
+		value := record.data[condition.column]
+		switch condition.operator {
+		case '=':
+			if value != condition.value {
+				return false
+			}
+		case '>':
+			if value.(int) <= condition.value.(int) {
+				return false
+			}
+		case '<':
+			if value.(int) >= condition.value.(int) {
+				return false
+			}
 		}
 	}
-	return -1
+	return true
 }

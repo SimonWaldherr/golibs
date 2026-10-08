@@ -6,7 +6,6 @@ import (
 )
 
 func Test_ReplaceAllString(t *testing.T) {
-	ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", "")
 	if str, _ := ReplaceAllString("FooBaR LoReM IpSuM", "[a-z]", ""); str != "FBR LRM ISM" {
 		t.Fatalf("ReplaceAllString failed")
 	}
@@ -44,7 +43,6 @@ func Test_ReplaceAllStringFunc(t *testing.T) {
 }
 
 func Test_FindAllString(t *testing.T) {
-	FindAllString("a short text", "[a-z]+")
 	ret, _ := FindAllString("a short text", "[a-z]+")
 	if fmt.Sprintf("%v", ret) != "[a short text]" {
 		t.Fatalf("FindAllString failed")
@@ -69,7 +67,13 @@ func Test_FindAllStringSubmatch(t *testing.T) {
 }
 
 func Test_Count(t *testing.T) {
-	if Count() != 6 {
+	Cleanup()
+	for _, pattern := range []string{"a", "b", "a"} {
+		if err := CacheRegex(pattern); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if Count() != 2 {
 		t.Fatalf("Count Test failed")
 	}
 	Cleanup()

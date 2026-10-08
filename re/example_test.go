@@ -15,13 +15,9 @@ func ExampleDo() {
 			data <- fmt.Sprintf("%v", values[i])
 		}
 	})
-	j := 0
 	for i := 0; i < 5; i++ {
-		select {
-		case x := <-data:
-			fmt.Printf("%v:%v\n", x, i)
-			j++
-		}
+		x := <-data
+		fmt.Printf("%v:%v\n", x, i)
 	}
 	stop <- true
 	time.Sleep(time.Millisecond * 500)
@@ -35,14 +31,14 @@ func ExampleDo() {
 }
 
 func ExampleTry() {
-	re.Try(5, func() error {
+	_ = re.Try(5, func() error {
 		var err error
 		response, err := http.Get("http://golang.org/")
 		if err != nil {
 			fmt.Printf("%s", err)
 			return err
 		} else {
-			defer response.Body.Close()
+			defer func() { _ = response.Body.Close() }()
 			contents, err := ioutil.ReadAll(response.Body)
 			if err != nil {
 				fmt.Printf("%s", err)

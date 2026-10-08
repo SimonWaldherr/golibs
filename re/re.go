@@ -31,26 +31,31 @@ func Try(retrys int, fn func() (err error)) error {
 	return err
 }
 
-// Do executes a function as long as the stop channel is not closed
+// Do executes fn sequentially, waiting wait after each callback returns.
+// Close stop or send one value on it to request shutdown; Do does not close it.
+// An active callback finishes before the output channel closes. Callers must
+// continue consuming the output until it closes so callback sends can finish.
+// The callback must return and must not retain or close the output channel.
 func Do(wait time.Duration, fn func(chan<- interface{})) (<-chan interface{}, chan<- bool) {
 	stop := make(chan bool, 1)
 	ret := make(chan interface{})
 
 	go func() {
-		defer func() {
-			close(stop)
-			time.Sleep(wait)
-			close(ret)
-		}()
-
-		var stopbool = false
-		for stopbool == false {
+		defer close(ret)
+		for {
 			select {
 			case <-stop:
-				stopbool = true
+				return
 			default:
-				go fn(ret)
-				time.Sleep(wait)
+			}
+			fn(ret)
+
+			timer := time.NewTimer(wait)
+			select {
+			case <-stop:
+				timer.Stop()
+				return
+			case <-timer.C:
 			}
 		}
 	}()

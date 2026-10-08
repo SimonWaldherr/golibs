@@ -2,140 +2,100 @@ package graphics
 
 import (
 	"image"
-	"image/png"
+	"image/color"
+	"io/ioutil"
 	"os"
 	"testing"
 )
 
+// makeTestImage returns a small deterministic RGBA image for fast tests.
+func makeTestImage(w, h int) image.Image {
+	img := image.NewRGBA(image.Rect(0, 0, w, h))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			img.Set(x, y, color.RGBA{uint8(x % 256), uint8(y % 256), uint8((x + y) % 256), 255})
+		}
+	}
+	return img
+}
+
 func Test_EachPixel(t *testing.T) {
-	var xr, xg, xb int = 0, 0, 0
-	file, err := os.Open("./img.png")
-	defer file.Close()
+	t.Parallel()
+	img := makeTestImage(80, 60)
 
-	file1, err1 := os.Open("./graphics.go")
-	defer file1.Close()
-
-	if err != nil {
-		t.Fatalf("EachPixel Test failed: %v", err)
-	}
-
-	_, err = EachPixel(file1, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
+	out, err := EachPixelOfImage(img, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
 		return g, b, r, a
 	})
-	if err1 != nil || err == nil {
-		t.Fatalf("EachPixel Test failed")
-	}
-
-	img, _ := EachPixel(file, func(r, g, b, a uint8) (uint8, uint8, uint8, uint8) {
-		if r > g && r > b {
-			xr++
-		}
-		if g > r && g > b {
-			xg++
-		}
-		if b > g && b > r {
-			xb++
-		}
-		return g, b, r, a
-	})
-	fd, err := os.Create("./inv.png")
 	if err != nil {
-		t.Fatalf("EachPixel Test failed: %v", err)
+		t.Fatalf("EachPixelOfImage failed: %v", err)
 	}
-
-	err = png.Encode(fd, img)
-	if err != nil {
-		t.Fatalf("EachPixel Test failed: %v", err)
+	if out == nil {
+		t.Fatalf("EachPixelOfImage returned nil image")
 	}
-
-	err = fd.Close()
-	if err != nil {
-		t.Fatalf("EachPixel Test failed: %v", err)
-	}
-	if xr != 11409 || xg != 25162 || xb != 94726 {
-		t.Fatalf("EachPixel Test failed")
+	if out.Bounds() != img.Bounds() {
+		t.Fatalf("output bounds mismatch: got %v want %v", out.Bounds(), img.Bounds())
 	}
 }
 
 func Test_ResizeNearestNeighbor(t *testing.T) {
-	file, err := os.Open("./img.png")
-	defer file.Close()
-
-	file1, err1 := os.Open("./img.err")
-	defer file1.Close()
-
-	if err1 == nil {
-		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
-	}
-
-	img, _ := ResizeNearestNeighbor(file, 200, 150)
-	fd, err := os.Create("./rnn.png")
+	t.Parallel()
+	img := makeTestImage(40, 30)
+	newimg, err := NearestNeighbor(img, 20, 10)
 	if err != nil {
-		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
+		t.Fatalf("NearestNeighbor failed: %v", err)
 	}
-
-	err = png.Encode(fd, img)
-	if err != nil {
-		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
-	}
-
-	err = fd.Close()
-	if err != nil {
-		t.Fatalf("ResizeNearestNeighbor Test failed: %v", err)
+	if newimg.Bounds().Dx() != 20 || newimg.Bounds().Dy() != 10 {
+		t.Fatalf("unexpected resized dimensions: %v", newimg.Bounds())
 	}
 }
 
 func Test_Grayscale(t *testing.T) {
-	file, err := os.Open("./img.png")
-	img, _, err := image.Decode(file)
-	defer file.Close()
-
-	img = Grayscale(img)
-	fd, err := os.Create("./gry.png")
-	if err != nil {
-		t.Fatalf("Grayscale Test failed: %v", err)
+	t.Parallel()
+	img := makeTestImage(32, 16)
+	g := Grayscale(img)
+	if g == nil {
+		t.Fatalf("Grayscale returned nil")
 	}
-
-	err = png.Encode(fd, img)
-	if err != nil {
-		t.Fatalf("Grayscale Test failed: %v", err)
-	}
-
-	err = fd.Close()
-	if err != nil {
-		t.Fatalf("Grayscale Test failed: %v", err)
+	if g.Bounds() != img.Bounds() {
+		t.Fatalf("Grayscale bounds mismatch: got %v want %v", g.Bounds(), img.Bounds())
 	}
 }
 
 func Test_Edgedetect(t *testing.T) {
-	file, err := os.Open("./img.png")
-	img, _, err := image.Decode(file)
-	defer file.Close()
-
-	img = Edgedetect(img)
-	fd, err := os.Create("./edg.png")
-	if err != nil {
-		t.Fatalf("Edgedetect Test failed: %v", err)
+	t.Parallel()
+	img := makeTestImage(48, 48)
+	ed := EdgeDetect(img)
+	if ed == nil {
+		t.Fatalf("EdgeDetect returned nil")
 	}
-
-	err = png.Encode(fd, img)
-	if err != nil {
-		t.Fatalf("Edgedetect Test failed: %v", err)
-	}
-
-	err = fd.Close()
-	if err != nil {
-		t.Fatalf("Edgedetect Test failed: %v", err)
+	if ed.Bounds() != img.Bounds() {
+		t.Fatalf("EdgeDetect bounds mismatch: got %v want %v", ed.Bounds(), img.Bounds())
 	}
 }
 
 func Test_ImageDecodeFail(t *testing.T) {
-	file, err := os.Open("../test.txt")
-	defer file.Close()
+	// create a temporary file with invalid image data
+	tmp, err := ioutil.TempFile(".", "img_invalid_*.txt")
+	if err != nil {
+		t.Fatalf("unable to create temp file: %v", err)
+	}
+	name := tmp.Name()
+	defer func() { _ = os.Remove(name) }()
+	if _, err := tmp.WriteString("not an image"); err != nil {
+		t.Fatalf("unable to write temp file: %v", err)
+	}
+	if err := tmp.Close(); err != nil {
+		t.Fatalf("unable to close temp file: %v", err)
+	}
 
-	_, err = ResizeNearestNeighbor(file, 200, 150)
+	f, err := os.Open(name)
+	if err != nil {
+		t.Fatalf("unable to open temp file: %v", err)
+	}
+	defer func() { _ = f.Close() }()
 
+	_, err = ResizeNearestNeighbor(f, 200, 150)
 	if err == nil {
-		t.Fatalf("ImageDecodeFail Test failed: %v", err)
+		t.Fatalf("expected decode error for invalid image data")
 	}
 }

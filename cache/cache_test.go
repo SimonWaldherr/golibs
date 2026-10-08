@@ -2,6 +2,7 @@ package cache
 
 import (
 	"bytes"
+	"encoding/gob"
 	"fmt"
 	"math/rand"
 	"sync"
@@ -13,6 +14,7 @@ var key, value string
 
 func Test_Cache_Expire(t *testing.T) {
 	c := New(1*time.Second, 100*time.Millisecond)
+	t.Cleanup(c.Stop)
 
 	key, value = "foo", "bar"
 	c.Set(key, value)
@@ -39,6 +41,7 @@ func Test_Cache_Expire(t *testing.T) {
 
 func Test_Cache_DeleteExpiredWithFunc(t *testing.T) {
 	c := New(100*time.Millisecond, 2*time.Second)
+	t.Cleanup(c.Stop)
 	var count int
 
 	for i := 0; i < 100; i++ {
@@ -63,6 +66,7 @@ func Test_Cache_DeleteExpiredWithFunc(t *testing.T) {
 
 func Test_Cache_DeleteAllWithFunc(t *testing.T) {
 	c := New(100*time.Second, 100*time.Second)
+	t.Cleanup(c.Stop)
 	var count int
 
 	for i := 0; i < 100; i++ {
@@ -85,6 +89,7 @@ func Test_Cache_DeleteAllWithFunc2(t *testing.T) {
 	c := New2(100*time.Millisecond, 60*time.Millisecond, func(key string, value interface{}) {
 		count++
 	})
+	t.Cleanup(c.Stop)
 
 	for i := 0; i < 100; i++ {
 		key, value = fmt.Sprint(i), "test"
@@ -102,6 +107,7 @@ func Test_Cache_DeleteAllWithFunc2(t *testing.T) {
 
 func Test_Cache_Overwrite(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
+	t.Cleanup(c.Stop)
 
 	key, value = "foo", "bar"
 	c.Add(key, value)
@@ -139,6 +145,7 @@ func Test_Cache_Overwrite(t *testing.T) {
 
 func Test_Cache_Clear(t *testing.T) {
 	c := New(0, 1*time.Second)
+	t.Cleanup(c.Stop)
 
 	key, value = "foo", "bar"
 	c.Add(key, value)
@@ -157,6 +164,7 @@ func Test_Cache_Clear2(t *testing.T) {
 	c := New2(0, 1*time.Second, func(key string, value interface{}) {
 		count++
 	})
+	t.Cleanup(c.Stop)
 
 	key, value = "foo", "bar"
 	c.Add(key, value)
@@ -172,6 +180,7 @@ func Test_Cache_Clear2(t *testing.T) {
 
 func Test_Cache_Size(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
+	t.Cleanup(c.Stop)
 
 	value = "foobar"
 	for i := 0; i < 10; i++ {
@@ -197,6 +206,7 @@ func Test_Cache_Size(t *testing.T) {
 
 func Test_Cache_String(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
+	t.Cleanup(c.Stop)
 
 	c.Add("0", 23)
 	c.Add("1", 1*time.Second)
@@ -220,6 +230,7 @@ func Test_Concurrent(t *testing.T) {
 	c := New2(10*time.Second, 1*time.Second, func(key string, value interface{}) {
 		count++
 	})
+	t.Cleanup(c.Stop)
 
 	go func() {
 		for i := 0; i < 100; i++ {
@@ -247,6 +258,7 @@ func Test_Concurrent(t *testing.T) {
 
 func Test_Export(t *testing.T) {
 	c := New(5*time.Second, 1*time.Second)
+	t.Cleanup(c.Stop)
 
 	c.Add("0", 23)
 	c.Add("1", 1*time.Second)
@@ -260,12 +272,18 @@ func Test_Export(t *testing.T) {
 
 	//fmt.Printf("Pre-Exported: %#v\n", buf)
 	fmt.Printf("Buffer-Len: %v\n", buf.Len())
-	c.Export(&buf)
+	gob.Register(time.Duration(0))
+	if err := c.Export(&buf); err != nil {
+		t.Fatalf("Export failed: %v", err)
+	}
 	fmt.Printf("Buffer-Len: %v\n", buf.Len())
 	//fmt.Printf("Exported: %#v\n", buf)
 
 	c2 := New(15*time.Second, 1*time.Second)
-	c2.Import(&buf)
+	t.Cleanup(c2.Stop)
+	if err := c2.Import(&buf); err != nil {
+		t.Fatalf("Import failed: %v", err)
+	}
 	fmt.Printf("Buffer-Len: %v\n", buf.Len())
 	//fmt.Println(&buf)
 	fmt.Println(c2.String())
@@ -276,6 +294,7 @@ func BenchmarkAdd(b *testing.B) {
 	c := New2(0, 1*time.Second, func(key string, value interface{}) {
 		count++
 	})
+	b.Cleanup(c.Stop)
 	for i := 0; i < b.N; i++ {
 		c.Add(fmt.Sprintf("i%v", i), fmt.Sprintf("v%v", i*10))
 	}
@@ -288,6 +307,7 @@ func BenchmarkAddGet(b *testing.B) {
 	c := New2(0, 1*time.Second, func(key string, value interface{}) {
 		count++
 	})
+	b.Cleanup(c.Stop)
 	for i := 0; i < b.N; i++ {
 		c.Add(fmt.Sprintf("i%v", i), fmt.Sprintf("v%v", i*10))
 		c.Get(fmt.Sprintf("i%v", i))
@@ -301,6 +321,7 @@ func BenchmarkGet(b *testing.B) {
 	c := New2(0, 1*time.Second, func(key string, value interface{}) {
 		count++
 	})
+	b.Cleanup(c.Stop)
 	c.Add("foo", "bar")
 	for i := 0; i < b.N; i++ {
 		c.Get("foo")

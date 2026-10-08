@@ -1,29 +1,46 @@
 package cachedfile
 
 import (
-	"simonwaldherr.de/go/golibs/file"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
+
+	"simonwaldherr.de/go/golibs/file"
 )
 
 func Test_Init(t *testing.T) {
+	t.Cleanup(Stop)
 	Init(15*time.Minute, 1*time.Minute)
 	Init(15*time.Minute, 1*time.Minute)
 }
 
 func Test_Cache1(t *testing.T) {
-	var fn, fs, ca, original string
+	var fs, ca string
+	original, err := file.Read("./test.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fn := filepath.Join(t.TempDir(), "test.txt")
+	if err := os.WriteFile(fn, []byte(original), 0600); err != nil {
+		t.Fatal(err)
+	}
+	Init(15*time.Minute, 1*time.Minute)
+	t.Cleanup(Stop)
 
-	fn = "./test.txt"
-
-	Write(fn, "\nFoobar\n", true)
+	if err := Write(fn, "\nFoobar\n", true); err != nil {
+		t.Fatalf("Write failed: %v", err)
+	}
 	Reset()
-	Write(fn, "\nFoobar\n", true)
-	Write(fn, "\nFoobar\n", true)
+	if err := Write(fn, "\nFoobar\n", true); err != nil {
+		t.Fatalf("Write failed: %v", err)
+	}
+	if err := Write(fn, "\nFoobar\n", true); err != nil {
+		t.Fatalf("Write failed: %v", err)
+	}
 
 	fs, _ = file.Read(fn)
 	ca, _ = Read(fn)
-	original = fs
 
 	if fs == ca {
 		t.Fatalf("CachedFile Test 1 failed")
@@ -38,7 +55,7 @@ func Test_Cache1(t *testing.T) {
 		t.Fatalf("CachedFile Test 2 failed")
 	}
 
-	if s, _ := Size(fn); s != 445 {
+	if s, _ := Size(fn); s != int64(len(original)+3*len("\nFoobar\n")) {
 		t.Fatalf("CachedFile Test 3 failed")
 	}
 	if Clean(fn) != nil {
@@ -47,7 +64,9 @@ func Test_Cache1(t *testing.T) {
 	if s, _ := Size(fn); s != 0 {
 		t.Fatalf("CachedFile Test 5 failed")
 	}
-	Write(fn, original, false)
+	if err := Write(fn, original, false); err != nil {
+		t.Fatalf("Write failed: %v", err)
+	}
 	Stop()
 }
 

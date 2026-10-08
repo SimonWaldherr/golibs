@@ -20,7 +20,11 @@ func SecureShell(user string, host string, port string, keyfile string) *ssh.Ses
 		client, session, err = connectToHost(user, fmt.Sprintf("%v:%v", host, port))
 	}
 
-	defer client.Close()
+	defer func() {
+		if client != nil {
+			_ = client.Close()
+		}
+	}()
 
 	if err != nil {
 		panic(err)
@@ -33,7 +37,7 @@ func SecureShell(user string, host string, port string, keyfile string) *ssh.Ses
 func connectToHost(user, host string) (*ssh.Client, *ssh.Session, error) {
 	var pass string
 	fmt.Print("SSH-Password: ")
-	fmt.Scanf("%s\n", &pass)
+	_, _ = fmt.Scanf("%s\n", &pass)
 
 	sshConfig := &ssh.ClientConfig{
 		User: user,
@@ -48,7 +52,7 @@ func connectToHost(user, host string) (*ssh.Client, *ssh.Session, error) {
 
 	session, err := client.NewSession()
 	if err != nil {
-		client.Close()
+		_ = client.Close()
 		return nil, nil, err
 	}
 
@@ -76,7 +80,7 @@ func connectToHostWithPublickey(user, host, publickeyfile string) (*ssh.Client, 
 
 	session, err := client.NewSession()
 	if err != nil {
-		client.Close()
+		_ = client.Close()
 		return nil, nil, err
 	}
 

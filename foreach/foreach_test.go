@@ -115,7 +115,7 @@ func Test_Struct(t *testing.T) {
 			fmt.Println("---")
 		},
 	}, func(key string, index string, value interface{}, depth int) {
-		fmt.Printf("name: %v, type: %v, value: %v, depth: %v\n", key, index, value, depth)
+		t.Logf("name: %v, type: %v, value: %v, depth: %v", key, index, value, depth)
 	})
 }
 

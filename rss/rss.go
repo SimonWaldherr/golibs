@@ -3,9 +3,11 @@ package rss
 
 import (
 	"encoding/xml"
+	"io"
 	"net/http"
-	"simonwaldherr.de/go/golibs/as"
 	"time"
+
+	"simonwaldherr.de/go/golibs/as"
 )
 
 // Client is a http client to crawl the feed from (#)
@@ -62,15 +64,19 @@ func ReadCustomClient(url string, client Client) (*Main, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		err = r.Body.Close()
-	}()
-	xmlDecoder := xml.NewDecoder(r.Body)
+	defer func() { _ = r.Body.Close() }()
+	return Parse(r.Body)
+}
+
+// Parse reads an RSS document from reader and returns its channel. It does not
+// close reader, allowing callers to parse feeds from files or other streams.
+func Parse(reader io.Reader) (*Main, error) {
+	xmlDecoder := xml.NewDecoder(reader)
 
 	var rss struct {
 		Main Main `xml:"channel"`
 	}
-	if err = xmlDecoder.Decode(&rss); err != nil {
+	if err := xmlDecoder.Decode(&rss); err != nil {
 		return nil, err
 	}
 	return &rss.Main, nil

@@ -15,7 +15,12 @@ import (
 	"strings"
 )
 
-// applyModification wendet die einzelnen Modifikationsregeln auf das Feld an
+// applyModification applies modification rules (from `modify` tags)
+// to a reflect.Value. The function supports a range of operations such
+// as case transformation, trimming, default values, truncation,
+// masking, hashing, base64 encode/decode and URL encoding/decoding.
+// The function is intentionally permissive and returns the first error
+// it encounters from operations that can fail (e.g. decoding).
 func applyModification(field reflect.Value, tags []string) error {
 	for _, tag := range tags {
 		switch tag {

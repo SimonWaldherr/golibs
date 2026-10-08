@@ -1,4 +1,7 @@
-// Package as helps by converting various data types to various other types
+// Package as provides helpers to convert between common Go types and
+// perform small validation and utility operations. The package keeps
+// backward-compatible function signatures while adding clearer
+// documentation and a few small, non-breaking refinements.
 package as
 
 import (
@@ -11,11 +14,15 @@ import (
 	"time"
 )
 
+// ree is an internal helper describing a regular-expression based type
+// classification entry.
 type ree struct {
 	typ string
 	re  string
 }
 
+// Dynamic is a small struct used in examples and JSON decoding to carry
+// a detected type name and the raw data value.
 type Dynamic struct {
 	Type string
 	Data interface{}
@@ -127,9 +134,9 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 -0700 MST",
 }
 
-// Bool returns a boolean value.
-// It mainly depends on the output of strconv.ParseBool,
-// but also checks for integer values.
+// Bool returns the boolean interpretation of the provided value.
+// It first considers numeric truthiness (non-zero -> true) and then
+// falls back to parsing the value as a boolean string.
 func Bool(valuea ...interface{}) bool {
 	value := valuea[0]
 	if Int(value) > 0 {
@@ -139,7 +146,9 @@ func Bool(valuea ...interface{}) bool {
 	return b
 }
 
-// Bytes returns a slice of bytes.
+// Bytes converts the provided value to a byte slice. For booleans it
+// returns "true"/"false", for strings it returns the UTF-8 bytes,
+// and for other values it uses fmt.Sprintf("%v").
 func Bytes(valuea ...interface{}) []byte {
 	value := valuea[0]
 	if value == nil {
@@ -161,8 +170,9 @@ func Bytes(valuea ...interface{}) []byte {
 	}
 }
 
-// Duration converts input values to time.Duration.
-// It mainly depends on time.ParseDuration.
+// Duration converts the input value to a time.Duration. Numeric values
+// are interpreted as nanoseconds; strings are parsed with
+// time.ParseDuration.
 func Duration(valuea ...interface{}) time.Duration {
 	value := valuea[0]
 	switch value.(type) {
@@ -178,7 +188,8 @@ func Duration(valuea ...interface{}) time.Duration {
 	}
 }
 
-// FixedLengthAfter appends spacer chars after a string
+// FixedLengthAfter returns a string of exactly `length` characters by
+// appending `spacer` (first character only) to `str` or truncating.
 func FixedLengthAfter(str string, spacer string, length int) string {
 	spacer = spacer[:1]
 	l := length - len(str)
@@ -191,7 +202,8 @@ func FixedLengthAfter(str string, spacer string, length int) string {
 	return str[:length]
 }
 
-// FixedLengthBefore prepends spacer chars before a string
+// FixedLengthBefore returns a string of exactly `length` characters by
+// prepending `spacer` (first character only) to `str` or truncating.
 func FixedLengthBefore(str string, spacer string, length int) string {
 	spacer = spacer[:1]
 	l := length - len(str)
@@ -204,7 +216,8 @@ func FixedLengthBefore(str string, spacer string, length int) string {
 	return str[:length]
 }
 
-// FixedLengthCenter adds spacer chars after and before a string
+// FixedLengthCenter returns a string of exactly `length` characters by
+// centering `str` and filling with `spacer` (first character only).
 func FixedLengthCenter(str string, spacer string, length int) string {
 	spacer = spacer[:1]
 	l := length - len(str)
@@ -222,10 +235,8 @@ func FixedLengthCenter(str string, spacer string, length int) string {
 	return str[:length]
 }
 
-// Float converts it's input to type float64.
-// int, uint and float gets converted as expected,
-// time is transformed to a float of the corresponding timestamp.
-// strings and byte slices gets converted via strconv.ParseFloat.
+// Float converts common Go values to float64. For time.Time it
+// returns the Unix timestamp as float64. Boolean true becomes 1.
 func Float(valuea ...interface{}) float64 {
 	value := valuea[0]
 	switch val := value.(type) {
@@ -266,10 +277,8 @@ func Float(valuea ...interface{}) float64 {
 	}
 }
 
-// FloatFromXString converts strings to float64.
-// Most values can be converted to float via Float(),
-// but floats as strings in e.g. german spelling
-// should be converted with this function.
+// FloatFromXString parses a float from strings that may use either "."
+// or "," as decimal separator and may contain grouping separators.
 func FloatFromXString(valuea ...string) float64 {
 	value := valuea[0]
 	value = strings.Trim(value, "\t\n\r¢§$€ ")
@@ -308,10 +317,8 @@ func FloatFromXString(valuea ...string) float64 {
 	return float64(float)
 }
 
-// Int returns an int64 of the input value.
-// Float values and float values in strings will be rounded via
-// "round half towards positive infinity".
-// strings get converted via strconv.ParseFloat.
+// Int converts common values to int64. Floating point values are
+// rounded with "round half towards positive infinity" (adds 0.5).
 func Int(valuea ...interface{}) int64 {
 	value := valuea[0]
 	switch val := value.(type) {
@@ -352,9 +359,9 @@ func Int(valuea ...interface{}) int64 {
 	}
 }
 
-// String converts input values to string.
-// Time and Duration gets converted via standard functions.
-// Most types gets "converted" via fmt.Sprintf.
+// String converts the provided value to a string. For `time.Time` the
+// result is RFC3339 formatted; for `time.Duration` the string from
+// `Duration.String()` is returned. Nil returns an empty string.
 func String(valuea ...interface{}) string {
 	value := valuea[0]
 	if value == nil {
@@ -363,14 +370,14 @@ func String(valuea ...interface{}) string {
 
 	switch val := value.(type) {
 	case bool:
-		if value.(bool) == true {
+		if val == true {
 			return "true"
 		}
 		return "false"
 	case time.Duration:
-		return string(val.String())
+		return val.String()
 	case time.Time:
-		return string(val.Format(time.RFC3339))
+		return val.Format(time.RFC3339)
 	case string:
 		return val
 	case []byte:
@@ -380,8 +387,9 @@ func String(valuea ...interface{}) string {
 	}
 }
 
-// Time converts inputs values to time.Time.
-// Time formats in the variable timeformats can be used.
+// Time attempts to parse the provided value (converted to string) into
+// a time.Time using a list of common formats. If parsing fails the
+// zero time is returned.
 func Time(valuea ...interface{}) time.Time {
 	value := valuea[0]
 	s := String(value)
@@ -394,17 +402,16 @@ func Time(valuea ...interface{}) time.Time {
 	return time.Time{}
 }
 
-// Trimmed takes the first given value, converts it to
-// a string, trims the whitespace an returns it.
+// Trimmed converts the first argument to a string and returns it with
+// surrounding whitespace removed.
 func Trimmed(valuea ...interface{}) string {
 	value := valuea[0]
 	return strings.TrimSpace(String(value))
 }
 
-// Uint returns an uint64 of the input value.
-// Float values and float values in strings will be rounded via
-// "round half towards positive infinity".
-// strings get converted via strconv.ParseFloat.
+// Uint converts common values to uint64. Floating point values are
+// rounded with a +0.5 adjustment. For time.Time the Unix value is
+// returned.
 func Uint(valuea ...interface{}) uint64 {
 	value := valuea[0]
 	switch val := value.(type) {
@@ -445,7 +452,10 @@ func Uint(valuea ...interface{}) uint64 {
 	}
 }
 
-// Type returns a type (string) of a string.
+// Type attempts to classify the provided value (as string) into a
+// simple type name such as "bool", "int", "float", "date", etc.
+// It returns the detected type name or an empty string when
+// classification failed.
 func Type(valuea ...interface{}) (string, error) {
 	var err error
 	str := strings.Trim(String(valuea[0]), " \t\n\r")
@@ -456,15 +466,14 @@ func Type(valuea ...interface{}) (string, error) {
 		var match bool
 		re := "(?i)^" + b.re + "$"
 		if match, err = regexp.MatchString(re, str); match == true {
-			//fmt.Printf("%v tested for %v with %v; result: %v\n", str, b.typ, b.re, match)
 			return b.typ, nil
 		}
-		//fmt.Printf("%v tested for %v with %v; result: %v\n", str, b.typ, b.re, match)
 	}
 	return "", err
 }
 
-// DBType returns a Database Type of a string.
+// DBType maps the classification from Type to a small set of database
+// friendly type names. Unknown types become "string".
 func DBType(str string) string {
 	t, err := Type(str)
 	if err != nil {
@@ -478,7 +487,8 @@ func DBType(str string) string {
 	}
 }
 
-// DBTypeMultiple returns the lowest common denominator of a type for all inserted DBTypes
+// DBTypeMultiple returns the lowest-common-denominator type for a list
+// of type strings by inspecting the internal regex priority order.
 func DBTypeMultiple(val []string) string {
 	var typeint int
 	for _, typ := range val {
@@ -493,7 +503,8 @@ func DBTypeMultiple(val []string) string {
 	return regex[typeint].typ
 }
 
-// HexToRGB converts a hex color string to its RGB components.
+// HexToRGB converts a hex color (with or without a leading '#') to its
+// integer R, G, B components. Returns an error for invalid input.
 func HexToRGB(hex string) (int, int, int, error) {
 	hex = strings.TrimPrefix(hex, "#")
 	if len(hex) != 6 {
@@ -514,12 +525,16 @@ func HexToRGB(hex string) (int, int, int, error) {
 	return int(r), int(g), int(b), nil
 }
 
-// RGBToHex converts RGB components to a hex color string.
+// RGBToHex converts integer R,G,B components to a hex color string.
 func RGBToHex(r, g, b int) string {
 	return fmt.Sprintf("#%02x%02x%02x", r, g, b)
 }
 
-// MapToStruct converts a map to a struct based on the given struct type.
+// MapToStruct sets exported fields on the struct pointed to by
+// `result` using values from the map `m`. Map keys are title-cased to
+// match Go struct field names (e.g. "name" -> "Name"). If a value's
+// concrete type does not exactly match the struct field type an error
+// is returned (this keeps backward-compatible behaviour).
 func MapToStruct(m map[string]interface{}, result interface{}) error {
 	for k, v := range m {
 		structValue := reflect.ValueOf(result).Elem()
@@ -539,7 +554,8 @@ func MapToStruct(m map[string]interface{}, result interface{}) error {
 	return nil
 }
 
-// StructToMap converts a struct to a map.
+// StructToMap converts a struct value to a map using exported field
+// names as keys.
 func StructToMap(input interface{}) map[string]interface{} {
 	output := make(map[string]interface{})
 	val := reflect.ValueOf(input)
@@ -550,19 +566,23 @@ func StructToMap(input interface{}) map[string]interface{} {
 	return output
 }
 
-// IsEmailValid validates an email address using a regex.
+// IsEmailValid reports whether the provided string looks like an
+// email address. It uses a conservative regular expression, not a
+// full RFC5322 validator.
 func IsEmailValid(email string) bool {
 	re := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$`)
 	return re.MatchString(email)
 }
 
-// IsURLValid validates a URL using a regex.
+// IsURLValid reports whether the provided string looks like an HTTP/HTTPS
+// URL. It intentionally does not validate other schemes such as FTP.
 func IsURLValid(url string) bool {
 	re := regexp.MustCompile(`^(https?://)?([a-z0-9.-]+)\.([a-z.]{2,6})([/\w .-]*)*/?$`)
 	return re.MatchString(url)
 }
 
-// IsCreditCardValid validates a credit card number using the Luhn algorithm.
+// IsCreditCardValid validates a numeric card number using the Luhn
+// algorithm. Non-digit characters should be removed by the caller.
 func IsCreditCardValid(cardNumber string) bool {
 	var sum int
 	alt := false
@@ -580,7 +600,7 @@ func IsCreditCardValid(cardNumber string) bool {
 	return sum%10 == 0
 }
 
-// ToJSON converts a Go value to a JSON string.
+// ToJSON marshals a value to its JSON representation as string.
 func ToJSON(value interface{}) (string, error) {
 	jsonBytes, err := json.Marshal(value)
 	if err != nil {
@@ -589,7 +609,7 @@ func ToJSON(value interface{}) (string, error) {
 	return string(jsonBytes), nil
 }
 
-// FromJSON converts a JSON string to a Go value.
+// FromJSON unmarshals a JSON string into the provided result pointer.
 func FromJSON(jsonStr string, result interface{}) error {
 	return json.Unmarshal([]byte(jsonStr), result)
 }

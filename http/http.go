@@ -1,53 +1,25 @@
+// Package http provides helpers for HTTP requests with a shared transport.
 package http
 
 import (
-	//"context"
-	"io/ioutil"
-	//"net"
+	"context"
+	"io"
 	"net/http"
-	//"strings"
 	"time"
-	//"github.com/rs/dnscache"
 )
 
-var Transporter *http.Transport
-var client http.Client
-var clientReady bool = false
-
-func init() {
-	//dnsResolver := &dnscache.Resolver{}
-	Transporter = &http.Transport{
-		/*
-			DialContext: func(ctx context.Context, network string, addr string) (conn net.Conn, err error) {
-				separator := strings.LastIndex(addr, ":")
-				ips, err := dnsResolver.LookupHost(ctx, addr[:separator])
-				if err != nil {
-					return nil, err
-				}
-				for _, ip := range ips {
-					conn, err = net.Dial(network, ip+addr[separator:])
-					if err == nil {
-						break
-					}
-				}
-				return
-			},*/
-		MaxIdleConns:    1024,
-		MaxConnsPerHost: 1024,
-		IdleConnTimeout: 10 * time.Second,
-	}
-	/*
-		go func() {
-			cacheTicker := time.NewTicker(30 * time.Minute)
-			defer cacheTicker.Stop()
-			for range cacheTicker.C {
-				dnsResolver.Refresh(true)
-			}
-		}()*/
+// Transporter is shared by clients created with Client. Configure it before
+// making requests; transports reuse connections and support concurrent use.
+var Transporter = &http.Transport{
+	MaxIdleConns:    1024,
+	MaxConnsPerHost: 1024,
+	IdleConnTimeout: 10 * time.Second,
 }
 
+// NewRequest is the standard library request constructor.
 var NewRequest = http.NewRequest
 
+// Client returns a client with the shared transport and the given timeout.
 func Client(timeout time.Duration) http.Client {
 	return http.Client{
 		Transport: Transporter,
@@ -55,19 +27,29 @@ func Client(timeout time.Duration) http.Client {
 	}
 }
 
+// GetString retrieves a response body with a 15-second timeout. HTTP error
+// statuses are returned as response bodies, matching net/http.Client.Get.
 func GetString(url string) (string, error) {
-	if clientReady == false {
-		client = Client(time.Second * 15)
+	return GetStringContext(context.Background(), url)
+}
+
+// GetStringContext retrieves a response body with the given context and a
+// 15-second timeout. The context can cancel both the request and body reading.
+func GetStringContext(ctx context.Context, url string) (string, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return "", err
 	}
 
-	resp, err := client.Get(url)
+	client := Client(15 * time.Second)
+	resp, err := client.Do(req)
 
 	if err != nil {
 		return "", err
 	}
 
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	defer func() { _ = resp.Body.Close() }()
+	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		return "", err

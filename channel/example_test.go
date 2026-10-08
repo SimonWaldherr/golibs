@@ -14,14 +14,15 @@ func ExampleInit() {
 	w.Add(5)
 
 	con := channel.Init()
+	defer con.Close()
 
 	for i := 0; i < 5; i++ {
 		receiver[i] = con.AddReceiver()
 
-		go func(j int) {
-			fmt.Println(<-receiver[j])
+		go func(ch chan interface{}) {
+			fmt.Println(<-ch)
 			w.Done()
-		}(i)
+		}(receiver[i])
 	}
 
 	transmitter01 := con.AddTransmitter()

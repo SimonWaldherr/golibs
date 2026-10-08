@@ -10,6 +10,7 @@ import (
 
 func ExampleCache() {
 	c := cache.New(5*time.Second, 1*time.Second)
+	defer c.Stop()
 
 	c.Add("0", 23)
 	c.Add("1", 1*time.Second)
@@ -27,8 +28,9 @@ func ExampleCache() {
 	//4	[116 101 115 116]
 }
 
-func ExampleExport() {
+func ExampleCache_Export() {
 	c := cache.New(5*time.Second, 1*time.Second)
+	defer c.Stop()
 
 	c.Add("0", 23)
 	c.Add("2", "foobar")
@@ -39,10 +41,17 @@ func ExampleExport() {
 
 	fmt.Println(c.String())
 
-	c.Export(&buf)
+	if err := c.Export(&buf); err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	c2 := cache.New(15*time.Second, 1*time.Second)
-	c2.Import(&buf)
+	defer c2.Stop()
+	if err := c2.Import(&buf); err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	fmt.Println(c2.String())
 

@@ -8,15 +8,24 @@ import (
 	"strings"
 )
 
+// CustomValidatorFunc is the signature for user-registered custom
+// validators. The function receives a reflect.Value representing the
+// field to validate and should return an error when validation fails.
 type CustomValidatorFunc func(field reflect.Value) error
 
 var customValidators = make(map[string]CustomValidatorFunc)
 
+// RegisterCustomValidator registers a custom validator function that
+// can be referenced by its tag name in struct tags.
 func RegisterCustomValidator(tag string, fn CustomValidatorFunc) {
 	customValidators[tag] = fn
 }
 
-// applyValidation wendet die einzelnen Validierungsregeln auf das Feld an
+// applyValidation applies validation rules (from `validate` tags) to
+// the given reflect.Value. Supported rules include `required`,
+// `email`, `iscolor`, range checks (`gte=`, `lte=`), enumeration
+// (`oneof=`), length checks and pattern matching. Custom validators
+// registered through RegisterCustomValidator are also supported.
 func applyValidation(field reflect.Value, tags []string) error {
 	for _, tag := range tags {
 		switch {

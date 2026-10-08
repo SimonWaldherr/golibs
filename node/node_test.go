@@ -30,8 +30,10 @@ const jsonString = `
 
 func Test_Node(t *testing.T) {
 	var i int = 0
-	var obj interface{}
-	json.Unmarshal([]byte(jsonString), &obj)
+  var obj interface{}
+  if err := json.Unmarshal([]byte(jsonString), &obj); err != nil {
+    t.Fatalf("json.Unmarshal failed: %v", err)
+  }
 	Node(&obj, func(key *string, index *int, value *interface{}, depth int) {
 		v := *value
 		switch v.(type) {

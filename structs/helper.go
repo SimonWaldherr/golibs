@@ -8,17 +8,14 @@ import (
 	"unicode"
 )
 
-// parseCombinedTags teilt die kombinierten Tags in eine Liste von einzelnen Tags auf
-func parseCombinedTags(tag string) []string {
-	return regexp.MustCompile(`;\s*`).Split(tag, -1)
-}
-
-// parseTag teilt einen Untertag in einzelne Regeln auf
-func parseTag(tag string) []string {
-	return regexp.MustCompile(`,\s*`).Split(tag, -1)
-}
-
-// ValidateAndModify prüft und modifiziert die struct-Felder basierend auf den Tags in der angegebenen Reihenfolge
+// ValidateAndModify inspects the struct pointed to by `s` and applies
+// validation and modification rules defined using struct tags. The
+// function expects a pointer to a struct and returns an error if the
+// pointer is invalid or a validation rule fails.
+//
+// Tags supported are combined from `validate` and `modify` tags. The
+// implementation preserves the order of combined tags and applies them
+// sequentially.
 func ValidateAndModify(s interface{}) error {
 	v := reflect.ValueOf(s)
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
@@ -42,7 +39,21 @@ func ValidateAndModify(s interface{}) error {
 	return nil
 }
 
-// getCombinedTags kombiniert die Tags "validate" und "modify" unter Beibehaltung der Reihenfolge
+// parseCombinedTags splits a combined tag string into individual tag
+// entries using `;` as separator.
+func parseCombinedTags(tag string) []string {
+	return regexp.MustCompile(`;\s*`).Split(tag, -1)
+}
+
+// parseTag splits a single tag value into sub-rules using `,` as
+// separator.
+func parseTag(tag string) []string {
+	return regexp.MustCompile(`,\s*`).Split(tag, -1)
+}
+
+// getCombinedTags merges `validate` and `modify` tag values from the
+// struct tag into a single ordered string. The function preserves the
+// relative order of appearance.
 func getCombinedTags(tag reflect.StructTag) string {
 	var combinedTags []string
 	tagString := string(tag)
@@ -71,7 +82,8 @@ func getCombinedTags(tag reflect.StructTag) string {
 	return strings.Join(combinedTags, ";")
 }
 
-// processTags wendet die einzelnen Validierungs- und Modifikationsregeln in der angegebenen Reihenfolge an
+// processTags applies validation and modification sub-rules to a
+// reflect.Value in the order provided.
 func processTags(field reflect.Value, tags []string) error {
 	for _, tag := range tags {
 		if strings.HasPrefix(tag, "validate:") {
@@ -89,7 +101,7 @@ func processTags(field reflect.Value, tags []string) error {
 	return nil
 }
 
-// Hilfsfunktionen
+// Helper functions
 
 func isEmptyValue(v reflect.Value) bool {
 	switch v.Kind() {

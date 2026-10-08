@@ -13,7 +13,7 @@ func ExampleGenerate() {
 	options["provinceName"] = "Bavaria"
 	options["organizationName"] = "Lorem Ipsum Ltd"
 	options["commonName"] = "*"
-	ssl.Generate(options)
+	_ = ssl.Generate(options)
 
 	// Output:
 }

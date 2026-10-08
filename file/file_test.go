@@ -18,9 +18,9 @@ var pathTests []pathTest
 var realHome string
 
 func init() {
-	os.Symlink("../examples/all.go", "../examples/symlink")
-	os.Symlink("../examples/1", "../examples/2")
-	os.Symlink("../examples/2", "../examples/1")
+	_ = os.Symlink("../examples/all.go", "../examples/symlink")
+	_ = os.Symlink("../examples/1", "../examples/2")
+	_ = os.Symlink("../examples/2", "../examples/1")
 	pathTests = []pathTest{
 		{
 			in:  "/Users/simonwaldherr/git/golibs/file/test.txt",
@@ -78,11 +78,11 @@ func Test_ReadUntil(t *testing.T) {
 	if err != nil || content != "package file" || lastChar != "\n" || pos != 12 {
 		t.Fatalf("file.ReadUntil Test #1 failed")
 	}
-	content, lastChar, pos, err = ReadUntil("file1.go", []string{"\n", "\r"})
+	_, _, _, err = ReadUntil("file1.go", []string{"\n", "\r"})
 	if err == nil {
 		t.Fatalf("file.ReadUntil Test #2 failed")
 	}
-	content, lastChar, pos, err = ReadUntil("file.go", []string{"😃"})
+	_, lastChar, _, err = ReadUntil("file.go", []string{"😃"})
 	if err != nil || lastChar != "" {
 		t.Fatalf("file.ReadUntil Test #3 failed: %v %v", err, lastChar)
 	}
@@ -103,7 +103,7 @@ func Test_ReadBlocks(t *testing.T) {
 		t.Fatalf("file.ReadBlocks1 Test failed")
 	}
 
-	content, err = ReadBlocks("", []string{"\n", "\r"}, func(x string) (string, error) {
+	_, err = ReadBlocks("", []string{"\n", "\r"}, func(x string) (string, error) {
 		lines1++
 		return x, nil
 	})
@@ -311,7 +311,7 @@ func Test_Ψ(t *testing.T) {
 	if err == nil {
 		t.Fatalf("file.Each Test failed")
 	}
-	_, err = GetAbsolutePath("//\\//\\......//////..\\\\//😃\\")
+	_, _ = GetAbsolutePath("//\\//\\......//////..\\\\//😃\\")
 	_, err = GetAbsolutePath("")
 	if err == nil {
 		t.Errorf("file.GetAbsolutePath Test failed")
@@ -385,22 +385,22 @@ func TestGetAbsolutePath(t *testing.T) {
 	}
 
 	if runtime.GOOS != "windows" {
-		converted, err = GetAbsolutePath("")
-		if err == nil {
-			t.Errorf("GetAbsolutePath test #8 failed: %v", converted)
-		}
-		converted, err = GetAbsolutePath("///")
-		if converted != "/" {
-			t.Errorf("GetAbsolutePath test #9 failed: %v", converted)
-		}
-		converted, err = GetAbsolutePath("/././")
-		if converted != "/" {
-			t.Errorf("GetAbsolutePath test #10 failed: %v", converted)
-		}
-		converted, err = GetAbsolutePath("/../")
-		if converted != "/" {
-			t.Errorf("GetAbsolutePath test #11 failed: %v", converted)
-		}
+			converted, err = GetAbsolutePath("")
+			if err == nil {
+				t.Errorf("GetAbsolutePath test #8 failed: %v", converted)
+			}
+			converted, _ = GetAbsolutePath("///")
+			if converted != "/" {
+				t.Errorf("GetAbsolutePath test #9 failed: %v", converted)
+			}
+			converted, _ = GetAbsolutePath("/././")
+			if converted != "/" {
+				t.Errorf("GetAbsolutePath test #10 failed: %v", converted)
+			}
+			converted, _ = GetAbsolutePath("/../")
+			if converted != "/" {
+				t.Errorf("GetAbsolutePath test #11 failed: %v", converted)
+			}
 	}
 }
 

@@ -9,7 +9,7 @@ import (
 	"sort"
 	"testing"
 	"unicode"
-	
+
 	"simonwaldherr.de/go/golibs/structs"
 )
 
@@ -26,7 +26,7 @@ type LIPS struct {
 	VKBUR string
 }
 
-func ExampleReflect() {
+func TestExampleReflect(t *testing.T) {
 	var lips LIPS
 	x := structs.Reflect(lips)
 
@@ -53,12 +53,12 @@ func ExampleReflect() {
 	// key: VRKME, value: string
 }
 
-func ExampleReflectHelper() {
+func TestExampleReflectHelper(t *testing.T) {
 	var lips LIPS
 	v := reflect.ValueOf(lips)
-	t := reflect.TypeOf(lips)
+	typ := reflect.TypeOf(lips)
 
-	structs.ReflectHelper(v, t, 0, func(name string, vtype string, value interface{}, depth int) {
+	structs.ReflectHelper(v, typ, 0, func(name string, vtype string, value interface{}, depth int) {
 		fmt.Printf("%v - %v - %v - %v\n", name, vtype, value, depth)
 	})
 
@@ -78,13 +78,13 @@ func ExampleReflectHelper() {
 type ExampleUser struct {
 	Name     string `json:"name" modify:"upper" validate:"required"`
 	Age      int    `json:"age" modify:"abs" validate:"gte=0,lte=130"`
-	Email    string `json:"email" modify:"lower" modify:"trim" validate:"required,email"`
+	Email    string `json:"email" modify:"lower,trim" validate:"required,email"`
 	Password string `json:"password" modify:"trim" validate:"minlen=8"`
 	Status   string `json:"status" validate:"oneof=active inactive"`
-	Zip      string `modify:"pattern=\d+"`
+	Zip      string `modify:"pattern=[0-9]+"`
 }
 
-func ExampleValidateAndModify() {
+func TestExampleValidateAndModify(t *testing.T) {
 	user := &ExampleUser{
 		Name:     "john",
 		Age:      -25,
@@ -132,7 +132,7 @@ func TestExampleUserValidation(t *testing.T) {
 	}
 }
 
-func ExampleJSON() {
+func TestExampleJSON(t *testing.T) {
 	jsonString := `{
 		"name": "john",
 		"age": -25,
@@ -175,7 +175,7 @@ func ExampleJSON() {
 }
 
 // Example of using the validator with a struct that has nested fields
-func ExampleNestedStruct() {
+func TestExampleNestedStruct(t *testing.T) {
 	type Address struct {
 		Street  string `validate:"required"`
 		City    string `validate:"required"`
@@ -213,7 +213,7 @@ func ExampleNestedStruct() {
 }
 
 // Example of using the validator with a struct that has nested fields
-func ExampleBase64() {
+func TestExampleBase64(t *testing.T) {
 	type User struct {
 		Name string `validate:"required"`
 		Data string `modify:"base64_decode" validate:"required"`
@@ -237,7 +237,7 @@ func ExampleBase64() {
 }
 
 // Example of using the hashing feature of the validator
-func ExampleHash() {
+func TestExampleHash(t *testing.T) {
 	type User struct {
 		Name string `validate:"required"`
 		Data string `modify:"hash=md5"`
@@ -261,7 +261,7 @@ func ExampleHash() {
 }
 
 // Example of using the URL encoding feature of the validator
-func ExampleURLEncode() {
+func TestExampleURLEncode(t *testing.T) {
 	type Req struct {
 		Data string `modify:"url_encode"`
 	}
@@ -296,7 +296,7 @@ func CustomValidatorFuncOnlyLetters(field reflect.Value) error {
 }
 
 // Example with a custom validation function
-func ExampleCustomValidation() {
+func TestExampleCustomValidation(t *testing.T) {
 	type User struct {
 		Name string `validate:"required,onlyletters"`
 	}

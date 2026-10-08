@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"simonwaldherr.de/go/golibs/as"
 	"simonwaldherr.de/go/golibs/stack"
+	"testing"
 )
 
-func ExampleStack() {
+func TestExampleStack(t *testing.T) {
 	array := stack.Lifo()
 	array.Push("1")
 	array.Push(float64(13.37))
@@ -24,7 +25,7 @@ func ExampleStack() {
 	// 1
 }
 
-func ExampleStack2() {
+func TestExampleStack2(t *testing.T) {
 	var array *stack.Stack
 	var x interface{}
 
@@ -89,7 +90,7 @@ func ExampleStack2() {
 	//
 }
 
-func ExampleToFifo() {
+func TestExampleToFifo(t *testing.T) {
 	array1 := stack.Lifo()
 	array1.Push(1)
 	array1.Push(2)
@@ -107,7 +108,7 @@ func ExampleToFifo() {
 	// 4
 }
 
-func ExampleToFifoFromFifo() {
+func TestExampleToFifoFromFifo(t *testing.T) {
 	array1 := stack.Fifo()
 	array1.Push(1)
 	array1.Push(2)
@@ -125,7 +126,7 @@ func ExampleToFifoFromFifo() {
 	// 4
 }
 
-func ExampleToLifo() {
+func TestExampleToLifo(t *testing.T) {
 	array1 := stack.Fifo()
 	array1.Push(1)
 	array1.Push(2)
@@ -143,7 +144,7 @@ func ExampleToLifo() {
 	// 1
 }
 
-func ExampleToLifoFromLifo() {
+func TestExampleToLifoFromLifo(t *testing.T) {
 	array1 := stack.Lifo()
 	array1.Push(1)
 	array1.Push(2)
@@ -161,7 +162,7 @@ func ExampleToLifoFromLifo() {
 	// 1
 }
 
-func ExampleRings() {
+func TestExampleRings(t *testing.T) {
 	ring := stack.Ring()
 	ring.Init(4)
 

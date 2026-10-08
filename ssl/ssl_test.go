@@ -7,7 +7,6 @@ import (
 func Test_Main(t *testing.T) {
 	err := Check("ssl_gwv.cert", "ssl_gwv.key")
 	options := map[string]string{}
-	Generate(options)
 
 	if err != nil {
 		options["certPath"] = "x.cert"

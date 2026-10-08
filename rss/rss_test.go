@@ -1,87 +1,163 @@
 package rss
 
 import (
-	"sync"
+	"errors"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 )
 
-var feeds = []string{
-	"http://cre.fm/feed/m4a",
-	//"http://www.konscience.de/feed/",
-	//"http://minkorrekt.de/feed/m4a/",
-	"http://modellansatz.de/rss/?psb",
-	"http://forschergeist.de/feed/m4a/",
-	//"http://www.radiomono.net/feed/m4a/",
-	"http://www.zeitsprung.fm/feed/mp4/",
-	//"http://podcast.firtz.org/firtz/mp3",
-	"http://www.psycho-talk.de/feed/mp3/",
-	"http://www.exponiert.berlin/feed/m4a/",
-	"http://resonator-podcast.de/feed/m4a/",
-	"http://feeds.metaebene.me/raumzeit/m4a",
-	"http://www.openscienceradio.de/feed/mp4/",
-	//"http://www.hoaxilla.de/podcast/hoaxilla.xml",
-	"http://omegataupodcast.net/category/podcast/feed/",
-	"http://www.uibk.ac.at/downloads/c115/zeit/zeit_mp4.xml",
-}
+const testFeed = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+<title>Example &amp; friends</title>
+<link>https://example.org/</link>
+<description>A local test feed</description>
+<language>en</language>
+<lastBuildDate>Thu, 08 Oct 2026 12:00:00 +0000</lastBuildDate>
+<image><url>https://example.org/logo.png</url><title>Logo</title></image>
+<item>
+<title>First episode</title><link>https://example.org/1</link><guid>episode-1</guid>
+<pubDate>Wed, 07 Oct 2026 10:30:00 +0000</pubDate>
+<category>Science</category><category>Technology</category>
+<enclosure url="https://example.org/1.mp3" type="audio/mpeg"/>
+<description><![CDATA[<p>Hello world</p>]]></description>
+</item>
+<item><title>Second episode</title><pubDate>2026-10-06T09:00:00Z</pubDate></item>
+</channel></rss>`
 
-func initTimeSeq() func() int {
-	t := time.Now().Unix()
-	return func() int {
-		return int(time.Now().Unix() - t)
+func assertFeed(t *testing.T, feed *Main) {
+	t.Helper()
+	if feed.Title != "Example & friends" || feed.Link != "https://example.org/" ||
+		feed.Description != "A local test feed" || feed.Language != "en" || feed.Len() != 2 {
+		t.Fatalf("unexpected feed: %+v", feed)
+	}
+	if feed.Image.URL != "https://example.org/logo.png" || feed.Image.Title != "Logo" {
+		t.Fatalf("unexpected image: %+v", feed.Image)
+	}
+	item := feed.Items[0]
+	if item.Title != "First episode" || item.GUID != "episode-1" ||
+		item.Description != "<p>Hello world</p>" || len(item.Category) != 2 ||
+		len(item.Enclosure) != 1 || item.Enclosure[0].Type != "audio/mpeg" ||
+		item.Enclosure[0].URL != "https://example.org/1.mp3" {
+		t.Fatalf("unexpected item: %+v", item)
+	}
+	if want := time.Date(2026, time.October, 8, 12, 0, 0, 0, time.UTC); !feed.Time().Equal(want) {
+		t.Errorf("build date = %v, want %v", feed.Time(), want)
+	}
+	if want := time.Date(2026, time.October, 7, 10, 30, 0, 0, time.UTC); !item.Time().Equal(want) {
+		t.Errorf("publication date = %v, want %v", item.Time(), want)
+	}
+	if want := time.Date(2026, time.October, 6, 9, 0, 0, 0, time.UTC); !feed.Items[1].Time().Equal(want) {
+		t.Errorf("RFC3339 publication date = %v, want %v", feed.Items[1].Time(), want)
 	}
 }
 
-func Test_Read(t *testing.T) {
-	var feedsContent = make(map[string]*Main)
-	var wg sync.WaitGroup
+func TestParse(t *testing.T) {
+	feed, err := Parse(strings.NewReader(testFeed))
+	if err != nil {
+		t.Fatal(err)
+	}
+	assertFeed(t, feed)
+}
 
-	timeSince := initTimeSeq()
+func TestRead(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/rss+xml")
+		_, _ = io.WriteString(w, testFeed)
+	}))
+	defer server.Close()
 
-	for _, url := range feeds {
-		wg.Add(1)
-		go func(url string) {
-			defer wg.Done()
-			feedContent, err := Read(url)
-			t.Logf("%v is ready (%v) ... \n", url, timeSince())
-			if err == nil {
-				feedsContent[url] = feedContent
-			} else {
-				t.Fatalf("rss.Read Test failed: %v\nFeed: %v\n\n", err, url)
+	feed, err := Read(server.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assertFeed(t, feed)
+
+	feed, err = ReadCustomClient(server.URL, server.Client())
+	if err != nil {
+		t.Fatal(err)
+	}
+	assertFeed(t, feed)
+}
+
+func TestParseMalformedXML(t *testing.T) {
+	for _, input := range []string{"", "<rss><channel>", "<rss><channel></rss>"} {
+		if feed, err := Parse(strings.NewReader(input)); err == nil || feed != nil {
+			t.Errorf("Parse(%q) = %v, %v; want an error", input, feed, err)
+		}
+	}
+}
+
+type testClient func(string) (*http.Response, error)
+
+func (client testClient) Get(url string) (*http.Response, error) {
+	return client(url)
+}
+
+type trackedBody struct {
+	io.Reader
+	closed bool
+}
+
+func (body *trackedBody) Close() error {
+	body.closed = true
+	return nil
+}
+
+func TestReadCustomClientClosesBody(t *testing.T) {
+	for _, input := range []string{testFeed, "<rss><channel>"} {
+		body := &trackedBody{Reader: strings.NewReader(input)}
+		client := testClient(func(url string) (*http.Response, error) {
+			if url != "https://example.org/feed" {
+				t.Errorf("URL = %q", url)
 			}
-		}(url)
-	}
-
-	wg.Wait()
-
-	for url, feedContent := range feedsContent {
-		t.Logf("URL: %v\tTitle: %v\n", url, feedContent.Title)
-		if feedContent.Title == "" {
-			t.Fatalf("rss.Read Test failed: No Title detected\nFeed: %v\n\n", url)
+			return &http.Response{Body: body}, nil
+		})
+		_, err := ReadCustomClient("https://example.org/feed", client)
+		if (err == nil) != (input == testFeed) {
+			t.Errorf("ReadCustomClient() error = %v", err)
 		}
-		if feedContent.Len() < 3 {
-			t.Fatalf("rss.Read Test failed: I don't think that there are only %v Episodes\nFeed: %v | %v\n\n", feedContent.Len(), url, feedContent.Title)
-		}
-
-		for _, item := range feedContent.Items {
-			t.Logf("Title: %v\tTime: %v\n", item.Title, item.Time())
-			if item.Time().Unix() < 921456000 && url != "http://modellansatz.de/rss/?psb" {
-				t.Fatalf("rss.Read Test failed: The episode publication date is before the release date of the first RSS draft\nFeed: %v | %v \nTime: %v\nTitle: %v\n\n", url, feedContent.Title, item.Time(), item.Title)
-			}
+		if !body.closed {
+			t.Error("response body was not closed")
 		}
 	}
 }
 
-func Test_Read2(t *testing.T) {
-	_, err := Read("http://localhost/feed.xml")
-	if err == nil {
-		t.Fatal("rss.Read2 Test failed: I expect an error but got nil\n")
+func TestParseLeavesReaderOpen(t *testing.T) {
+	body := &trackedBody{Reader: strings.NewReader(testFeed)}
+	if _, err := Parse(body); err != nil {
+		t.Fatal(err)
+	}
+	if body.closed {
+		t.Error("Parse closed the caller's reader")
 	}
 }
 
-func Test_Main_Time(t *testing.T) {
-	feedContent, _ := Read("http://cre.fm/feed/m4a")
-	if feedContent.Time().Unix() < 921456000 {
-		t.Fatal("rss.Main.Time Test failed: The specified last build date is before the release date of the first RSS draft\n")
+func TestReadCustomClientTransportError(t *testing.T) {
+	wantErr := errors.New("transport failed")
+	client := testClient(func(string) (*http.Response, error) { return nil, wantErr })
+	if feed, err := ReadCustomClient("https://example.org/feed", client); feed != nil || !errors.Is(err, wantErr) {
+		t.Fatalf("ReadCustomClient() = %v, %v", feed, err)
+	}
+}
+
+type failingReader struct{ err error }
+
+func (reader failingReader) Read([]byte) (int, error) { return 0, reader.err }
+
+func TestReadCustomClientBodyError(t *testing.T) {
+	wantErr := errors.New("body failed")
+	body := &trackedBody{Reader: failingReader{wantErr}}
+	client := testClient(func(string) (*http.Response, error) {
+		return &http.Response{Body: body}, nil
+	})
+	if feed, err := ReadCustomClient("https://example.org/feed", client); feed != nil || !errors.Is(err, wantErr) {
+		t.Fatalf("ReadCustomClient() = %v, %v", feed, err)
+	}
+	if !body.closed {
+		t.Error("response body was not closed after a read error")
 	}
 }

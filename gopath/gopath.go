@@ -28,9 +28,12 @@ func GetFileType(name string) FileType {
 			return Directory
 		} else if err == nil {
 			data := make([]byte, 100)
-			file.Read(data)
-			if utf8.Valid(data) {
+			n, err := file.Read(data)
+			if n > 0 && utf8.Valid(data[:n]) {
 				return ASCII
+			}
+			if err != nil {
+				return DontExist
 			}
 			return Binary
 		}

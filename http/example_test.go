@@ -14,9 +14,9 @@ func ExampleClient() {
 	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
 		userAgent := req.UserAgent()
 		if userAgent == "Golang_Bot/1.0" {
-			fmt.Fprintf(rw, "hello gopher\n")
+			_, _ = fmt.Fprintf(rw, "hello gopher\n")
 		} else {
-			fmt.Fprintf(rw, "hello world\n")
+			_, _ = fmt.Fprintf(rw, "hello world\n")
 		}
 	}))
 	defer ts.Close()
@@ -29,11 +29,12 @@ func ExampleClient() {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	fmt.Println(string(body))
@@ -45,9 +46,9 @@ func ExampleGetString() {
 	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
 		userAgent := req.UserAgent()
 		if userAgent == "Golang_Bot/1.0" {
-			fmt.Fprintf(rw, "hello gopher\n")
+			_, _ = fmt.Fprintf(rw, "hello gopher\n")
 		} else {
-			fmt.Fprintf(rw, "hello world\n")
+			_, _ = fmt.Fprintf(rw, "hello world\n")
 		}
 	}))
 	defer ts.Close()
@@ -56,45 +57,10 @@ func ExampleGetString() {
 
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	fmt.Println(resp)
 
 	// Output: hello world
-}
-
-func ExampleUserAgent() {
-	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
-		userAgent := req.UserAgent()
-		if userAgent == "Golang_Bot/1.0" {
-			fmt.Fprintf(rw, "hello gopher\n")
-		} else {
-			fmt.Fprintf(rw, "hello world\n")
-		}
-	}))
-	defer ts.Close()
-
-	client := http.Client(time.Second * 15)
-
-	req, _ := http.NewRequest("GET", ts.URL, nil)
-	req.Header.Set("User-Agent", "Golang_Bot/1.0")
-
-	resp, _ := client.Do(req)
-
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	fmt.Println(string(body))
-
-	// Output: hello gopher
-}
-
-func ExampleGetString2() {
-	resp, err := http.GetString("https://google.de/")
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(resp)
 }

@@ -1,4 +1,4 @@
-// xmath is a package with math functions.
+// Package xmath provides numeric aggregates and elementary math functions.
 // Besides a few standard formulas it contains various mean algorithms.
 package xmath
 
@@ -6,17 +6,19 @@ import (
 	"math"
 	"reflect"
 	"sort"
-
-	"simonwaldherr.de/go/golibs/as"
 )
 
-// Sqrt calculates the square root of n.
+// Sqrt returns the integer part of the square root of n.
+// It panics if n is negative.
 func Sqrt(n int64) int64 {
+	if n < 0 {
+		panic("xmath: square root of a negative integer")
+	}
 	var t int64
 	var b int64
 	var r int64
 	t = int64(n)
-	p := int64(1 << 30)
+	p := int64(1 << 62)
 	for p > t {
 		p >>= 2
 	}
@@ -76,12 +78,12 @@ func Round(v float64) int {
 	return int(math.Floor(v + 0.5))
 }
 
-// Round returns a rounded float64 from a float64
+// FloatRound returns a rounded float64 from a float64
 // with d digits after the point. It rounds via
 // "Round half away from zero".
 func FloatRound(v float64, d int) float64 {
 	pow := math.Pow(10, float64(d))
-	return float64(Round(v*pow)) / pow
+	return math.Round(v*pow) / pow
 }
 
 // Count returns the length of any slice (like len()).
@@ -90,73 +92,35 @@ func Count(val interface{}) int {
 	return slice.Len()
 }
 
-// Sum returns the sum from a slice of Values as float64.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Sum(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = as.Float(slice.Index(i).Interface())
-	}
-	var sum float64
-	for _, value := range out {
-		sum = sum + value
-	}
-	return sum
-}
+// Sum returns the sum of the values as float64. Empty inputs return zero.
+// Built-in numeric slices avoid allocation; other slices and arrays use as.Float.
+func Sum(val interface{}) float64 { return reduce(val, sumReduction) }
 
-// Min returns the smallest number from a slice of Values as float64.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Min(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = as.Float(slice.Index(i).Interface())
-	}
-	min := out[0]
-	for _, value := range out {
-		if value < min {
-			min = value
-		}
-	}
-	return min
-}
+// Min returns the smallest converted value. It panics for an empty input.
+func Min(val interface{}) float64 { return reduce(val, minReduction) }
 
-// Max returns the greatest number from a slice of Values as float64.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Max(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = as.Float(slice.Index(i).Interface())
-	}
-	max := out[0]
-	for _, value := range out {
-		if value > max {
-			max = value
-		}
-	}
-	return max
-}
+// Max returns the greatest converted value. It panics for an empty input.
+func Max(val interface{}) float64 { return reduce(val, maxReduction) }
 
+// Meantype selects an algorithm for Mean.
 type Meantype int
 
 const (
+	// ArithmeticMean selects the sum divided by the number of values.
 	ArithmeticMean Meantype = iota
+	// GeometricMean selects the nth root of the product.
 	GeometricMean
+	// HarmonicMean selects the reciprocal of the average reciprocals.
 	HarmonicMean
+	// MedianMean selects the middle value of the sorted input.
 	MedianMean
+	// RmsMean selects the root mean square.
 	RmsMean
+	// Default selects ArithmeticMean.
 	Default
 )
 
-// Mean returns the mean from an interface of Values as float64.
+// Mean returns the requested mean of a slice or array. Unknown modes use Arithmetic.
 func Mean(val interface{}, t Meantype) float64 {
 	switch t {
 	case ArithmeticMean:
@@ -177,83 +141,39 @@ func Mean(val interface{}, t Meantype) float64 {
 // The median is the numerical value separating the higher half
 // of a data sample from the lower half. The median of a list of
 // numbers can be found by arranging all the observations from
-// lowest value to highest value and picking the middle one.
+// lowest value to highest value and picking the middle one. The input is not
+// modified. Median panics for an empty input.
 // It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
 func Median(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = as.Float(slice.Index(i).Interface())
-	}
+	out := numericCopy(val)
 	sort.Float64s(out)
+	c := len(out)
 	if c%2 == 1 {
 		return out[c/2]
 	}
 	return (out[c/2] + out[c/2-1]) / 2
 }
 
-// Arithmetic returns the arithmetic mean from a slice of Values as float64.
+// Arithmetic returns the arithmetic mean of a slice or array. Empty inputs return NaN.
 // The arithmetic mean or simply the mean or average when the context is clear,
 // is the sum of a list of numbers divided by the number of numbers
 // in the list.
 // It uses "as" (simonwaldherr.de/go/golibs/as) to
 // convert given values to floats.
-func Arithmetic(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = as.Float(slice.Index(i).Interface())
-	}
-	return (Sum(out) / float64(len(out)))
-}
+func Arithmetic(val interface{}) float64 { return reduce(val, arithmeticReduction) }
 
-// Rootmeansquare returns the root mean square from a slice of Values as float64.
-// The root mean square is the root value of the sum of the squared value of a
-// list of numbers divided by the number of numbers in the list.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Rootmeansquare(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	out := make([]float64, c)
-	for i := 0; i < c; i++ {
-		out[i] = math.Pow(as.Float(slice.Index(i).Interface()), 2)
-	}
-	return math.Sqrt(Sum(out) / float64(len(out)))
-}
+// Rootmeansquare returns the square root of the mean of squared values.
+// Empty inputs return NaN. Built-in numeric slices are processed without allocation.
+func Rootmeansquare(val interface{}) float64 { return reduce(val, rmsReduction) }
 
-// Harmonic returns the harmonic mean from a slice of Values as float64.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Harmonic(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	s := float64(0)
-	for i := 0; i < c; i++ {
-		s = s + 1/as.Float(slice.Index(i).Interface())
-	}
-	return (float64(c) * 1 / s)
-}
+// Harmonic returns the harmonic mean of the converted values.
+// Empty inputs return NaN. A zero value yields zero for positive inputs.
+func Harmonic(val interface{}) float64 { return reduce(val, harmonicReduction) }
 
-// Geometric returns the geometric mean from a slice of Values as float64.
-// The geometric mean is a type of mean or average, which indicates the central
-// tendency or typical value of a set of numbers by using the product of their
-// values (as opposed to the arithmetic mean which uses their sum). The
-// geometric mean is defined as the nth root of the product of n numbers.
-// It uses "as" (simonwaldherr.de/go/golibs/as) to
-// convert given values to floats.
-func Geometric(val interface{}) float64 {
-	slice := reflect.ValueOf(val)
-	c := slice.Len()
-	var m float64 = 1
-	for i := 0; i < c; i++ {
-		m = m * as.Float(slice.Index(i).Interface())
-	}
-	return float64(math.Pow(float64(m), 1/float64(c)))
-}
+// Geometric returns the geometric mean of the converted values.
+// It uses the product of the values and returns 1 for an empty input.
+func Geometric(val interface{}) float64 { return reduce(val, geometricReduction) }
 
 // Even tells if a number is even
 func Even(number int) bool {

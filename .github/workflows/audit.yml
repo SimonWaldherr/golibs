@@ -5,18 +5,65 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-
   audit:
-    runs-on: ubuntu-latest
+    name: Go ${{ matrix.go }} / ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          go: '1.18.x'
+        - os: ubuntu-latest
+          go: stable
+        - os: macos-latest
+          go: stable
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v7
       with:
-        go-version: 1.19
+        go-version: ${{ matrix.go }}
 
-    - name: Run tests
-      run: go test -vet=off ./...
+    - name: Check formatting, vet, tests, and build
+      if: matrix.os != 'ubuntu-latest' || matrix.go != 'stable'
+      run: sh scripts/check.sh
+
+    - name: Check formatting, vet, race tests, coverage, and build
+      if: matrix.os == 'ubuntu-latest' && matrix.go == 'stable'
+      run: sh scripts/check.sh -race -covermode=atomic -coverprofile=coverage.out
+
+    - name: Generate coverage reports
+      if: matrix.os == 'ubuntu-latest' && matrix.go == 'stable'
+      run: |
+        go tool cover -func=coverage.out > coverage.txt
+        go tool cover -html=coverage.out -o coverage.html
+        {
+          printf '### Statement coverage\n\n```text\n'
+          tail -n 1 coverage.txt
+          printf '```\n\nDownload the coverage artifact for per-function and HTML reports.\n'
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload coverage reports
+      if: matrix.os == 'ubuntu-latest' && matrix.go == 'stable'
+      uses: actions/upload-artifact@v7
+      with:
+        name: coverage
+        path: |
+          coverage.out
+          coverage.txt
+          coverage.html
+        if-no-files-found: error
+        retention-days: 14
