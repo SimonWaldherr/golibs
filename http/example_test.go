@@ -64,3 +64,50 @@ func ExampleGetString() {
 
 	// Output: hello world
 }
+
+func ExampleUserAgent() {
+	ts := httptest.NewServer(ohttp.HandlerFunc(func(rw ohttp.ResponseWriter, req *ohttp.Request) {
+		userAgent := req.UserAgent()
+		if userAgent == "Golang_Bot/1.0" {
+			fmt.Fprintf(rw, "hello gopher\n")
+		} else {
+			fmt.Fprintf(rw, "hello world\n")
+		}
+	}))
+	defer ts.Close()
+
+	client := http.Client(time.Second * 15)
+
+	req, _ := http.NewRequest("GET", ts.URL, nil)
+	req.Header.Set("User-Agent", http.UserAgent)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(string(body))
+
+	// Output: hello gopher
+}
+
+func ExampleGetString2() {
+	ts := httptest.NewServer(ohttp.HandlerFunc(func(w ohttp.ResponseWriter, r *ohttp.Request) {
+		_, _ = fmt.Fprintln(w, "custom timeout")
+	}))
+	defer ts.Close()
+
+	resp, err := http.GetString2(ts.URL, time.Second)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(resp)
+	// Output: custom timeout
+}

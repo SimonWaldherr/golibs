@@ -37,6 +37,9 @@ jobs:
       with:
         go-version: ${{ matrix.go }}
 
+    - name: Verify dependencies
+      run: go mod verify
+
     - name: Check formatting, vet, tests, and build
       if: matrix.os != 'ubuntu-latest' || matrix.go != 'stable'
       run: sh scripts/check.sh

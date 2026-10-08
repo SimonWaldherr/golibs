@@ -385,22 +385,22 @@ func TestGetAbsolutePath(t *testing.T) {
 	}
 
 	if runtime.GOOS != "windows" {
-			converted, err = GetAbsolutePath("")
-			if err == nil {
-				t.Errorf("GetAbsolutePath test #8 failed: %v", converted)
-			}
-			converted, _ = GetAbsolutePath("///")
-			if converted != "/" {
-				t.Errorf("GetAbsolutePath test #9 failed: %v", converted)
-			}
-			converted, _ = GetAbsolutePath("/././")
-			if converted != "/" {
-				t.Errorf("GetAbsolutePath test #10 failed: %v", converted)
-			}
-			converted, _ = GetAbsolutePath("/../")
-			if converted != "/" {
-				t.Errorf("GetAbsolutePath test #11 failed: %v", converted)
-			}
+		converted, err = GetAbsolutePath("")
+		if err == nil {
+			t.Errorf("GetAbsolutePath test #8 failed: %v", converted)
+		}
+		converted, _ = GetAbsolutePath("///")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #9 failed: %v", converted)
+		}
+		converted, _ = GetAbsolutePath("/././")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #10 failed: %v", converted)
+		}
+		converted, _ = GetAbsolutePath("/../")
+		if converted != "/" {
+			t.Errorf("GetAbsolutePath test #11 failed: %v", converted)
+		}
 	}
 }
 

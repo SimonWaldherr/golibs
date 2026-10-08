@@ -8,6 +8,9 @@ import (
 	"time"
 )
 
+// UserAgent is a user agent string callers can set on HTTP requests.
+const UserAgent = "Golang_Bot/1.0"
+
 // Transporter is shared by clients created with Client. Configure it before
 // making requests; transports reuse connections and support concurrent use.
 var Transporter = &http.Transport{
@@ -55,5 +58,21 @@ func GetStringContext(ctx context.Context, url string) (string, error) {
 		return "", err
 	}
 
+	return string(body), nil
+}
+
+// GetString2 fetches a URL with a custom timeout and returns the response body as a string.
+// The numeric suffix distinguishes it from GetString which uses the shared default client.
+func GetString2(url string, timeout time.Duration) (string, error) {
+	c := Client(timeout)
+	resp, err := c.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
 	return string(body), nil
 }

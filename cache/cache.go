@@ -60,6 +60,12 @@ func (cache *Cache) Export(w io.Writer) error {
 	return gob.NewEncoder(w).Encode(cache.snapshot())
 }
 
+// Export exports all items in the given cache to a writer.
+// This is a package-level convenience wrapper around (*Cache).Export.
+func Export(c *Cache, w io.Writer) error {
+	return c.Export(w)
+}
+
 // Import merges values from a gob stream, applying the cache's default TTL.
 func (cache *Cache) Import(r io.Reader) error {
 	values := make(map[string]interface{})

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html"
 	"io"
+	"net/http"
 	"reflect"
 	"strconv"
 	"strings"
@@ -382,4 +383,21 @@ func alignText(text string, width int, alignment string) string {
 	default:
 		return fmt.Sprintf("%-*s", width, text)
 	}
+}
+
+// httpHeader is an internal struct used by RenderHTTPResponse.
+type httpHeader struct {
+	Key   string
+	Value string
+}
+
+// RenderHTTPResponse renders the headers of an HTTP response as a table using the given options.
+func RenderHTTPResponse(resp *http.Response, opt TableOption) (string, error) {
+	var headers []httpHeader
+	for key, values := range resp.Header {
+		for _, value := range values {
+			headers = append(headers, httpHeader{Key: key, Value: value})
+		}
+	}
+	return Render(headers, opt)
 }
