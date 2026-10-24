@@ -76,6 +76,6 @@ func Test_Log(t *testing.T) {
 
 func Test_Set(t *testing.T) {
 	if Set("01234567890", TCrossedOut, FgGreen, BgCyan, TBold) != "\033[1m\033[46m\033[32m\033[9m01234567890\033[0m\033[0m\033[0m\033[0m" {
-		t.Fatalf(Set("01234567890", TCrossedOut, FgGreen, BgCyan, TBold))
+		t.Fatal(Set("01234567890", TCrossedOut, FgGreen, BgCyan, TBold))
 	}
 }

@@ -23,7 +23,7 @@ jobs:
       matrix:
         include:
         - os: ubuntu-latest
-          go: '1.18.x'
+          go: '1.26.x'
         - os: ubuntu-latest
           go: stable
         - os: macos-latest
@@ -39,6 +39,10 @@ jobs:
 
     - name: Verify dependencies
       run: go mod verify
+
+    - name: Check reachable Go vulnerabilities
+      if: matrix.os == 'ubuntu-latest' && matrix.go == 'stable'
+      run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 
     - name: Check formatting, vet, tests, and build
       if: matrix.os != 'ubuntu-latest' || matrix.go != 'stable'
