@@ -31,3 +31,8 @@ inv.jpg
 .DS_Store
 /.idea
 *_example.png
+
+# Local coverage reports
+/coverage.out
+/coverage.txt
+/coverage.html
