@@ -80,6 +80,58 @@ func TestAggregateNaNAndNegativeValues(t *testing.T) {
 	}
 }
 
+func TestAggregateNonFiniteAndSignedZero(t *testing.T) {
+	negativeZero := math.Copysign(0, -1)
+	for _, tc := range []struct {
+		name   string
+		fn     func(interface{}) float64
+		values []float64
+		want   float64
+	}{
+		{"sum opposite infinities", Sum, []float64{math.Inf(1), math.Inf(-1)}, math.NaN()},
+		{"arithmetic infinity", Arithmetic, []float64{1, math.Inf(1)}, math.Inf(1)},
+		{"rms negative infinity", Rootmeansquare, []float64{math.Inf(-1)}, math.Inf(1)},
+		{"harmonic infinity", Harmonic, []float64{math.Inf(1)}, math.Inf(1)},
+		{"harmonic opposite zeros", Harmonic, []float64{0, negativeZero}, math.NaN()},
+		{"geometric infinity", Geometric, []float64{math.Inf(1), 4}, math.Inf(1)},
+		{"geometric zero infinity", Geometric, []float64{0, math.Inf(1)}, math.NaN()},
+		{"minimum infinity", Min, []float64{math.Inf(1), 4}, 4},
+		{"maximum infinity", Max, []float64{math.Inf(-1), 4}, 4},
+		{"minimum first negative zero", Min, []float64{negativeZero, 0}, negativeZero},
+		{"minimum first positive zero", Min, []float64{0, negativeZero}, 0},
+		{"maximum first negative zero", Max, []float64{negativeZero, 0}, negativeZero},
+		{"maximum first positive zero", Max, []float64{0, negativeZero}, 0},
+		{"sum negative zero", Sum, []float64{negativeZero}, 0},
+		{"arithmetic negative zero", Arithmetic, []float64{negativeZero}, 0},
+		{"rms negative zero", Rootmeansquare, []float64{negativeZero}, 0},
+		{"harmonic negative zero", Harmonic, []float64{negativeZero}, negativeZero},
+		{"geometric negative zero", Geometric, []float64{negativeZero}, negativeZero},
+		{"sum retains evaluation order", Sum, []float64{1e16, 1, -1e16}, 0},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			mixed := make([]interface{}, len(tc.values))
+			floats32 := make([]float32, len(tc.values))
+			for i, value := range tc.values {
+				mixed[i], floats32[i] = value, float32(value)
+			}
+			inputs := []interface{}{tc.values, mixed, floats32}
+			if len(tc.values) == 2 {
+				inputs = append(inputs, [2]float64{tc.values[0], tc.values[1]})
+			}
+			for _, input := range inputs {
+				got := tc.fn(input)
+				if math.IsNaN(tc.want) {
+					if !math.IsNaN(got) {
+						t.Errorf("%T = %v, want NaN", input, got)
+					}
+				} else if math.Float64bits(got) != math.Float64bits(tc.want) {
+					t.Errorf("%T = %v (signbit %v), want %v (signbit %v)", input, got, math.Signbit(got), tc.want, math.Signbit(tc.want))
+				}
+			}
+		})
+	}
+}
+
 func TestMedianDoesNotMutateInput(t *testing.T) {
 	values := []float64{4, 1, 3, 2}
 	original := append([]float64(nil), values...)

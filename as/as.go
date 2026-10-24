@@ -97,6 +97,20 @@ var regex = [...]ree{
 	},
 }
 
+// These expressions are fixed package data. Compile them once and share the
+// immutable matchers; regexp.Regexp supports concurrent matching.
+var (
+	typePatterns = func() [len(regex)]*regexp.Regexp {
+		var patterns [len(regex)]*regexp.Regexp
+		for i, pattern := range regex {
+			patterns[i] = regexp.MustCompile("(?i)^" + pattern.re + "$")
+		}
+		return patterns
+	}()
+	emailPattern = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$`)
+	urlPattern   = regexp.MustCompile(`^(https?://)?([a-z0-9.-]+)\.([a-z.]{2,6})([/\w .-]*)*/?$`)
+)
+
 // timeformats contains the supported time formats
 // for the conversion to time.Time.
 var timeformats = []string{
@@ -458,19 +472,16 @@ func Uint(valuea ...interface{}) uint64 {
 // It returns the detected type name or an empty string when
 // classification failed.
 func Type(valuea ...interface{}) (string, error) {
-	var err error
 	str := strings.Trim(String(valuea[0]), " \t\n\r")
 	if !Time(str).IsZero() {
 		return "date", nil
 	}
-	for _, b := range regex {
-		var match bool
-		re := "(?i)^" + b.re + "$"
-		if match, err = regexp.MatchString(re, str); match == true {
-			return b.typ, nil
+	for i, pattern := range typePatterns {
+		if pattern.MatchString(str) {
+			return regex[i].typ, nil
 		}
 	}
-	return "", err
+	return "", nil
 }
 
 // DBType maps the classification from Type to a small set of database
@@ -581,15 +592,13 @@ func StructToMap(input interface{}) map[string]interface{} {
 // email address. It uses a conservative regular expression, not a
 // full RFC5322 validator.
 func IsEmailValid(email string) bool {
-	re := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$`)
-	return re.MatchString(email)
+	return emailPattern.MatchString(email)
 }
 
 // IsURLValid reports whether the provided string looks like an HTTP/HTTPS
 // URL. It intentionally does not validate other schemes such as FTP.
 func IsURLValid(url string) bool {
-	re := regexp.MustCompile(`^(https?://)?([a-z0-9.-]+)\.([a-z.]{2,6})([/\w .-]*)*/?$`)
-	return re.MatchString(url)
+	return urlPattern.MatchString(url)
 }
 
 // IsCreditCardValid validates a numeric card number using the Luhn

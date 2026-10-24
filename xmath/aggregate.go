@@ -58,45 +58,50 @@ func reduce(input interface{}, mode reduction) float64 {
 
 func reduceNumbers[T number](values []T, mode reduction) float64 {
 	var result float64
-	if mode == geometricReduction {
-		result = 1
-	}
-	if mode == minReduction || mode == maxReduction {
+	// Select the operation once, keeping the numeric loops free of mode branches.
+	switch mode {
+	case minReduction:
 		result = float64(values[0])
-	}
-	for _, value := range values {
-		x := float64(value)
-		switch mode {
-		case minReduction:
+		for _, value := range values[1:] {
+			x := float64(value)
 			if x < result {
 				result = x
 			}
-		case maxReduction:
+		}
+	case maxReduction:
+		result = float64(values[0])
+		for _, value := range values[1:] {
+			x := float64(value)
 			if x > result {
 				result = x
 			}
-		case rmsReduction:
-			result += x * x
-		case harmonicReduction:
-			result += 1 / x
-		case geometricReduction:
-			result *= x
-		default:
-			result += x
 		}
-	}
-	switch mode {
-	case arithmeticReduction:
-		return result / float64(len(values))
 	case rmsReduction:
+		for _, value := range values {
+			x := float64(value)
+			result += x * x
+		}
 		return math.Sqrt(result / float64(len(values)))
 	case harmonicReduction:
+		for _, value := range values {
+			result += 1 / float64(value)
+		}
 		return float64(len(values)) / result
 	case geometricReduction:
+		result = 1
+		for _, value := range values {
+			result *= float64(value)
+		}
 		return math.Pow(result, 1/float64(len(values)))
 	default:
-		return result
+		for _, value := range values {
+			result += float64(value)
+		}
+		if mode == arithmeticReduction {
+			return result / float64(len(values))
+		}
 	}
+	return result
 }
 
 func numericCopy(input interface{}) []float64 {

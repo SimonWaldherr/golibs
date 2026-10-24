@@ -4,6 +4,7 @@ package file
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -14,13 +15,12 @@ import (
 	"simonwaldherr.de/go/golibs/gopath"
 )
 
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
+func delimiterSet(delimiters []string) map[string]struct{} {
+	set := make(map[string]struct{}, len(delimiters))
+	for _, delimiter := range delimiters {
+		set[delimiter] = struct{}{}
 	}
-	return false
+	return set
 }
 
 // Exists checks if a file exists
@@ -90,98 +90,74 @@ func Read(fn string) (string, error) {
 	return s, nil
 }
 
-// ReadUntil reads a file until a delimiter is found
+// ReadUntil reads through the first matching rune delimiter. The returned text
+// excludes the delimiter and position counts preceding runes, not bytes.
+// Each delimiter must be one rune; longer strings never match. Invalid UTF-8 is
+// replaced with U+FFFD, matching bufio.ScanRunes. Read errors return partial text.
 func ReadUntil(fn string, delim []string) (string, string, int, error) {
 	file, err := os.Open(fn)
-
-	defer func() { _ = file.Close() }()
-
 	if err != nil {
 		return "", "", 0, err
 	}
+	defer func() { _ = file.Close() }()
 
-	reader := bufio.NewReader(file)
-	scanner := bufio.NewScanner(reader)
-
+	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanRunes)
-	pos := 0
-	buf := ""
-
+	delimiters := delimiterSet(delim)
+	var content strings.Builder
+	position := 0
 	for scanner.Scan() {
-		char := scanner.Text()
-		if contains(delim, char) {
-			return buf, char, pos, nil
+		char := scanner.Bytes()
+		if _, found := delimiters[string(char)]; found {
+			return content.String(), string(char), position, nil
 		}
-		buf += char
-		pos++
+		content.Write(char)
+		position++
 	}
-	return buf, "", pos, nil
+	return content.String(), "", position, scanner.Err()
 }
 
-// ReadBytes reads a file and returns the content as a string
+// ReadBytes is a legacy alias for ReadUntil. Despite the name, delimiters and
+// positions use runes, and invalid UTF-8 is replaced with U+FFFD.
 func ReadBytes(fn string, delim []string) (string, string, int, error) {
-	file, err := os.Open(fn)
-
-	defer func() { _ = file.Close() }()
-
-	if err != nil {
-		return "", "", 0, err
-	}
-
-	reader := bufio.NewReader(file)
-	scanner := bufio.NewScanner(reader)
-
-	scanner.Split(bufio.ScanRunes)
-	pos := 0
-	buf := ""
-
-	for scanner.Scan() {
-		char := scanner.Text()
-		if contains(delim, char) {
-			return buf, char, pos, nil
-		}
-		buf += char
-		pos++
-	}
-	return buf, "", pos, nil
+	return ReadUntil(fn, delim)
 }
 
-// ReadBlocks reads a file and returns the content as a string
+// ReadBlocks transforms delimiter-terminated blocks and concatenates their
+// results. For compatibility, each delimiter starts the following block and an
+// unterminated final block is not emitted. Read or callback errors return no output.
 func ReadBlocks(fn string, delim []string, fnc func(string) (string, error)) (string, error) {
 	file, err := os.Open(fn)
-
-	defer func() { _ = file.Close() }()
-
 	if err != nil {
 		return "", err
 	}
+	defer func() { _ = file.Close() }()
 
-	reader := bufio.NewReader(file)
-	scanner := bufio.NewScanner(reader)
-
+	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanRunes)
-	pos := 0
-	buf := ""
-	ret := ""
-	str := ""
-
+	delimiters := delimiterSet(delim)
+	var block, result strings.Builder
 	for scanner.Scan() {
-		char := scanner.Text()
-		if contains(delim, char) {
-			str, err = fnc(buf)
+		char := scanner.Bytes()
+		if _, found := delimiters[string(char)]; found {
+			transformed, err := fnc(block.String())
 			if err != nil {
 				return "", err
 			}
-			ret += str
-			buf = ""
+			result.WriteString(transformed)
+			block.Reset()
 		}
-		buf += char
-		pos++
+		block.Write(char)
 	}
-	return ret, nil
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+	return result.String(), nil
 }
 
-// ReadLines reads a file and returns the content as lines in a string slice
+// ReadLines reads newline-separated lines. It returns successfully read lines
+// together with any read or scanner error, including lines exceeding
+// bufio.MaxScanTokenSize. Newline characters are excluded from the results.
 func ReadLines(fn string) ([]string, error) {
 	var file *os.File
 	var err error
@@ -203,61 +179,57 @@ func ReadLines(fn string) ([]string, error) {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	return lines, nil
+	return lines, scanner.Err()
 }
 
-// Write writes a string to a file
-func Write(fn, str string, append bool) error {
-	var file *os.File
-	var err error
-
+// Write writes a string to a file, syncing its contents before returning.
+// Existing permissions are retained; new files use 0666 filtered by the umask.
+// Write, sync, and close errors are returned to the caller.
+func Write(fn, str string, append bool) (err error) {
+	flags := os.O_CREATE | os.O_WRONLY | os.O_TRUNC
 	if append {
-		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
-	} else {
-		file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
+		flags = os.O_CREATE | os.O_WRONLY | os.O_APPEND
 	}
-
+	file, err := os.OpenFile(fn, flags, 0666)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = file.Close() }()
-
+	defer closeWriter(file, &err)
 	if _, err = file.WriteString(str); err != nil {
 		return err
 	}
-
-	if err = file.Sync(); err != nil {
-		return err
-	}
-	return nil
+	return file.Sync()
 }
 
-// WriteLines writes a string slice to a file
-func WriteLines(fn string, lines []string, append bool) error {
-	var file *os.File
-	var err error
-
+// WriteLines concatenates strings without adding separators and syncs the file.
+// Writes are buffered to avoid a system call for every small string. Flush,
+// sync, and close failures are returned to the caller.
+func WriteLines(fn string, lines []string, append bool) (err error) {
+	flags := os.O_CREATE | os.O_WRONLY | os.O_TRUNC
 	if append {
-		file, err = os.OpenFile(fn, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.FileMode(0666))
-	} else {
-		file, err = os.OpenFile(fn, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, os.FileMode(0666))
+		flags = os.O_CREATE | os.O_WRONLY | os.O_APPEND
 	}
-
+	file, err := os.OpenFile(fn, flags, 0666)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = file.Close() }()
-
+	defer closeWriter(file, &err)
+	writer := bufio.NewWriter(file)
 	for _, line := range lines {
-		if _, err = file.WriteString(line + ""); err != nil {
+		if _, err = writer.WriteString(line); err != nil {
 			return err
 		}
 	}
-
-	if err = file.Sync(); err != nil {
+	if err = writer.Flush(); err != nil {
 		return err
 	}
-	return nil
+	return file.Sync()
+}
+
+func closeWriter(file *os.File, result *error) {
+	if err := file.Close(); *result == nil {
+		*result = err
+	}
 }
 
 // Append appends a string to a file
@@ -303,25 +275,43 @@ func Rename(from, to string) error {
 	return os.Rename(from, to)
 }
 
-// Copy copies a file
-func Copy(from, to string) error {
+// Copy replaces the destination with the source's contents. It rejects source
+// directories and identical files (including hard links and symlinks) before
+// truncating the destination. Copy is not an atomic replacement operation.
+func Copy(from, to string) (err error) {
 	r, err := os.Open(from)
 	if err != nil {
 		return err
 	}
 	defer func() { _ = r.Close() }()
-
-	w, err := os.Create(to)
+	source, err := r.Stat()
 	if err != nil {
 		return err
 	}
-	defer func() { _ = w.Close() }()
+	if source.IsDir() {
+		return fmt.Errorf("file: cannot copy a directory: %w", os.ErrInvalid)
+	}
 
+	// Open without O_TRUNC so identity checks cannot destroy the source first.
+	w, err := os.OpenFile(to, os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		return err
+	}
+	defer closeWriter(w, &err)
+	destination, err := w.Stat()
+	if err != nil {
+		return err
+	}
+	if os.SameFile(source, destination) {
+		return fmt.Errorf("file: source and destination are the same file: %w", os.ErrInvalid)
+	}
+	if destination.Mode().IsRegular() {
+		if err := w.Truncate(0); err != nil {
+			return err
+		}
+	}
 	_, err = io.Copy(w, r)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // Delete deletes a file
@@ -346,29 +336,42 @@ func ReadDir(dn string) ([]string, error) {
 	return flist, nil
 }
 
-// Each iterates over a directory and calls a function for each file
+// Each calls fnc for each directory entry, optionally descending into real
+// subdirectories. It does not follow directory symlinks. Directory handles are
+// closed before callbacks or recursion; callback paths are absolute.
 func Each(dirname string, recursive bool, fnc func(string, string, string, bool, os.FileInfo)) error {
-	file, err := os.Open(dirname)
-
-	defer func() { _ = file.Close() }()
-
+	directory, err := os.Open(dirname)
 	if err != nil {
 		return err
 	}
-	list, err := file.Readdir(-1)
-
+	list, readErr := directory.Readdir(-1)
+	closeErr := directory.Close()
+	if readErr != nil {
+		return readErr
+	}
+	if closeErr != nil {
+		return closeErr
+	}
+	// Resolve symlinks before Abs cleans the path: link/.. can name a different
+	// directory from its lexical parent.
+	absolute, err := filepath.EvalSymlinks(dirname)
+	if err != nil {
+		return err
+	}
+	absolute, err = filepath.Abs(absolute)
 	if err != nil {
 		return err
 	}
 	for _, fi := range list {
-		path, _ := filepath.Abs(dirname + string(os.PathSeparator) + fi.Name())
+		path := filepath.Join(absolute, fi.Name())
 		isDir := fi.IsDir()
-		split := strings.Split(fi.Name(), ".")
-		suffix := split[len(split)-1:][0] // if you want the real filetype, use http.DetectContentType
+		suffix := fi.Name()
+		if dot := strings.LastIndexByte(suffix, '.'); dot >= 0 {
+			suffix = suffix[dot+1:]
+		}
 		fnc(fi.Name(), suffix, path, isDir, fi)
 		if recursive && isDir {
-			err = Each(path, recursive, fnc)
-			if err != nil {
+			if err := Each(path, recursive, fnc); err != nil {
 				return err
 			}
 		}
