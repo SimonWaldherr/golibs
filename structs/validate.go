@@ -2,30 +2,34 @@ package structs
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
-	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 )
 
-// CustomValidatorFunc is the signature for user-registered custom
-// validators. The function receives a reflect.Value representing the
-// field to validate and should return an error when validation fails.
+// CustomValidatorFunc validates a field. Callbacks run without the registry lock
+// and may register other validators. They must synchronize their own shared data.
 type CustomValidatorFunc func(field reflect.Value) error
 
-var customValidators = make(map[string]CustomValidatorFunc)
+var (
+	customValidators    = make(map[string]CustomValidatorFunc)
+	customValidatorLock sync.RWMutex
+)
 
-// RegisterCustomValidator registers a custom validator function that
-// can be referenced by its tag name in struct tags.
+// RegisterCustomValidator installs or replaces a validator safely across goroutines.
+// A nil function unregisters the tag. Cached struct plans observe later registrations.
 func RegisterCustomValidator(tag string, fn CustomValidatorFunc) {
-	customValidators[tag] = fn
+	customValidatorLock.Lock()
+	defer customValidatorLock.Unlock()
+	if fn == nil {
+		delete(customValidators, tag)
+	} else {
+		customValidators[tag] = fn
+	}
 }
 
-// applyValidation applies validation rules (from `validate` tags) to
-// the given reflect.Value. Supported rules include `required`,
-// `email`, `iscolor`, range checks (`gte=`, `lte=`), enumeration
-// (`oneof=`), length checks and pattern matching. Custom validators
-// registered through RegisterCustomValidator are also supported.
 func applyValidation(field reflect.Value, tags []string) error {
 	for _, tag := range tags {
 		switch {
@@ -33,51 +37,85 @@ func applyValidation(field reflect.Value, tags []string) error {
 			if isEmptyValue(field) {
 				return errors.New("field is required")
 			}
-		case tag == "email":
-			if !isValidEmail(field.String()) {
-				return errors.New("invalid email address")
+		case strings.HasPrefix(tag, "gte=") || strings.HasPrefix(tag, "lte="):
+			if field.Kind() < reflect.Int || field.Kind() > reflect.Int64 {
+				return fmt.Errorf("rule %q requires a signed integer field", tag)
 			}
-		case tag == "iscolor":
-			if !isValidColor(field.String()) {
-				return errors.New("invalid color value")
+			boundary, err := strconv.ParseInt(tag[4:], 10, 64)
+			if err != nil {
+				return fmt.Errorf("invalid numeric rule %q: %w", tag, err)
 			}
-		case strings.HasPrefix(tag, "gte="):
-			min, _ := strconv.Atoi(tag[4:])
-			if field.Int() < int64(min) {
+			if tag[:3] == "gte" && field.Int() < boundary {
 				return errors.New("value is less than the minimum allowed")
 			}
-		case strings.HasPrefix(tag, "lte="):
-			max, _ := strconv.Atoi(tag[4:])
-			if field.Int() > int64(max) {
+			if tag[:3] == "lte" && field.Int() > boundary {
 				return errors.New("value is greater than the maximum allowed")
 			}
-		case strings.HasPrefix(tag, "oneof="):
-			options := regexp.MustCompile(`\s+`).Split(tag[6:], -1)
-			if !contains(options, field.String()) {
-				return errors.New("value is not one of the allowed options")
+		case tag == "email" || tag == "iscolor" || strings.HasPrefix(tag, "oneof=") ||
+			strings.HasPrefix(tag, "minlen=") || strings.HasPrefix(tag, "maxlen=") || strings.HasPrefix(tag, "pattern="):
+			if field.Kind() != reflect.String {
+				return fmt.Errorf("rule %q requires a string field", tag)
 			}
-		case strings.HasPrefix(tag, "minlen="):
-			minLen, _ := strconv.Atoi(tag[7:])
-			if len(field.String()) < minLen {
-				return errors.New("string length is less than the minimum allowed")
-			}
-		case strings.HasPrefix(tag, "maxlen="):
-			maxLen, _ := strconv.Atoi(tag[7:])
-			if len(field.String()) > maxLen {
-				return errors.New("string length is greater than the maximum allowed")
-			}
-		case strings.HasPrefix(tag, "pattern="):
-			pattern := tag[8:]
-			if !regexp.MustCompile(pattern).MatchString(field.String()) {
-				return errors.New("string does not match the required pattern")
-			}
-		default:
-			if customValidator, exists := customValidators[tag]; exists {
-				if err := customValidator(field); err != nil {
+			text := field.String()
+			switch {
+			case tag == "email":
+				if !isValidEmail(text) {
+					return errors.New("invalid email address")
+				}
+			case tag == "iscolor":
+				if !isValidColor(text) {
+					return errors.New("invalid color value")
+				}
+			case strings.HasPrefix(tag, "oneof="):
+				options := strings.Fields(tag[6:])
+				if len(options) == 0 {
+					return errors.New("oneof requires at least one option")
+				}
+				if !contains(options, text) {
+					return errors.New("value is not one of the allowed options")
+				}
+			case strings.HasPrefix(tag, "minlen=") || strings.HasPrefix(tag, "maxlen="):
+				length, err := parseLength(tag[7:])
+				if err != nil {
 					return err
 				}
+				if tag[:6] == "minlen" && len(text) < length {
+					return errors.New("string length is less than the minimum allowed")
+				}
+				if tag[:6] == "maxlen" && len(text) > length {
+					return errors.New("string length is greater than the maximum allowed")
+				}
+			case strings.HasPrefix(tag, "pattern="):
+				expression, err := compilePattern(tag[8:])
+				if err != nil {
+					return fmt.Errorf("invalid validation pattern: %w", err)
+				}
+				if !expression.MatchString(text) {
+					return errors.New("string does not match the required pattern")
+				}
+			}
+		default:
+			customValidatorLock.RLock()
+			validator, exists := customValidators[tag]
+			customValidatorLock.RUnlock()
+			if !exists {
+				return fmt.Errorf("unknown validation rule %q", tag)
+			}
+			if err := validator(field); err != nil {
+				return err
 			}
 		}
 	}
 	return nil
+}
+
+func parseLength(text string) (int, error) {
+	length, err := strconv.Atoi(text)
+	if err != nil {
+		return 0, fmt.Errorf("invalid length %q: %w", text, err)
+	}
+	if length < 0 {
+		return 0, errors.New("length must not be negative")
+	}
+	return length, nil
 }

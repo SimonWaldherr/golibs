@@ -1,136 +1,116 @@
 package structs
 
 import (
-	"crypto/md5"
-	"crypto/sha256"
-	"crypto/sha512"
 	"encoding/base64"
-	"encoding/hex"
 	"fmt"
-	"hash/crc32"
 	"net/url"
 	"reflect"
-	"regexp"
-	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
-// applyModification applies modification rules (from `modify` tags)
-// to a reflect.Value. The function supports a range of operations such
-// as case transformation, trimming, default values, truncation,
-// masking, hashing, base64 encode/decode and URL encoding/decoding.
-// The function is intentionally permissive and returns the first error
-// it encounters from operations that can fail (e.g. decoding).
+// applyModification applies rules in order. String operations require string
+// fields; abs requires a signed integer. Invalid rules and bounds return errors.
 func applyModification(field reflect.Value, tags []string) error {
 	for _, tag := range tags {
+		if tag == "abs" {
+			if field.Kind() < reflect.Int || field.Kind() > reflect.Int64 {
+				return fmt.Errorf("rule %q requires a signed integer field", tag)
+			}
+			if field.Int() < 0 {
+				if field.Int() == -int64(1)<<(field.Type().Bits()-1) {
+					return fmt.Errorf("absolute value overflows %s", field.Type())
+				}
+				field.SetInt(-field.Int())
+			}
+			continue
+		}
+		if field.Kind() != reflect.String {
+			return fmt.Errorf("rule %q requires a string field", tag)
+		}
+		text := field.String()
 		switch tag {
 		case "upper":
-			if field.Kind() == reflect.String {
-				field.SetString(strings.ToUpper(field.String()))
-			}
+			field.SetString(strings.ToUpper(text))
 		case "lower":
-			if field.Kind() == reflect.String {
-				field.SetString(strings.ToLower(field.String()))
-			}
+			field.SetString(strings.ToLower(text))
 		case "trim":
-			if field.Kind() == reflect.String {
-				field.SetString(strings.TrimSpace(field.String()))
-			}
-		case "abs":
-			if field.Kind() == reflect.Int || field.Kind() == reflect.Int8 || field.Kind() == reflect.Int16 ||
-				field.Kind() == reflect.Int32 || field.Kind() == reflect.Int64 {
-				if field.Int() < 0 {
-					field.SetInt(-field.Int())
-				}
-			}
+			field.SetString(strings.TrimSpace(text))
 		case "asciiify":
-			if field.Kind() == reflect.String {
-				field.SetString(toASCII(field.String()))
-			}
+			field.SetString(toASCII(text))
 		case "first_upper":
-			if field.Kind() == reflect.String && len(field.String()) > 0 {
-				field.SetString(strings.ToUpper(string(field.String()[0])) + field.String()[1:])
+			if text != "" {
+				_, size := utf8.DecodeRuneInString(text)
+				field.SetString(strings.ToUpper(text[:size]) + text[size:])
 			}
 		case "remove_leading_zeros":
-			if field.Kind() == reflect.String {
-				field.SetString(strings.TrimLeft(field.String(), "0"))
+			field.SetString(strings.TrimLeft(text, "0"))
+		case "base64_encode":
+			field.SetString(base64.StdEncoding.EncodeToString([]byte(text)))
+		case "base64_decode":
+			decoded, err := base64.StdEncoding.DecodeString(text)
+			if err != nil {
+				return err
 			}
+			field.SetString(string(decoded))
+		case "url_encode":
+			field.SetString(url.QueryEscape(text))
+		case "url_decode":
+			decoded, err := url.QueryUnescape(text)
+			if err != nil {
+				return err
+			}
+			field.SetString(decoded)
 		default:
-			if strings.HasPrefix(tag, "default=") {
-				defaultValue := tag[8:]
-				if isEmptyValue(field) {
-					if field.Kind() == reflect.String {
-						field.SetString(defaultValue)
-					}
+			switch {
+			case strings.HasPrefix(tag, "default="):
+				if text == "" {
+					field.SetString(tag[8:])
 				}
-			} else if strings.HasPrefix(tag, "truncate=") {
-				maxLen, _ := strconv.Atoi(tag[9:])
-				if len(field.String()) > maxLen {
-					field.SetString(field.String()[:maxLen])
-				}
-			} else if strings.HasPrefix(tag, "mask=") {
-				indices := strings.Split(tag[5:], "-")
-				start, _ := strconv.Atoi(indices[0])
-				end, _ := strconv.Atoi(indices[1])
-				if start < len(field.String()) && end <= len(field.String()) {
-					masked := field.String()[:start] + strings.Repeat("*", end-start) + field.String()[end:]
-					field.SetString(masked)
-				}
-			} else if strings.HasPrefix(tag, "pattern=") {
-				pattern := tag[8:]
-				re, err := regexp.Compile(pattern)
+			case strings.HasPrefix(tag, "truncate="):
+				length, err := parseLength(tag[9:])
 				if err != nil {
 					return err
 				}
-				match := re.FindString(field.String())
-				if match != "" {
+				if len(text) > length {
+					field.SetString(text[:length])
+				}
+			case strings.HasPrefix(tag, "mask="):
+				startText, endText, ok := strings.Cut(tag[5:], "-")
+				if !ok {
+					return fmt.Errorf("invalid mask range %q", tag[5:])
+				}
+				start, err := parseLength(startText)
+				if err != nil {
+					return err
+				}
+				end, err := parseLength(endText)
+				if err != nil {
+					return err
+				}
+				if start > end || end > len(text) {
+					return fmt.Errorf("mask range %d-%d exceeds string length %d", start, end, len(text))
+				}
+				field.SetString(text[:start] + strings.Repeat("*", end-start) + text[end:])
+			case strings.HasPrefix(tag, "pattern="):
+				expression, err := compilePattern(tag[8:])
+				if err != nil {
+					return err
+				}
+				if match := expression.FindString(text); match != "" {
 					field.SetString(match)
 				}
-			} else if strings.HasPrefix(tag, "base64_encode") {
-				if field.Kind() == reflect.String {
-					field.SetString(base64.StdEncoding.EncodeToString([]byte(field.String())))
+			case strings.HasPrefix(tag, "hash="):
+				algorithm := tag[5:]
+				hash := Hash(text, algorithm)
+				if hash == "" {
+					return fmt.Errorf("unsupported hash algorithm %q", algorithm)
 				}
-			} else if strings.HasPrefix(tag, "base64_decode") {
-				if field.Kind() == reflect.String {
-					decoded, err := base64.StdEncoding.DecodeString(field.String())
-					if err != nil {
-						return err
-					}
-					field.SetString(string(decoded))
-				}
-			} else if strings.HasPrefix(tag, "hash=") {
-				hashType := tag[5:]
-				switch hashType {
-				case "md5":
-					hash := md5.Sum([]byte(field.String()))
-					field.SetString(hex.EncodeToString(hash[:]))
-				case "sha256":
-					hash := sha256.Sum256([]byte(field.String()))
-					field.SetString(hex.EncodeToString(hash[:]))
-				case "sha512":
-					hash := sha512.Sum512([]byte(field.String()))
-					field.SetString(hex.EncodeToString(hash[:]))
-				case "crc32":
-					hash := crc32.ChecksumIEEE([]byte(field.String()))
-					field.SetString(strconv.FormatUint(uint64(hash), 10))
-				}
-			} else if strings.HasPrefix(tag, "url_encode") {
-				if field.Kind() == reflect.String {
-					field.SetString(url.QueryEscape(field.String()))
-				}
-			} else if strings.HasPrefix(tag, "url_decode") {
-				if field.Kind() == reflect.String {
-					decoded, err := url.QueryUnescape(field.String())
-					if err != nil {
-						return err
-					}
-					field.SetString(decoded)
-				}
-			} else if strings.HasPrefix(tag, "sprintf=") {
-				if field.Kind() == reflect.String {
-					format := tag[8:]
-					field.SetString(fmt.Sprintf(format, field.String()))
-				}
+				field.SetString(hash)
+			case strings.HasPrefix(tag, "sprintf="):
+				field.SetString(fmt.Sprintf(tag[8:], text))
+			default:
+				return fmt.Errorf("unknown modification rule %q", tag)
 			}
 		}
 	}
